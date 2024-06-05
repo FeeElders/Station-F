@@ -4,3 +4,5 @@
 *~*
 __pycache__
 map.html
+.DS_Store
+.map_nl/
