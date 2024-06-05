@@ -12,6 +12,9 @@ if __name__ == "__main__":
 
     stations.print_all_connections()
     
+    stations.get()
+    
+    
     # # Begin met een random station
 # all_stations = Station()
 # time = 120 #max minutes
