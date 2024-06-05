@@ -7,12 +7,12 @@ class Station():
         self.x = x
         self.y = y
 
-        self.connections: dict[int: 'Station'] = {}
+        self.connections: dict['Station': 'Connection'] = {}
 
 
 class Connection():
     """ Object for connections between two stations. """
-    def __init__(self, station1: str, station2: str, distance: int) -> None:
+    def __init__(self, station1: 'Station', station2: 'Station', distance: int) -> None:
         self.station1 = station1
         self.station2 = station2
         self.distance = distance
@@ -20,10 +20,10 @@ class Connection():
 
 class Trajectory():
     """ Object for a single trajectory. """
-    def __init__(self, station: str, time: int) -> None:
+    def __init__(self, station: 'Station', time: int) -> None:
         self.max_time = time
         self.time_usage = 0
-        self.current_station = station
+        self.current_station = station.name
         self.trajectory: list[str] = ["station"]
 
     def time_left(self) -> int:
@@ -53,7 +53,7 @@ class Trajectory():
 class Planning():
     def __init__(self) -> None:
 
-        self.stations = []
+        self.stations: dict[str: 'Station'] = {}
 
         # read csv files with station coördinates
         with open("data/StationsHolland.csv") as file:
@@ -65,7 +65,7 @@ class Planning():
             # add each station object to all stations list
             for name, x, y in reader:
                 station = Station(name, x, y)
-                self.stations.append(station)
+                self.stations[station.name] = station
             
         
         self.connections = []
@@ -77,7 +77,7 @@ class Planning():
 
             for station1, station2, distance in reader_connex:
                 # make every connection object twice, for each direction
-                connection = Connection(station1, station2, distance)
+                connection = Connection(self.stations[station1], self.stations[station2], distance)
 
                 # add connections to the list of all connections
                 self.connections.append(connection)
@@ -86,7 +86,8 @@ class Planning():
     def print_stations(self) -> None:
         """ print all stations. """
         for station in self.stations:
-            print(f"{station.name}, {station.x}, {station.y}\n")
+            station_obj = self.stations[station]
+            print(f"{station_obj.name}, {station_obj.x}, {station_obj.y}\n")
 
     def print_all_connections(self) -> None:
         """ print all connections """
@@ -95,14 +96,14 @@ class Planning():
 
     def add_station(self, station: 'Station') -> None:
         """ Add station to all stations """
-        self.stations.append(station)
+        self.stations[station.name] = station
 
 
-    def get_station() -> str:
+    def get_station(self) -> 'Station':
         """
         Choose a random station from the list with stations.
         """
-        return random.choice(self.stations)
+        return random.choice(list(self.stations.values()))
 
 
     def create_connection(self, connection: 'Connection') -> None:
@@ -113,9 +114,9 @@ class Planning():
     def get_connections(self, station: str) -> list['Connection']:
         list_connections = []
         for connection in self.connections:
-            if connection.station1 == station or connection.station2 == station:
+            if connection.station1.name == station or connection.station2.name == station:
                 list_connections.append(connection)
-                print(f"{connection.station1} has a connection with {connection.station2} that takes {connection.distance} minutes")
+                print(f"{connection.station1.name} has a connection with {connection.station2.name} that takes {connection.distance} minutes")
 
         return list_connections
 
