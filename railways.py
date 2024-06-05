@@ -12,9 +12,6 @@ if __name__ == "__main__":
 
     stations.print_all_connections()
 
-   a dit is een verandering
-    
-    stations.get()
     
     
     # # Begin met een random station
