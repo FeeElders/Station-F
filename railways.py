@@ -14,6 +14,9 @@ if __name__ == "__main__":
 
     dit is een verandering
     
+    stations.get()
+    
+    
     # # Begin met een random station
 # all_stations = Station()
 # time = 120 #max minutes
