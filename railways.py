@@ -11,6 +11,8 @@ if __name__ == "__main__":
     stations.get_connections("Amsterdam Sloterdijk")
 
     stations.print_all_connections()
+
+    dit is een verandering
     
     # # Begin met een random station
 # all_stations = Station()
