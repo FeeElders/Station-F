@@ -1,17 +1,31 @@
-from stations import Station, Planning, Connection
+from stations import Station, Planning, Connection, Trajectory
 
 
 if __name__ == "__main__":
     print("WELCOME TO RailNL")
 
-    stations = Planning()
+    planning = Planning()
     
-    stations.print_stations()
-
-    stations.get_connections("Amsterdam Sloterdijk")
-
-    stations.print_all_connections()
-
+    planning.print_stations()
+    current_station = planning.get_station()
+    print(current_station.name)
+    
+    
+    traject1 = Trajectory(current_station, 120)
+    time = traject1.time_left()
+    print(time)
+    current_station = traject1.current_station
+    
+    # is dit nou ook het object? 
+    connection = planning.get_connections(current_station.name, time)
+    if connection == None:
+        traject1.end()
+        
+    else: 
+        traject1.add_connection(connection) 
+    
+    
+    
     
     
     # # Begin met een random station
