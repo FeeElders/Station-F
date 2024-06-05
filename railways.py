@@ -12,7 +12,7 @@ if __name__ == "__main__":
 
     stations.print_all_connections()
 
-   a dit is een verandering
+    dit is een verandering b
     
     stations.get()
     
