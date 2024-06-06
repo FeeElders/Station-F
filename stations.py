@@ -18,6 +18,9 @@ class Connection():
         self.station2 = station2
         self.distance = distance
 
+    def __repr__(self) -> str:
+        return f"{self.station1.name} - {self.station2.name}, {self.distance}"
+
 
 class Trajectory():
     """ Object for a single trajectory. """
@@ -83,7 +86,7 @@ class Planning():
     def __init__(self) -> None:
 
         self.trains: dict[int: 'Trajectory'] = {}
-        self.counter = 1
+        self.counter = 0
         self.choices: list['Station'] = []
         
         self.stations: dict[str: 'Station'] = {}
@@ -99,8 +102,7 @@ class Planning():
             for name, x, y in reader:
                 station = Station(name, x, y)
                 self.stations[station.name] = station
-            
-        
+                    
         self.connections = []
 
         # Open files with all connections
@@ -145,6 +147,16 @@ class Planning():
         self.connections.append(connection)
 
 
+    def pick_one_connection(self, station1: str, station2: str) -> 'Connection':
+        """ Get connection object from two station strings. """
+
+        connections = self.connections
+
+        for connection in connections:
+            if (connection.station1.name == station1 and connection.station2.name == station2) or (connection.station1.name == station2 and connection.station2.name == station1):
+                return connection
+
+        
     def get_connections(self, station: str, time:int) -> 'Connection':
         """ Generate random connection from given station.
          Return connection that fits within the time that is left in the trajectory. """
@@ -171,9 +183,10 @@ class Planning():
         return choice
 
 
-    def new_trajectory(self, train_id: int, current_station: 'Station', time: int) -> None:
+    def new_trajectory(self, current_station: 'Station', time: int) -> None:
+        self.counter += 1
         train = Trajectory(current_station, time)
-        self.trains[train_id] = train
+        self.trains[self.counter] = train
 
 
     def formatted_output(self) -> list[str]:
@@ -182,34 +195,51 @@ class Planning():
         When the track is complete give back all the connections
         Containing start and finish of each connection and the time passed 
         """
-        with open('train_trajectories.csv', 'w', newline='') as file:
+
+        stations_string = ""
+        
+        with open('output.csv', 'w', newline='') as file:
             writer = csv.writer(file)
             writer.writerow(['train', 'stations'])
+
+            
             for train in self.trains:
+                stations_string = "["
                 train_id = train
                 formatted_id = f"train_{train_id}"
                 trajectory_obj = self.trains[train]
                 station_objects = trajectory_obj.trajectory
-                station_names: list[str] = []
-                for station in station_objects:
-                    station_names.append(station.name)
 
-                writer.writerow([formatted_id, station_names])
+                counter = 1
+                for station in station_objects:
+                    print(counter)
+                    if counter < len(station_objects):
+                        stations_string += f"{station.name}, "
+                    else:
+                        stations_string += f"{station.name}]"
+                    counter += 1
+
+                writer.writerow([formatted_id, stations_string])
             writer.writerow(['score', self.score()])
             
         
     def score(self) -> int:
         """Define score of all trajectories. """
 
+        # set T to the amount of trains
         T = self.counter
+
+        # Set start counter for minutes used
         min = 0
         
         for trajectory in self.trains:
+            # add time usage of each trajectory to min
             min += self.trains[trajectory].time_usage
 
+        # set p to the connections that have been accessed 
         p = len(self.choices)/len(self.connections)
-        print(p)
+
         K = p*10000 - (T*100 + min)
-        print(K)
+
 
         return K

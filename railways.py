@@ -8,13 +8,14 @@ if __name__ == "__main__":
     
     planning.print_stations()
 
-    while planning.counter <= 7:
-        print(f"new train!!!! {planning.counter}")
+    while planning.counter < 7:
         current_station = planning.get_station()
+        planning.new_trajectory(current_station, 120)
+
+        print(f"new train!!!! {planning.counter}")
         print(f"new starting point: {current_station.name}")
         
-        
-        planning.new_trajectory(planning.counter, current_station, 120)
+
         traject1 = planning.trains[planning.counter]
     
 
@@ -26,8 +27,8 @@ if __name__ == "__main__":
             if connection == None:
                 print("traject voorbij!")
                 traject1.end()
-                planning.counter += 1
                 break
+
         
             else: 
                 traject1.add_connection(connection)
