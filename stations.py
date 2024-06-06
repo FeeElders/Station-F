@@ -1,5 +1,6 @@
 import random
 import csv
+import pandas as pd
 
 class Station():
     def __init__(self, name, x, y) -> None:
@@ -171,30 +172,44 @@ class Planning():
 
 
     def new_trajectory(self, train_id: int, current_station: 'Station', time: int) -> None:
-        self.choices = []
         train = Trajectory(current_station, time)
         self.trains[train_id] = train
 
 
-    
-    def is_running(self) -> bool:
-        """check if still enough time left"""  
-                
-    def passed(self) -> str:
-        """
-        list of all stations that are passed
-        """   
-
-
-    def pattern(self) -> str:
+    def formatted_output(self) -> list[str]:
         """ 
         Save the connections
         When the track is complete give back all the connections
         Containing start and finish of each connection and the time passed 
         """
-            
+        with open('train_trajectories.csv', 'w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(['train', 'stations'])
+            for train in self.trains:
+                train_id = train
+                formatted_id = f"train_{train_id}"
+                trajectory_obj = self.trains[train]
+                station_objects = trajectory_obj.trajectory
+                station_names: list[str] = []
+                for station in station_objects:
+                    station_names.append(station.name)
 
+                writer.writerow([formatted_id, station_names])
+            writer.writerow(['score', self.score()])
+            
+        
     def score(self) -> int:
         """Define score of all trajectories. """
-        # K = p*10000 - (T*100 + Min)
+
+        T = self.counter
+        min = 0
         
+        for trajectory in self.trains:
+            min += self.trains[trajectory].time_usage
+
+        p = len(self.choices)/len(self.connections)
+        print(p)
+        K = p*10000 - (T*100 + min)
+        print(K)
+
+        return K

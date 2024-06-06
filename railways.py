@@ -16,10 +16,7 @@ if __name__ == "__main__":
         
         planning.new_trajectory(planning.counter, current_station, 120)
         traject1 = planning.trains[planning.counter]
-   
-   
     
-        # is dit nou ook het object?
 
         while traject1.is_running():
             time = traject1.time_left()
@@ -42,7 +39,10 @@ if __name__ == "__main__":
     
     
     
-    
+    print(f"the score: {planning.score()}")
+
+
+    planning.formatted_output()
     
     # # Begin met een random station
 # all_stations = Station()
@@ -57,3 +57,7 @@ if __name__ == "__main__":
 #     # allow adding stations as long as the time is not empty
 #     while traject.is_running():
 #         traject.add_connection()
+
+
+
+## uiteindelijk deze dingen 10000 keer uitvoeren en plotten om de gemiddelde 
