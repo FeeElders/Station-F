@@ -56,7 +56,9 @@ class Trajectory():
         print("the trajectory:")
         for each in self.trajectory:
             print(f"{each.name}", end=", ")
-        print("\n")    
+        print("\n")
+
+        # TODO: return list of stations. and the distance of the whole trajectory
 
     def is_running(self) -> bool:
         return self.time_left() > 0

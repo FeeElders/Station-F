@@ -20,7 +20,7 @@ if __name__ == "__main__":
         traject = planning.trains[planning.counter]
         for key in train:
             print(key)
-            connection = planning.pick_one_connection(key, train[key])
+            connection = planning.choose_connection(key, train[key])
             print(f"station 1: {connection.station1.name}")
             print(f"station 2: {connection.station2.name}")
             traject.add_connection(connection)

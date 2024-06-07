@@ -26,7 +26,7 @@ class Planning():
                 station = Station(name, x, y)
                 self.stations[station.name] = station
                     
-        self.connections = []
+        self.connections: list[Connection] = []
 
         # Open files with all connections
         with open("data/ConnectiesHolland.csv") as connex:
@@ -48,7 +48,7 @@ class Planning():
             station_obj = self.stations[station]
             print(f"{station_obj.name}, {station_obj.x}, {station_obj.y}\n")
 
-    def print_all_connections(self) -> None:
+    def print_connections(self) -> None:
         """ print all connections """
         for connection in self.connections:
             print(f"{connection.station1} - {connection.station2}, {connection.distance} min")
@@ -58,7 +58,7 @@ class Planning():
         self.stations[station.name] = station
 
 
-    def get_station(self) -> 'Station':
+    def get__random_station(self) -> 'Station':
         """
         Choose a random station from the list with stations.
         """
@@ -70,7 +70,7 @@ class Planning():
         self.connections.append(connection)
 
 
-    def pick_one_connection(self, station1: str, station2: str) -> 'Connection':
+    def choose_connection(self, station1: str, station2: str) -> 'Connection':
         """ Get connection object from two station strings. """
 
         connections = self.connections
@@ -80,7 +80,7 @@ class Planning():
                 return connection
 
         
-    def get_connections(self, station: str, time:int) -> 'Connection':
+    def get_connection(self, station: str, time:int) -> 'Connection':
         """ Generate random connection from given station.
          Return connection that fits within the time that is left in the trajectory. """
         self.time = time
@@ -105,7 +105,7 @@ class Planning():
         self.trains[self.counter] = train
 
 
-    def formatted_output(self) -> list[str]:
+    def formatted_output(self) -> None:
         """ 
         Save the connections
         When the track is complete give back all the connections
@@ -136,6 +136,7 @@ class Planning():
 
                 writer.writerow([formatted_id, stations_string])
             writer.writerow(['score', self.score()])
+
             
         
     def score(self) -> int:

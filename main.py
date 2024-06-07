@@ -19,7 +19,7 @@ if __name__ == "__main__":
         while traject.is_running():
             time = traject.time_left()
             current_station = traject.current_station
-            connection = planning.get_connections(current_station.name, time)
+            connection = planning.get_connection(current_station.name, time)
             if connection == None:
                 traject.end()
                 break
