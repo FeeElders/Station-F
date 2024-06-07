@@ -1,10 +1,10 @@
-from stations import Station, Planning, Trajectory, Connection
+from code.classes import station, planning, trajectory, connection
 
 if __name__ == "__main__":
 
     print("this is a test railway")
 
-    planning = Planning()
+    planning = planning.Planning()
 
     train_1 = {"Beverwijk": "Castricum", "Castricum": "Alkmaar", "Alkmaar": "Hoorn", "Hoorn": "Zaandam"}
     train_2 = {"Amsterdam Sloterdijk": "Amsterdam Centraal", "Amsterdam Centraal": "Amsterdam Amstel", "Amsterdam Amstel": "Amsterdam Zuid", "Amsterdam Zuid": "Schiphol Airport"}
@@ -24,7 +24,8 @@ if __name__ == "__main__":
             print(f"station 1: {connection.station1.name}")
             print(f"station 2: {connection.station2.name}")
             traject.add_connection(connection)
-            planning.choices.append(connection)
+            planning.choices.add(connection)
+        print(f"aantal connecties: {len(planning.choices)}")
             
         print(f"het hele traject: {traject.trajectory}")
 

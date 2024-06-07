@@ -1,43 +1,32 @@
-from stations import Station, Planning, Connection, Trajectory
+from code.classes import station, planning, connection, trajectory
 
 
 if __name__ == "__main__":
     print("WELCOME TO RailNL")
 
-    planning = Planning()
-    
-    planning.print_stations()
+    planning = planning.Planning()
 
+
+    # TODO: randomize this 7
     while planning.counter < 7:
         current_station = planning.get_station()
         planning.new_trajectory(current_station, 120)
 
-        print(f"new train!!!! {planning.counter}")
-        print(f"new starting point: {current_station.name}")
-        
 
-        traject1 = planning.trains[planning.counter]
+        traject = planning.trains[planning.counter]
     
 
-        while traject1.is_running():
-            time = traject1.time_left()
-            print(f"time left: {time}")
-            current_station = traject1.current_station
+        while traject.is_running():
+            time = traject.time_left()
+            current_station = traject.current_station
             connection = planning.get_connections(current_station.name, time)
             if connection == None:
-                print("traject voorbij!")
-                traject1.end()
+                traject.end()
                 break
 
         
             else: 
-                traject1.add_connection(connection)
-                print("traject tot nu toe:")
-                for station in traject1.trajectory:
-                   print(f"{station.name}", end=", ")
-                    
-                print("\n")
-    
+                traject.add_connection(connection)    
     
     
     print(f"the score: {planning.score()}")
