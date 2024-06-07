@@ -1,4 +1,2 @@
 matplotlib
-geopandas
 pandas
-Map-nl
