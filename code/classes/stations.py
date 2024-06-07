@@ -10,6 +10,9 @@ class Station():
 
         self.connections: dict['Station': 'Connection'] = {}
 
+#    def __repr__(self) -> str:
+ #       return f"{self.name}"
+
 
 class Connection():
     """ Object for connections between two stations. """
@@ -87,7 +90,7 @@ class Planning():
 
         self.trains: dict[int: 'Trajectory'] = {}
         self.counter = 0
-        self.choices: list['Station'] = []
+        self.choices: list['Connection'] = []
         
         self.stations: dict[str: 'Station'] = {}
 
@@ -208,11 +211,14 @@ class Planning():
                 train_id = train
                 formatted_id = f"train_{train_id}"
                 trajectory_obj = self.trains[train]
+                print(f"object: {trajectory_obj}")
                 station_objects = trajectory_obj.trajectory
+                print(station_objects)
 
                 counter = 1
                 for station in station_objects:
                     print(counter)
+                    print(f"is dit een string?: {station}")
                     if counter < len(station_objects):
                         stations_string += f"{station.name}, "
                     else:
@@ -241,5 +247,9 @@ class Planning():
 
         K = p*10000 - (T*100 + min)
 
+        print(f"trains: {T}")
+        print(f"min: {min}")
+        print(f"percentage {p}")
+        print(self.choices)
 
         return K
