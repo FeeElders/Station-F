@@ -58,7 +58,7 @@ class Planning():
         self.stations[station.name] = station
 
 
-    def get__random_station(self) -> 'Station':
+    def get_random_station(self) -> 'Station':
         """
         Choose a random station from the list with stations.
         """

@@ -9,7 +9,7 @@ if __name__ == "__main__":
 
     # TODO: randomize this 7
     while planning.counter < 7:
-        current_station = planning.get_station()
+        current_station = planning.get_random_station()
         planning.new_trajectory(current_station, 120)
 
 
@@ -33,21 +33,6 @@ if __name__ == "__main__":
 
 
     planning.formatted_output()
-    
-    # # Begin met een random station
-# all_stations = Station()
-# time = 120 #max minutes
-
-
-# # run 7 trajectories
-# while True:
-#     station = all_stations.get_station()
-#     traject = Connection(station, time)
-    
-#     # allow adding stations as long as the time is not empty
-#     while traject.is_running():
-#         traject.add_connection()
-
 
 
 ## uiteindelijk deze dingen 10000 keer uitvoeren en plotten om de gemiddelde 
