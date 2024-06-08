@@ -5,47 +5,43 @@ from .station import Station
 class Trajectory():
     """ Object for a single trajectory. """
     def __init__(self, station: 'Station', time: int) -> None:
-        self.max_time = time
-        self.time_usage = 0
-        self.current_station = station
-        self.trajectory: list['Station'] = [station]
+        self._max_time = time
+        self._time_usage = 0
+        self._current_station = station
+        self._trajectory: list['Station'] = [station]
 
     def time_left(self) -> int:
-        return self.max_time - self.time_usage
+        return self._max_time - self._time_usage
 
+
+    def time_usage(self) -> int:
+        """ Calculate the time that trajectory is using. """
+        return self._time_usage
+
+
+    def current_station(self) -> 'Station':
+        return self._current_station
+    
+    
     def add_connection(self, connection: 'Connection') -> None:
         """ Add a connection to a trajectory.
 
         Add end station (string) to the trajectory list
         Change current_station to that end station."""
-
-        # # Get all connections for the current station
-        # ## DIT WERKT NOG NIET
-        # all_connections = planning.get_connections(self.current_station)
-
-        # # Choose a random connection
-        # new_connection = random.choice(all_connections)
         
         #renewed version:
-        if  connection.station1 == self.current_station:
-            self.current_station = connection.station2
+        if  connection._station1 == self._current_station:
+            self._current_station = connection._station2
         
         else:
-            self.current_station = connection.station1
+            self._current_station = connection._station1
         
         # only add the new station to the list    
-        self.trajectory.append(self.current_station)
+        self._trajectory.append(self._current_station)
         
         # add the distance in time to the usage
-        self.time_usage += connection.distance
+        self._time_usage += connection._distance
             
-
-        # # add the end station to the trajectory and make it the current station
-#         self.trajectory.append(new_connection.station2)
-#         self.current_station = new_connection.station2
-
-        # # add the distance in time to the usage
-#         self.time_usage += new_connection.distance
 
     def end(self) -> list["station"]:
         """ 
@@ -54,8 +50,8 @@ class Trajectory():
         return the list of stations the train will pass and the time that is passed
         """
         print("the trajectory:")
-        for each in self.trajectory:
-            print(f"{each.name}", end=", ")
+        for each in self._trajectory:
+            print(f"{each._name}", end=", ")
         print("\n")
 
         # TODO: return list of stations. and the distance of the whole trajectory

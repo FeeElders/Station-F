@@ -1,8 +1,8 @@
 class Station():
     def __init__(self, name, x, y) -> None:
-        self.name = name
-        self.x = x
-        self.y = y
+        self._name = name
+        self._x = x
+        self._y = y
 
         self.connections: dict['Station': 'Connection'] = {}
 
