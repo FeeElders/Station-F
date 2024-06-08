@@ -47,15 +47,18 @@ choices: set(Connection)
 stations: dict[str: Station]
 connections: list[Connection]
 --
+load_stations(): None
+load_connections(): None
 print_stations(): None
 print_connections(): None
 add_station(Station): None
 get_random_station(): Station
 create_connection(): None
 choose_connection(): Connection
-get_connection(): Connection
+get_random_connection(): Connection
 new_trajectory(): None
 formatted_output(): none
+is_valid(): None
 score(): int</panel_attributes>
     <additional_attributes/>
   </element>
