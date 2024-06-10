@@ -6,9 +6,10 @@ if __name__ == "__main__":
     print("WELCOME TO RailNL")
 
     railway = railway.Railway()
-    railway.load_stations()
-    railway.load_connections()
-    
+
+    railway.load_stations("data/StationsHolland.csv")
+    railway.load_connections("data/ConnectiesHolland.csv")
+
 
     # --------------------Random----------------------------------
     count = 0
