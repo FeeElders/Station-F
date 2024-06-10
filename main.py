@@ -1,6 +1,6 @@
 from code.classes import station, railway, connection, trajectory
 from code.visualisation import visuals 
-from code.algoritmen  import randomise
+from code.algoritmen  import randomise as rd
 
 if __name__ == "__main__":
     print("WELCOME TO RailNL")
@@ -17,13 +17,12 @@ if __name__ == "__main__":
     
 
     while count <= 10000:
-        random_railway = randomise.random(railway)
+        random_railway = rd.Random(railway)
+        rd_railway = random_railway.run()
         
-        
-        scoreplot[count]= random_railway.score()
+        scoreplot[count]= rd_railway.score()
         count += 1
    
 
     # --------------------------- Visualisation --------------------------------
-    print(scoreplot)
     visuals.visualise(scoreplot)
