@@ -11,22 +11,6 @@ y as komt de score en op de x as het aantal pogingen
 
 def visualise(scores, fast_plot=False):
     
-    # iteration = scores.keys()
-#     score = scores.values()
-#
-#     x = iteration
-#     y = score
-#
-#     fig, ax = plt.subplots()
-#     ax.plot(x, y, 'o')
-#
-#     ax.set(xlabel='iteration', ylabel='score (K)',
-#            title='Random algoritme')
-#     ax.grid()
-#
-#     fig.savefig("random.png")
-#     plt.show()
-    
     n_bins = 20
 
     # Generate a normal distributions
@@ -36,14 +20,11 @@ def visualise(scores, fast_plot=False):
 
     # We can set the number of bins with the *bins* keyword argument.
     axs.hist(dist1, bins=n_bins)
+    axs.set(xlabel='score (K)', ylabel='aantal keer',
+               title='Random algoritme')
 
     plt.show()
     
-    
-
-
-
-
 
 """
 De visualisatie van de opties

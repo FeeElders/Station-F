@@ -1,9 +1,10 @@
 import copy
+import random
 
 def random(railway) -> 'Railway':
 # TODO: randomize this 7
     new_railway = copy.deepcopy(railway)
-    while new_railway.trains() < 7:
+    while new_railway.trains() < random.randint(1,7):
         current_station = new_railway.get_random_station()
         new_railway.new_trajectory(current_station, 120)
 

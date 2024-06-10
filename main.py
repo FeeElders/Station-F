@@ -24,5 +24,4 @@ if __name__ == "__main__":
    
 
     # --------------------------- Visualisation --------------------------------
-    print(scoreplot)
     visuals.visualise(scoreplot)
