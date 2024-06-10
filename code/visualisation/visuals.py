@@ -1,43 +1,45 @@
 import matplotlib
 import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib import colors
+from matplotlib.ticker import PercentFormatter
 
 """
 Plotten van de scores per algoritme in een lijn grafiek
 y as komt de score en op de x as het aantal pogingen
 """
-import numpy as np
 
-
-# Get the scores of the algorithm. 
-    # scores = [node for node in graph.nodes.values()]
-    # name = [node.id for node in regions]
-    # cost = [node.value.value if node is not None else 0
-    #         for node in regions]
-    # colour = [node.value.colour.get_web() if node is not None else "grey"
-    #           for node in regions]
-    # transmitter = [node.value.name if node is not None else "None"
-    #                for node in regions]
 def visualise(scores, fast_plot=False):
     
-    iteration = []
-    score = []
+    # iteration = scores.keys()
+#     score = scores.values()
+#
+#     x = iteration
+#     y = score
+#
+#     fig, ax = plt.subplots()
+#     ax.plot(x, y, 'o')
+#
+#     ax.set(xlabel='iteration', ylabel='score (K)',
+#            title='Random algoritme')
+#     ax.grid()
+#
+#     fig.savefig("random.png")
+#     plt.show()
     
-    for row in scores:
-        iteration.append(row.key())
-        score.append(row.value()) 
+    n_bins = 20
 
-    x = iteration
-    y = score
-   
-    fig, ax = plt.subplots()
-    ax.plot(x, y)
+    # Generate a normal distributions
+    dist1 = scores.values()
 
-    ax.set(xlabel='iteration', ylabel='score (K)',
-           title='Random algoritme')
-    ax.grid()
+    fig, axs = plt.subplots(sharey=True, tight_layout=True)
 
-    fig.savefig("random.png")
+    # We can set the number of bins with the *bins* keyword argument.
+    axs.hist(dist1, bins=n_bins)
+
     plt.show()
+    
+    
 
 
 
