@@ -153,7 +153,7 @@ class Railway():
         """ Check if the railway is valid."""
 
         # Check that railway has no more than 7 trains
-        return 0 < self._train_counter < 8:
+        return 0 < self._train_counter < 8
             
         
     def score(self) -> int:

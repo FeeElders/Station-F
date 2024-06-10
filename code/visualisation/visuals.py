@@ -17,51 +17,27 @@ import numpy as np
     #           for node in regions]
     # transmitter = [node.value.name if node is not None else "None"
     #                for node in regions]
+def visualise(scores, fast_plot=False):
+    
+    iteration = []
+    score = []
+    
+    for row in scores:
+        iteration.append(row.key())
+        score.append(row.value()) 
 
-scores = [] 
+    x = iteration
+    y = score
+   
+    fig, ax = plt.subplots()
+    ax.plot(x, y)
 
-# Create some fake data.
+    ax.set(xlabel='iteration', ylabel='score (K)',
+           title='Random algoritme')
+    ax.grid()
 
-x1 = np.linspace(0.0, 5.0)
-y1 = np.cos(2 * np.pi * x1) * np.exp(-x1)
-x2 = np.linspace(0.0, 2.0)
-y2 = np.cos(2 * np.pi * x2)
-
-# `~.pyplot.subplots()` is the recommended method to generate simple subplot
-# arrangements:
-
-fig, (ax1, ax2) = plt.subplots(2, 1)
-fig.suptitle('Score per algoritme')
-
-ax1.plot(x1, y1, 'o-')
-ax1.set_ylabel('Random algoritme')
-
-ax2.plot(x2, y2, '.-')
-ax2.set_xlabel('time (s)')
-ax2.set_ylabel('Undamped')
-
-plt.show()
-
-# # Subplots can also be generated one at a time using `~.pyplot.subplot()`:
-#
-# plt.subplot(2, 1, 1)
-# plt.plot(x1, y1, 'o-')
-# plt.title('A tale of 2 subplots')
-# plt.ylabel('Damped oscillation')
-#
-# plt.subplot(2, 1, 2)
-# plt.plot(x2, y2, '.-')
-# plt.xlabel('time (s)')
-# plt.ylabel('Undamped')
-#
-# plt.show()
-
-
-
-
-
-
-
+    fig.savefig("random.png")
+    plt.show()
 
 
 
