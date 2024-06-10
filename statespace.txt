@@ -1,0 +1,78 @@
+RailNL
+
+VARIABELEN
+
+- Reistijd want je traject heeft een eind tijd en de verbindingen verschillen qua tijd. Het is dus belangrijk hier rekening mee houden. Dit heeft invloed op hoe veel verbindingen er per traject gevormd kunnen worden. 
+- Trajecten. Dit aantal hangt af van de hoeveelheid verbindingen per traject. En heeft invloed op of je plekken moet herhalen. 
+- Verbindingen. Het aantal mogelijke verbindingen bepaalt ook hoe veel trajecten er gereden moeten worden
+- Stations. Afhankelijk van op welk station je bent, heb je maar een bepaald aantal keuzes die gaan bepalen wat de volgende verbinding wordt. Hoe meer stations hoe meer er gereden moet worden 
+
+AANNAMES
+
+- We gaan er vanuit dan de reistijd per verbinding minimaal 5 minuten is waardoor ieder traject 24 verbindingen heeft omdat we er van uit gaan dat een traject de volledige 120 minuten benut.
+  
+- Dat je uit telkens 4 mogelijkheden hebt om uit te kiezen omdat je voor deze state space ook terug kan. 
+
+- Daarnaast gaan we er van uit er een verschillend aantal trajecten kunnen worden gebruikt(1-7). 
+Dit is het slechts mogelijke scenario.
+
+FORMULE
+Voor de bovengrens gaan we er van uit dat per traject herhaling mogelijk is en de volgorde wel uitmaakt
+ Je krijgt de formule N^r  Deze doen we dan keer 7!. 
+
+VOORBEELD
+
+Als we er even van uit gaan dat je maar 1 traject hebt met 2 keuze punten/stations waarbij je 3 opties hebt. Ziet het er zo uit: 1(1-2), 2(2-1), 3(1-3), 4(3-1), 5(2-3), 6(3-2), 7(1-1), 8(2-2), 9(3-3)
+volgens de formule met r=2 en N =3  in de formule  N^r geeft 9 dus dit komt overeen
+
+STATE SPACE
+Totale minuten = 359 /28(verbindingen)
+Gemiddeld 13 minuten per verbinding 
+
+Den helder = 1 optie
+Dordrecht = 1 
+Hoorn = 2 opties
+Amsterdam Amstel = 2
+Amsterdam centraal = 2
+Delft = 2
+Heemstede-Aerdenhout = 2 
+Rotterdam Alexander = 2
+Schiedam = 2
+Schiphol Airport = 2
+Alphen a/d Rijn = 2 
+Alkmaar = 3 opties
+Amsterdam zuid = 3
+Beverwijk = 3
+Castricum = 3
+Den Haag = 3
+Gouda = 3
+Haarlem = 3
+Rotterdam Centraal = 3
+Amsterdam sloterdijk = 4 opties
+Leiden centraal = 4
+Zaandam = 4 
+
+Het max aantal verbindingen is 4 dus 4 mogelijkheden N=4
+De minimale tijd die een verbinding aflegt is 5 minuten. In 2 uur kan je dan 24 stations passeren en dus een keuze maken.  r=24
+Repetitie kan en de volgorde maakt uit.
+
+formule: N^r * 7! trajecten
+4^24 *7!
+
+1.41863388*10^18
+
+
+___________________________________________________________________
+
+NEDERLAND
+180 min max per traject en voor nu gaan we er van uit dat ieder traject deze vol maakt
+kortste verbinding is 5 minuten
+aantal verbindingen per traject is dus 36 (r=36)
+Utrecht centraal heeft 9 mogelijke verbindingen en is daarmee het hoogst. (N=9)
+In totaal kunnnen er max 20 trajecten worden gevormd dus 20!
+
+dezelfde formule: 
+N^r * 20!
+9^36 * 20! = 5,48 * 10^52
+
+
