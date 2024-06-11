@@ -15,10 +15,10 @@ class Railway():
         self._connections: list[Connection] = []
 
 
-    def load_stations(self) -> None:
+    def load_stations(self, station_csv) -> None:
         """ Load stations from csv file to Railway Object."""
         # read csv files with station coÃ¶rdinates
-        with open("data/StationsHolland.csv") as file:
+        with open(station_csv) as file:
             reader = csv.reader(file)
         
             # skip the first line (header)
@@ -29,10 +29,10 @@ class Railway():
                 station = Station(name, x, y)
                 self._stations[station._name] = station
 
-    def load_connections(self) -> None:
+    def load_connections(self, connections_csv) -> None:
         """ Load connections from csv file into railway object. """        
         # Open files with all connections
-        with open("data/ConnectiesHolland.csv") as connex:
+        with open(connections_csv) as connex:
             reader_connex = csv.reader(connex)
 
             # skip header row

@@ -3,14 +3,16 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib import colors
 from matplotlib.ticker import PercentFormatter
+import csv
 
-"""
-Plotten van de scores per algoritme in een lijn grafiek
-y as komt de score en op de x as het aantal pogingen
-"""
 
-def visualise(scores, fast_plot=False):
-    
+
+def line_graph(scores, fast_plot=False):
+    """
+    Plotten van de scores per algoritme in een lijn grafiek
+    y as komt de score en op de x as het aantal pogingen
+    """
+
     n_bins = 20
 
     # Generate a normal distributions
@@ -25,17 +27,44 @@ def visualise(scores, fast_plot=False):
 
     plt.show()
     
+    
+def railway_map(station_csv, connections):
+    """
+    De visualisatie van de opties
 
-"""
-De visualisatie van de opties
+    Alle stations weergeven op de nederlandse kaart aan de hand van coördinaten.
+    Aan de hand van de algoritmen worden er trajecten gevormd. 
+    Deze worden weergegeven door een lijn van station naar station. 
+    De lijn bevat 1 van de 7 kleuren per traject:
+    Rood, Oranje, Geel, Groen, Blauw, Roze, Paars. 
+    Wanneer een station wordt gebruit wordt het vakje zwart. 
+    """
 
-Alle stations weergeven op de nederlandse kaart aan de hand van coördinaten.
-Aan de hand van de algoritmen worden er trajecten gevormd. 
-Deze worden weergegeven door een lijn van station naar station. 
-De lijn bevat 1 van de 7 kleuren per traject:
-Rood, Oranje, Geel, Groen, Blauw, Roze, Paars. 
-Wanneer een station wordt gebruit wordt het vakje zwart. 
-"""
+    station_name = []
+    x_values = []
+    y_values = []
+    
+    # read csv files with station coÃ¶rdinates
+    with open(station_csv) as file:
+        reader = csv.reader(file)
+    
+        # skip the first line (header)
+        next(reader)
+        
+        #Add x-as and y-as list
+        for name, x, y in reader:
+            station_name.append(name) 
+            x_values.append(float(y)) 
+            y_values.append(float(x))
+            
+
+    plt.figure(figsize = (6,7.5))
+    plt.scatter(x_values, y_values) 
+    plt.show()
+    
+    
+    
+    
 #https://matplotlib.org/basemap/stable/users/merc.html 
 
 # from mpl_toolkits.basemap import Basemap
