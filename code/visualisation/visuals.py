@@ -23,7 +23,7 @@ def line_graph(scores, fast_plot=False):
 
     # We can set the number of bins with the *bins* keyword argument.
     axs.hist(dist1, bins=n_bins)
-    axs.set_xlim(0, 1000)
+    axs.set_xlim(0, 10000)
     axs.set(xlabel='score (K)', ylabel='aantal keer',
                title='Random algoritme')
 
