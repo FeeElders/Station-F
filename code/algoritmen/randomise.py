@@ -7,10 +7,13 @@ class Random():
         self.new_railway = copy.deepcopy(railway)
 
 
+    def get_random_station(self):
+        return self.new_railway.get_random_station()
+
     def run(self) -> 'Railway':
 
         while self.new_railway.trains() <= random.randint(1, self.new_railway._max_trains):
-            current_station = self.new_railway.get_random_station()
+            current_station = self.get_random_station()
             self.new_railway.new_trajectory(current_station)
             
             train_number = self.new_railway.trains()
@@ -30,6 +33,14 @@ class Random():
                     traject.add_connection(connection)    
 
 
-        print(f"the score: {self.new_railway.score()}")
+ #       print(f"the score: {self.new_railway.score()}")
                     
         return self.new_railway
+
+
+class RandomStartStation(Random):
+    def get_random_station(self):
+        ## inherited class
+
+        return 'Station'
+    

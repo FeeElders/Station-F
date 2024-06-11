@@ -41,7 +41,7 @@ class Railway():
 
             for station1, station2, distance in reader_connex:
                 # make connection object
-                distance = int(distance)
+                distance = int(float(distance))
                 connection = Connection(self._stations[station1], self._stations[station2], distance)
 
                 # add connection to the list of all connections
@@ -96,7 +96,7 @@ class Railway():
         self.time = time
         list_connections = []
         for connection in self._connections:
-            if (connection._station1._name == station or connection._station2._name == station) and connection._distance <= self.time: #and connection not in self._choices:
+            if (connection._station1._name == station or connection._station2._name == station) and connection._distance <= self.time and connection not in self._choices:
                 list_connections.append(connection)
                         
         #als er geen verbindingen meer mogelijk zijn          
@@ -153,8 +153,8 @@ class Railway():
     def is_valid(self) -> bool:
         """ Check if the railway is valid."""
 
-        # Check that railway has no more than 7 trains
-        return 0 < self._train_counter < 8
+        # Check that railway has no more than maximum trains
+        return 0 < self._train_counter < self._max_trains
             
         
     def score(self) -> int:
