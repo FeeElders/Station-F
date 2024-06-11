@@ -34,37 +34,6 @@ y: int</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>150</x>
-      <y>30</y>
-      <w>240</w>
-      <h>330</h>
-    </coordinates>
-    <panel_attributes>Railway
---
-trains: dict[int: Trajectory]
-counter: int
-choices: set(Connection)
-stations: dict[str: Station]
-connections: list[Connection]
---
-load_stations(): None
-load_connections(): None
-print_stations(): None
-print_connections(): None
-add_station(Station): None
-get_random_station(): Station
-create_connection(): None
-choose_connection(): Connection
-get_random_connection(): Connection
-new_trajectory(): None
-formatted_output(): none
-is_valid(): None
-score(): int</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
       <x>530</x>
       <y>30</y>
       <w>240</w>
@@ -127,5 +96,38 @@ m1=0..n</panel_attributes>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;150.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>150</x>
+      <y>30</y>
+      <w>240</w>
+      <h>360</h>
+    </coordinates>
+    <panel_attributes>Railway
+--
+max_trains: int
+max_time: int
+trains: dict[int: Trajectory]
+train_counter: int
+choices: set(Connection)
+stations: dict[str: Station]
+connections: list[Connection]
+--
+load_stations(): None
+load_connections(): None
+print_stations(): None
+print_connections(): None
+add_station(Station): None
+get_random_station(): Station
+create_connection(): None
+choose_connection(): Connection
+get_random_connection(): Connection
+new_trajectory(Station): None
+formatted_output(): none
+is_valid(): None
+score(): int</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>

@@ -1,4 +1,5 @@
 import matplotlib
+matplotlib.use("tkAgg")
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib import colors
@@ -22,11 +23,12 @@ def line_graph(scores, fast_plot=False):
 
     # We can set the number of bins with the *bins* keyword argument.
     axs.hist(dist1, bins=n_bins)
+    axs.set_xlim(0, 1000)
     axs.set(xlabel='score (K)', ylabel='aantal keer',
                title='Random algoritme')
 
     plt.show()
-    
+
     
 def railway_map(station_csv, connections):
     """
@@ -58,7 +60,7 @@ def railway_map(station_csv, connections):
             y_values.append(float(x))
             
 
-    plt.figure(figsize = (6,7.5))
+    plt.figure(figsize = (6,9))
     plt.scatter(x_values, y_values) 
     plt.show()
     

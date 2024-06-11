@@ -6,8 +6,9 @@ from .station import Station
 from .connection import Connection
 
 class Railway():
-    def __init__(self) -> None:
-
+    def __init__(self, trains, time) -> None:
+        self._max_trains: int = trains
+        self._max_time: int = time
         self._trains: dict[int: 'Trajectory'] = {}
         self._train_counter = 0
         self._choices = set()        
@@ -95,7 +96,7 @@ class Railway():
         self.time = time
         list_connections = []
         for connection in self._connections:
-            if (connection._station1._name == station or connection._station2._name == station) and connection._distance <= self.time and connection not in self._choices:
+            if (connection._station1._name == station or connection._station2._name == station) and connection._distance <= self.time: #and connection not in self._choices:
                 list_connections.append(connection)
                         
         #als er geen verbindingen meer mogelijk zijn          
@@ -108,9 +109,9 @@ class Railway():
         return choice
 
 
-    def new_trajectory(self, current_station: 'Station', time: int) -> None:
+    def new_trajectory(self, current_station: 'Station') -> None:
         self._train_counter += 1
-        train = Trajectory(current_station, time)
+        train = Trajectory(current_station, self._max_time)
         self._trains[self._train_counter] = train
 
 

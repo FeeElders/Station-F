@@ -1,3 +1,4 @@
+#import memory_graph
 from code.classes import station, railway, connection, trajectory
 from code.visualisation import visuals 
 from code.algoritmen  import randomise as rd
@@ -5,7 +6,7 @@ from code.algoritmen  import randomise as rd
 if __name__ == "__main__":
     print("WELCOME TO RailNL")
 
-    railway = railway.Railway()
+    railway = railway.Railway(7, 120)
 
     railway.load_stations("data/StationsHolland.csv")
     railway.load_connections("data/ConnectiesHolland.csv")
@@ -14,18 +15,22 @@ if __name__ == "__main__":
     # --------------------Random----------------------------------
     count = 0
     scoreplot = {}
-    
 
-    while count <= 10:
-        random_railway = rd.Random(railway)
-        rd_railway = random_railway.run()
+
+
+    while count <= 2:
+        random = rd.Random(railway)
+        random_railway = random.run()
         
-        scoreplot[count]= rd_railway.score()
+        scoreplot[count]= random_railway.score()
         count += 1
+    
+    # memory_graph.show(locals())
         
         
    # --------------------------- Visualisation --------------------------------
     visuals.line_graph(scoreplot)
     
-    visuals.railway_map("data/StationsHolland.csv", rd_railway)
+    visuals.railway_map("data/StationsNationaal.csv", "data/ConnectiesNationaal.csv", random_railway)
+
 
