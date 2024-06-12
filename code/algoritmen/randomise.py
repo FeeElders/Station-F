@@ -61,5 +61,5 @@ class Random():
 #         all_connections = self.new_railway.get_all_connections()
 #         visited_connections = self.new_railway.get_visited_connections()
 #         possible_connections = all_connections - visited_connections
-#
+
 #         return None

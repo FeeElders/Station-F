@@ -1,6 +1,8 @@
 import time
 import csv
 from csv import writer
+import copy
+
 from code import helpers
 from code.classes import station, railway, connection, trajectory
 from code.visualisation import visuals 
@@ -17,6 +19,7 @@ if __name__ == "__main__":
     count = 0
     scoreplot:dict[int:int] = {}
     csv_scores:list[int]= []
+    best_random_railway: 'Railway' = None
     
     start = time.time()
     with open('scores.csv', 'w', newline='') as file:
@@ -25,6 +28,10 @@ if __name__ == "__main__":
     while time.time() - start < 3600:
         random = rd.Random(railway)
         random_railway = random.run()
+
+        if helpers.best_score(random_railway, best_random_railway):
+            best_random_railway = copy.copy(random_railway)
+            best_random_railway.formatted_output("best_random_railway.csv")
         scoreplot[count]= random_railway.score()
         csv_scores.append(random_railway.score())
         count += 1
@@ -45,13 +52,13 @@ if __name__ == "__main__":
         
    # --------------------Hill climber------------------------------
    
-
+#   climber = HillClimber(random_railway)
 
 
    # --------------------------- Visualisation --------------------
     visuals.line_graph(scoreplot)
     
-    visuals.railway_map(random_railway)
+#    visuals.railway_map(random_railway)
 
 
 
