@@ -63,7 +63,7 @@ class Railway():
         for connection in self._connections:
             print(f"{connection._station1._name} - {connection._station2._name}, {connection._distance} min")
 
-
+            
     def print_trajectories(self) -> None:
         for train in self._trains:
             trajectory = self._trains[train]
@@ -75,16 +75,23 @@ class Railway():
         self._stations[station._name] = station
 
 
-    def get_random_station(self) -> 'Station':
+    def get_all_stations(self) -> list['Station']:
         """
         Choose a random station from the list with stations.
         """
-        return random.choice(list(self._stations.values()))
+        return self._stations.values()
 
+    def get_all_connections(self) -> set['Connection']:
+        """ Get all existing connections"""
+        return set(self._connections)
 
-    def create_connection(self, connection: 'Connection') -> None:
-        """ Create a new connection between two stations. """
-        self._connections.append(connection)
+    def get_visited_connections(self) -> set['Connection']:
+        """ Get the connections that are visited within a railway"""
+        return self._choices
+
+    def add_visited_connection(self, connection) -> None:
+        """ Add a connection to the visited connections. """
+        self._choices.add(connection)
 
 
     def choose_connection(self, station1: str, station2: str) -> 'Connection':
@@ -96,24 +103,20 @@ class Railway():
             if (connection._station1._name == station1 and connection._station2._name == station2) or (connection._station1._name == station2 and connection._station2._name == station1):
                 return connection
 
-        
-    def get_random_connection(self, station: str, time:int) -> 'Connection':
-        """ Generate random connection from given station.
-         Return connection that fits within the time that is left in the trajectory. """
-        self.time = time
+    def get_available_connections(self, station: 'Station', time: int) -> list['Connection']:
+        time_left = time
         list_connections = []
+        station = station._name
+
         for connection in self._connections:
-            if (connection._station1._name == station or connection._station2._name == station) and connection._distance <= self.time and connection not in self._choices:
+            if (connection._station1._name == station or connection._station2._name == station) and connection._distance <= time_left and connection not in self._choices:
                 list_connections.append(connection)
                         
-        #als er geen verbindingen meer mogelijk zijn          
+        # als er geen verbindingen meer mogelijk zijn          
         if not list_connections:
             return None
-        
-        choice = random.choice(list_connections)
-        self._choices.add(choice)
 
-        return choice
+        return list_connections
 
 
     def new_trajectory(self, current_station: 'Station') -> None:
