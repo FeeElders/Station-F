@@ -109,7 +109,7 @@ class Railway():
         station = station._name
 
         for connection in self._connections:
-            if (connection._station1._name == station or connection._station2._name == station) and connection._distance <= time_left and connection not in self._choices:
+            if (connection._station1._name == station or connection._station2._name == station) and connection._distance <= time_left: # and connection not in self._choices:
                 list_connections.append(connection)
                         
         # als er geen verbindingen meer mogelijk zijn          

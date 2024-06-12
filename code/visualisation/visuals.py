@@ -8,26 +8,26 @@ import csv
 
 
 
-# def line_graph(scores, fast_plot=False):
-#     """
-#     Plotten van de scores per algoritme in een lijn grafiek
-#     y as komt de score en op de x as het aantal pogingen
-#     """
-#
-#     n_bins = 20
-#
-#     # Generate a normal distributions
-#     dist1 = scores.values()
-#
-#     fig, axs = plt.subplots(sharey=True, tight_layout=True)
-#
-#     # We can set the number of bins with the *bins* keyword argument.
-#     axs.hist(dist1, bins=n_bins)
-#     axs.set_xlim(0, 10000)
-#     axs.set(xlabel='score (K)', ylabel='aantal keer',
-#                title='Random algoritme')
-#
-#     plt.show()
+def line_graph(scores, fast_plot=False):
+    """
+    Plotten van de scores per algoritme in een lijn grafiek
+    y as komt de score en op de x as het aantal pogingen
+    """
+
+    n_bins = 400
+
+    # Generate a normal distributions
+    dist1 = scores.values()
+
+    fig, axs = plt.subplots(sharey=True, tight_layout=True)
+
+    # We can set the number of bins with the *bins* keyword argument.
+    axs.hist(dist1, bins=n_bins)
+    axs.set_xlim(0, 10000)
+    axs.set(xlabel='score (K)', ylabel='aantal keer',
+               title='Random algoritme')
+
+    plt.show()
 
     
 def railway_map(random_railway):
@@ -48,8 +48,10 @@ def railway_map(random_railway):
         
     #Add x-as and y-as list
     for each in stations_obj:
-        x_values.append(float(each.y)) 
-        y_values.append(float(each.x))
+        print (each._y)
+        print (each._x)
+        x_values.append(float(each._y)) 
+        y_values.append(float(each._x))
     
     station        
     plt.text()
