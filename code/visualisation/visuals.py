@@ -8,29 +8,29 @@ import csv
 
 
 
-def line_graph(scores, fast_plot=False):
-    """
-    Plotten van de scores per algoritme in een lijn grafiek
-    y as komt de score en op de x as het aantal pogingen
-    """
-
-    n_bins = 20
-
-    # Generate a normal distributions
-    dist1 = scores.values()
-
-    fig, axs = plt.subplots(sharey=True, tight_layout=True)
-
-    # We can set the number of bins with the *bins* keyword argument.
-    axs.hist(dist1, bins=n_bins)
-    axs.set_xlim(0, 10000)
-    axs.set(xlabel='score (K)', ylabel='aantal keer',
-               title='Random algoritme')
-
-    plt.show()
+# def line_graph(scores, fast_plot=False):
+#     """
+#     Plotten van de scores per algoritme in een lijn grafiek
+#     y as komt de score en op de x as het aantal pogingen
+#     """
+#
+#     n_bins = 20
+#
+#     # Generate a normal distributions
+#     dist1 = scores.values()
+#
+#     fig, axs = plt.subplots(sharey=True, tight_layout=True)
+#
+#     # We can set the number of bins with the *bins* keyword argument.
+#     axs.hist(dist1, bins=n_bins)
+#     axs.set_xlim(0, 10000)
+#     axs.set(xlabel='score (K)', ylabel='aantal keer',
+#                title='Random algoritme')
+#
+#     plt.show()
 
     
-def railway_map(station_csv, connections):
+def railway_map(random_railway):
     """
     De visualisatie van de opties
 
@@ -41,28 +41,49 @@ def railway_map(station_csv, connections):
     Rood, Oranje, Geel, Groen, Blauw, Roze, Paars. 
     Wanneer een station wordt gebruit wordt het vakje zwart. 
     """
-
-    station_name = []
+    stations_obj = random_railway._stations
+    
     x_values = []
     y_values = []
-    
-    # read csv files with station coÃ¶rdinates
-    with open(station_csv) as file:
-        reader = csv.reader(file)
-    
-        # skip the first line (header)
-        next(reader)
         
-        #Add x-as and y-as list
-        for name, x, y in reader:
-            station_name.append(name) 
-            x_values.append(float(y)) 
-            y_values.append(float(x))
+    #Add x-as and y-as list
+    for each in stations_obj:
+        x_values.append(float(each.y)) 
+        y_values.append(float(each.x))
+    
+    station        
+    plt.text()
             
 
     plt.figure(figsize = (6,9))
     plt.scatter(x_values, y_values) 
+    
     plt.show()
+    
+    
+    
+    # To create line segments between two points in matplotlib, we can take the following steps
+#
+#     Set the figure size and adjust the padding between and around the subplots.
+#     To make two points, create two lists.
+#     Extract x and y values from point1 and point2.
+#     Plot x and y values using plot() method.
+#     Place text for both the points.
+#     To display the figure, use show() method.
+#     Example
+#     import matplotlib.pyplot as plt
+#     plt.rcParams["figure.figsize"] = [7.50, 3.50]
+#     plt.rcParams["figure.autolayout"] = True
+#     point1 = [1, 2]
+#     point2 = [3, 4]
+#     x_values = [point1[0], point2[0]]
+#     y_values = [point1[1], point2[1]]
+#     plt.plot(x_values, y_values, 'bo', linestyle="--")
+#     plt.text(point1[0]-0.015, point1[1]+0.25, "Point1")
+#     plt.text(point2[0]-0.050, point2[1]-0.25, "Point2")
+#     plt.show()
+    
+    
     
     
     

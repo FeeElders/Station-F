@@ -37,7 +37,6 @@ class Random():
                     
         return self.new_railway
 
-
 class RandomStartStation(Random):
     def get_random_station(self):
         ## inherited class

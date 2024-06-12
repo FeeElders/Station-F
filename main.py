@@ -6,6 +6,7 @@ if __name__ == "__main__":
     print("WELCOME TO RailNL")
 
     railway = railway.Railway(20, 180)
+    best_railway: dict[int: 'Railway'] = {}
 
     railway.load_stations("data/StationsNationaal.csv")
     railway.load_connections("data/ConnectiesNationaal.csv")
@@ -14,21 +15,28 @@ if __name__ == "__main__":
     # --------------------Random----------------------------------
     count = 0
     scoreplot = {}
+    
 
 
 
-    while count <= 10000:
+    while count <= 10:
         random = rd.Random(railway)
         random_railway = random.run()
-        
         scoreplot[count]= random_railway.score()
-        count += 1
-
         
-   # --------------------------- Visualisation --------------------
-    visuals.line_graph(scoreplot)
+        # check if railway score is higher than previous and save this railway
+        best_railway = random.best_score(random_railway) 
+        count += 1
+        
     
-    visuals.railway_map("data/StationsNationaal.csv", "data/ConnectiesNationaal.csv", random_railway)
+        
+   # --------------------Hill climber------------------------------
+   
+        Hill(best_railway)
+   # --------------------------- Visualisation --------------------
+    # visuals.line_graph(scoreplot)
+    
+    visuals.railway_map(random_railway)
 
 
 
