@@ -1,1 +1,0 @@
-# TODO: greedy algoritme implementeren

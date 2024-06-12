@@ -19,6 +19,11 @@ class Trajectory():
         return self._time_usage
 
 
+    def print_trajectory(self) -> None:
+        for station in self._trajectory:
+            print(station._name)
+    
+    
     def current_station(self) -> 'Station':
         return self._current_station
     

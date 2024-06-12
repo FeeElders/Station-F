@@ -4,9 +4,9 @@ if __name__ == "__main__":
 
     print("this is a test railway")
 
-    railway = railway.Railway()
-    railway.load_stations()
-    railway.load_connections()
+    railway = railway.Railway(3, 120)
+    railway.load_stations("data/StationsHolland.csv")
+    railway.load_connections("data/ConnectiesHolland.csv")
 
     
     train_1 = {"Beverwijk": "Castricum", "Castricum": "Alkmaar", "Alkmaar": "Hoorn", "Hoorn": "Zaandam"}
@@ -19,7 +19,7 @@ if __name__ == "__main__":
     for train in trains:
         keys = list(train.keys())
         first_station = railway._stations[keys[0]]
-        railway.new_trajectory(first_station, 120)
+        railway.new_trajectory(first_station)
         traject = railway._trains[railway.trains()]
         for key in train:
             print(key)
@@ -33,4 +33,4 @@ if __name__ == "__main__":
         print(f"het hele traject: {traject._trajectory}")
 
     
-    #railway.formatted_output()
+    railway.formatted_output()

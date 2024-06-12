@@ -7,13 +7,23 @@ class Random():
         self.new_railway = copy.deepcopy(railway)
 
 
-    def get_random_station(self):
-        return self.new_railway.get_random_station()
+    # generate random start station
+    def get_start_station(self):
+        return random.choice(list(self.new_railway.get_all_stations()))
+
+    def get_random_connection(self, station: 'Station', time: int) -> 'Connection':
+        connections = self.new_railway.get_available_connections(station, time)
+        if connections is None:
+            return None
+
+        choice = random.choice(connections)
+        self.new_railway.add_visited_connection(choice)
+        return choice
 
     def run(self) -> 'Railway':
 
         while self.new_railway.trains() <= random.randint(1, self.new_railway._max_trains):
-            current_station = self.get_random_station()
+            current_station = self.get_start_station()
             self.new_railway.new_trajectory(current_station)
             
             train_number = self.new_railway.trains()
@@ -23,23 +33,33 @@ class Random():
             while traject.is_running():
                 time = traject.time_left()
                 current_station = traject.current_station()
-                connection = self.new_railway.get_random_connection(current_station._name, time)
+                connection = self.get_random_connection(current_station, time)
                 if connection == None:
 #                    traject.end()
                     break
-
-                
                 else: 
                     traject.add_connection(connection)    
 
 
- #       print(f"the score: {self.new_railway.score()}")
-                    
+        print(f"the score: {self.new_railway.score()}")
+        
         return self.new_railway
 
-class RandomStartStation(Random):
-    def get_random_station(self):
-        ## inherited class
-
-        return 'Station'
+# class RandomStartStation(Random):
+#     def get_random_station(self):
+#         ## inherited class
+#         return 'Station'
     
+class NotSoRandomBaseline(random):
+    def get_start_station(self):
+        all_station = self.new_railway.get_all_stations()
+        visited_connections = self.new_railway.get_visited_connections()
+
+        return None
+
+    def get_possible_connections(self):
+        all_connections = self.new_railway.get_all_connections()
+        visited_connections = self.new_railway.get_visited_connections()
+        possible_connections = all_connections - visited_connections
+
+        return None
