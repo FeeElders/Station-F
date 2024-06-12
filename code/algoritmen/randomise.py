@@ -33,14 +33,14 @@ class Random():
                     traject.add_connection(connection)    
 
 
- #       print(f"the score: {self.new_railway.score()}")
+        print(f"the score: {self.new_railway.score()}")
                     
         return self.new_railway
 
 
-class RandomStartStation(Random):
-    def get_random_station(self):
-        ## inherited class
+# class RandomStartStation(Random):
+#     def get_random_station(self):
+#         ## inherited class
 
-        return 'Station'
+#         return 'Station'
     

@@ -63,6 +63,13 @@ class Railway():
         for connection in self._connections:
             print(f"{connection._station1._name} - {connection._station2._name}, {connection._distance} min")
 
+
+    def print_trajectories(self) -> None:
+        for train in self._trains:
+            trajectory = self._trains[train]
+            print(f"train {train}")
+            trajectory.print_trajectory()
+
     def add_station(self, station: 'Station') -> None:
         """ Add station to all stations """
         self._stations[station._name] = station
