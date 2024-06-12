@@ -24,7 +24,6 @@ if __name__ == "__main__":
         scoreplot[count]= random_railway.score()
         count += 1
 
-        
    # --------------------------- Visualisation --------------------
     visuals.line_graph(scoreplot)
     

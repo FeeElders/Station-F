@@ -134,7 +134,7 @@ class Railway():
                 train_id = train
                 formatted_id = f"train_{train_id}"
                 trajectory_obj = self._trains[train]
-                station_objects = trajectory_obj.trajectory
+                station_objects = trajectory_obj._trajectory
 
                 counter = 1
                 for station in station_objects:
