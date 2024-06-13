@@ -103,7 +103,7 @@ m1=0..n</panel_attributes>
       <x>30</x>
       <y>30</y>
       <w>360</w>
-      <h>420</h>
+      <h>450</h>
     </coordinates>
     <panel_attributes>Railway
 --
@@ -111,7 +111,8 @@ max_trains: int
 max_time: int
 trains: dict[int: Trajectory]
 train_counter: int
-choices: set(Connection)
+visited_stations: set(Station)
+visited_connections: set(Connection)
 stations: dict[str: Station]
 connections: list[Connection]
 --
@@ -123,6 +124,7 @@ print_connections(): None
 print_trajectories(): None
 add_station(Station): None
 get_all_stations(): list[Station]
+get_visited_stations(): list[Station]
 get_all_connections(): set[Connection]
 get_visited_connections(): set[Connection]
 add_visited_connection(Connection): None

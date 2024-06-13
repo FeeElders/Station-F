@@ -88,7 +88,8 @@ class Railway():
     
     def get_visited_stations(self) -> set['Station']:
         """ Get the stations that are visited. """
-        return self._visited_stations
+        # TODO: implement
+#        return self._visited_stations
 
     
     def get_all_connections(self) -> set['Connection']:
