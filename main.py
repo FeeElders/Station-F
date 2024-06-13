@@ -39,7 +39,7 @@ if __name__ == "__main__":
 
     # --------------------Hill climber------------------------------
    
-    climber = HillClimber(random_railway)
+ #   climber = HillClimber(random_railway)
    
 
     # --------------------------- Visualisation --------------------
