@@ -18,8 +18,21 @@ State Space NEDERLAND
 kortste verbinding is 5 minuten
 aantal verbindingen per traject is dus 36 (r=36)
 Utrecht centraal heeft 9 mogelijke verbindingen en is daarmee het hoogst. (N=9)
-In totaal kunnnen er max 20 trajecten worden gevormd dus 20! (want kan ook 4 trajecten doen of 7)
+In totaal kunnnen er max 20 trajecten worden gevormd. Omdat het ook mogelijk is om een verschillend aantal trajecten te hebben voor een oplossing, wordt het resultaat van die eerste N en het aantal trajecten r (want kan ook 4 trajecten doen of 7)
 
-Formule repetitie kan en volgorde is belangrijk: 
-N^r * 20!
-9^36 * 20! = 5,48 * 10^52
+Formule voor de trajecten waarbij repetitie kan en volgorde is belangrijk: 
+N^r 
+9^36 = 2.25 * 10^34
+
+Om te kijken voor verschillende hoeveelheden trajecten doen we de uitkomst keer 20!
+9^36 *20! = 5.48093885 * 10^52
+
+Formule voor de hele dienstregeling waarbij repetitie kan en volgorde niet belangrijk is
+(r+N-1)!/r!(N-1)!
+N = 9^36
+r = 20
+resultaten = 4.1 *10^-19 
+Dit lijkt ons niet de juiste methode
+
+## Keuzes
+
