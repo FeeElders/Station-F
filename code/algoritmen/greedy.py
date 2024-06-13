@@ -1,5 +1,7 @@
 import random
 
+from randomise import Random, NotSoRandom
+
 class Greedy():
     def __init__(self, railway: 'Railway') -> None:
         # TODO: copy railway
@@ -18,7 +20,6 @@ class Greedy():
     def run_greedy(self) -> Railway:
         # TODO: implement
         pass
-
 
 
 class RandomGreedy(Greedy, NotSoRandom):
