@@ -19,8 +19,8 @@ if __name__ == "__main__":
     csv_scores:list[int]= []
     
     start = time.time()
-    with open('scores.csv', 'w', newline='') as file:
-        writer = csv.writer(file)
+    # with open('scores.csv', 'w', newline='') as file:
+#         writer = csv.writer(file)
 
     while time.time() - start < 3600:
         random = rd.Random(railway)
@@ -31,17 +31,14 @@ if __name__ == "__main__":
         
         
     with open('scores.csv', 'a', newline='') as file:
-        writer_new = writer(file)
-        writer_new.writerow(csv_scores)
-        print("opgeslagen")    
-        
-        # while True:
-#             # sla elke 10 minuten de scores op in een bestand
-#
-#             with open('scores.csv', 'w', newline='') as file:
-#                 writer = csv.writer(file)
-#                 writer.writerow([self.score()])
-#             time.sleep(600)
+        writer_new = csv.writer(file)
+        for score in csv_scores:
+            writer_new.writerow(score)
+        print("opgeslagen")
+
+    while True:
+        # sla elke 10 minuten de scores op in een bestand
+        time.sleep(600)
         
    # --------------------Hill climber------------------------------
    
@@ -51,7 +48,7 @@ if __name__ == "__main__":
    # --------------------------- Visualisation --------------------
     visuals.line_graph(scoreplot)
     
-    visuals.railway_map(random_railway)
+    # visuals.railway_map(random_railway)
 
 
 
