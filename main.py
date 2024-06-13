@@ -24,7 +24,7 @@ if __name__ == "__main__":
     interval = 20
     helpers.create_csv(name)
 
-    while count < 400:
+    while count < 40:
         random = rd.Random(railway)
         random_railway = random.run(20)
 
@@ -43,9 +43,8 @@ if __name__ == "__main__":
    
 
     # --------------------------- Visualisation --------------------
-    visuals.line_graph(scoreplot)
-    
-    # visuals.railway_map(random_railway)
+    #visuals.line_graph(scoreplot, iterations)
+    visuals.railway_map(best_random_railway)
 
 
 

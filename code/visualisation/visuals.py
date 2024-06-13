@@ -8,7 +8,7 @@ import csv
 
 
 
-def line_graph(scores, fast_plot=False):
+def line_graph(scores, iterations, fast_plot=False):
     """
     Plotten van de scores per algoritme in een lijn grafiek
     y as komt de score en op de x as het aantal pogingen
@@ -30,7 +30,7 @@ def line_graph(scores, fast_plot=False):
     plt.show()
 
     
-def railway_map(random_railway):
+def railway_map(best_random_railway):
     """
     De visualisatie van de opties
 
@@ -41,21 +41,23 @@ def railway_map(random_railway):
     Rood, Oranje, Geel, Groen, Blauw, Roze, Paars. 
     Wanneer een station wordt gebruit wordt het vakje zwart. 
     """
-    stations_obj = random_railway._stations
-    
+    stations_dict = best_random_railway._stations
     x_values = []
     y_values = []
         
-    #Add x-as and y-as list
-    for each in stations_obj:
-        print (each._y)
-        print (each._x)
-        x_values.append(float(each._y)) 
-        y_values.append(float(each._x))
+    # Add x-as and y-as list
+    for station in stations_dict:
+        value=(stations_dict[station])
+        x_values.append(float(value._y)) 
+        y_values.append(float(value._x))    
+        
+    # Collect trajectories from railway    
+    trajectory_dict = best_random_railway._trains  
+    for traject in trajectory_dict:
+        
+       
     
-    station        
-    plt.text()
-            
+    # Collect stations from trajectories         
 
     plt.figure(figsize = (6,9))
     plt.scatter(x_values, y_values) 

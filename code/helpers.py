@@ -19,7 +19,6 @@ def append_to_csv(name, interval, count, csv_scores) -> None:
         with open(f'output/{name}.csv', 'a', newline='') as file:
             writer_new = csv.writer(file)
             for score in csv_scores:
-                print(score)
                 writer_new.writerow([score])
                 
         csv_scores.clear()
