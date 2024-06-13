@@ -1,6 +1,8 @@
 import time
 import csv
 from csv import writer
+import copy
+
 from code import helpers
 from code.classes import station, railway, connection, trajectory
 from code.visualisation import visuals 
@@ -17,38 +19,36 @@ if __name__ == "__main__":
     count = 0
     scoreplot:dict[int:int] = {}
     csv_scores:list[int]= []
-    
+    best_random_railway: 'Railway' = None
+    name = scores
+    interval = 200000
     start = time.time()
-    # with open('scores.csv', 'w', newline='') as file:
-#         writer = csv.writer(file)
+    helpers.create_csv(name)
 
-    while time.time() - start < 3600:
+    while time.time() - start < 60:
         random = rd.Random(railway)
-        random_railway = random.run()
+        random_railway = random.run(20)
+
+        if helpers.best_score(random_railway, best_random_railway):
+            best_random_railway = copy.copy(random_railway)
+            best_random_railway.formatted_output("best_random_railway.csv")
         scoreplot[count]= random_railway.score()
         csv_scores.append(random_railway.score())
-        count += 1
+        count += 1  
+        helpers.append_to_csv(name, interval, count)      
         
-        
-    with open('scores.csv', 'a', newline='') as file:
-        writer_new = csv.writer(file)
-        for score in csv_scores:
-            writer_new.writerow(score)
-        print("opgeslagen")
-
-    while True:
-        # sla elke 10 minuten de scores op in een bestand
-        time.sleep(600)
+            
         
    # --------------------Hill climber------------------------------
    
-
+#   climber = HillClimber(random_railway)
 
 
    # --------------------------- Visualisation --------------------
     visuals.line_graph(scoreplot)
     
     # visuals.railway_map(random_railway)
+
 
 
 

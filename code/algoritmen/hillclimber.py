@@ -5,4 +5,4 @@ class HillClimber():
         self.new_railway = copy.deepcopy(railway)
 
     def run(self) -> 'Railway':
-        return True
+        

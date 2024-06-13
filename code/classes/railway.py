@@ -125,7 +125,7 @@ class Railway():
         self._trains[self._train_counter] = train
 
 
-    def formatted_output(self) -> None:
+    def formatted_output(self, filename: str) -> None:
         """ 
         Save the connections
         When the track is complete give back all the connections
@@ -134,7 +134,7 @@ class Railway():
 
         stations_string = ""
         
-        with open('output.csv', 'w', newline='') as file:
+        with open(filename, 'w', newline='') as file:
             writer = csv.writer(file)
             writer.writerow(['train', 'stations'])
 

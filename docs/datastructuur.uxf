@@ -7,7 +7,7 @@
       <x>530</x>
       <y>250</y>
       <w>240</w>
-      <h>90</h>
+      <h>80</h>
     </coordinates>
     <panel_attributes>Connection
 --
@@ -22,7 +22,7 @@ distance: int</panel_attributes>
       <x>530</x>
       <y>400</y>
       <w>240</w>
-      <h>90</h>
+      <h>80</h>
     </coordinates>
     <panel_attributes>Station
 --
@@ -37,7 +37,7 @@ y: int</panel_attributes>
       <x>530</x>
       <y>30</y>
       <w>240</w>
-      <h>170</h>
+      <h>160</h>
     </coordinates>
     <panel_attributes>Trajectory
 --
@@ -68,23 +68,23 @@ m1=0..n</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>640</x>
-      <y>330</y>
+      <y>320</y>
       <w>30</w>
-      <h>90</h>
+      <h>100</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>640</x>
-      <y>190</y>
+      <y>180</y>
       <w>30</w>
-      <h>80</h>
+      <h>90</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -100,10 +100,10 @@ m1=0..n</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>150</x>
+      <x>30</x>
       <y>30</y>
-      <w>240</w>
-      <h>360</h>
+      <w>360</w>
+      <h>420</h>
     </coordinates>
     <panel_attributes>Railway
 --
@@ -115,15 +115,19 @@ choices: set(Connection)
 stations: dict[str: Station]
 connections: list[Connection]
 --
-load_stations(): None
-load_connections(): None
+load_stations(csv): None
+load_connections(csv): None
+trains(): int
 print_stations(): None
 print_connections(): None
+print_trajectories(): None
 add_station(Station): None
-get_random_station(): Station
-create_connection(): None
-choose_connection(): Connection
-get_random_connection(): Connection
+get_all_stations(): list[Station]
+get_all_connections(): set[Connection]
+get_visited_connections(): set[Connection]
+add_visited_connection(Connection): None
+choose_connection(str, str): Connection
+get_available_connections(Station, int): list[Connection]
 new_trajectory(Station): None
 formatted_output(): none
 is_valid(): None
