@@ -35,15 +35,14 @@ if __name__ == "__main__":
         csv_scores.append(random_railway.score())
         count += 1  
         helpers.append_to_csv(name, interval, count, csv_scores)      
-        
-            
-        
-   # --------------------Hill climber------------------------------
+ 
+
+    # --------------------Hill climber------------------------------
    
-#   climber = HillClimber(random_railway)
+    climber = HillClimber(random_railway)
+   
 
-
-   # --------------------------- Visualisation --------------------
+    # --------------------------- Visualisation --------------------
     visuals.line_graph(scoreplot)
     
     # visuals.railway_map(random_railway)
