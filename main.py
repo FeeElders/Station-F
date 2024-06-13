@@ -27,7 +27,7 @@ if __name__ == "__main__":
 
     while time.time() - start < 3600:
         random = rd.Random(railway)
-        random_railway = random.run()
+        random_railway = random.run(20)
 
         if helpers.best_score(random_railway, best_random_railway):
             best_random_railway = copy.copy(random_railway)
@@ -38,7 +38,7 @@ if __name__ == "__main__":
         
         
     with open('scores.csv', 'a', newline='') as file:
-        writer_new = writer(file)
+        writer_new = csv.writer(file)
         writer_new.writerow(csv_scores)
         print("opgeslagen")    
         

@@ -20,9 +20,14 @@ class Random():
         self.new_railway.add_visited_connection(choice)
         return choice
 
-    def run(self) -> 'Railway':
+    def run(self, trains = None) -> 'Railway':
 
-        while self.new_railway.trains() <= random.randint(1, self.new_railway._max_trains):
+        if trains is None:
+            amount = random.randint(1, self.new_railway._max_trains)
+        else:
+            amount = trains
+
+        while self.new_railway.trains() <= amount:
             current_station = self.get_start_station()
             self.new_railway.new_trajectory(current_station)
             
