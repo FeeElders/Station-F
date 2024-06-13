@@ -33,7 +33,7 @@ class Random():
             
             train_number = self.new_railway.trains()
             traject = self.new_railway._trains[train_number]
-            
+                        
 
             while traject.is_running():
                 time = traject.time_left()
