@@ -6,3 +6,8 @@ class HillClimber():
 
     def run(self) -> 'Railway':
         
+        
+    # als een traject minder dan 4 verbindingen heeft vervang je deze 
+    
+    
+        

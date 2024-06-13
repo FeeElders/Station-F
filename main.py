@@ -20,12 +20,11 @@ if __name__ == "__main__":
     scoreplot:dict[int:int] = {}
     csv_scores:list[int]= []
     best_random_railway: 'Railway' = None
-    name = scores
-    interval = 200000
-    start = time.time()
+    name = "scores"
+    interval = 20
     helpers.create_csv(name)
 
-    while time.time() - start < 60:
+    while count < 400:
         random = rd.Random(railway)
         random_railway = random.run(20)
 
@@ -35,7 +34,7 @@ if __name__ == "__main__":
         scoreplot[count]= random_railway.score()
         csv_scores.append(random_railway.score())
         count += 1  
-        helpers.append_to_csv(name, interval, count)      
+        helpers.append_to_csv(name, interval, count, csv_scores)      
         
             
         
