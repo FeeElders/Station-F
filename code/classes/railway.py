@@ -103,7 +103,7 @@ class Railway():
     
     def add_visited_connection(self, connection) -> None:
         """ Add a connection to the visited connections. """
-        self._choices.add(connection)
+        self._visited_connections.add(connection)
 
 
     def choose_connection(self, station1: str, station2: str) -> 'Connection':
@@ -191,7 +191,7 @@ class Railway():
             min += self._trains[trajectory].time_usage()
 
         # set p to the connections that have been accessed 
-        p = len(self._choices)/len(self._connections)
+        p = len(self._visited_connections)/len(self._connections)
 
         K = p*10000 - (T*100 + min)
 
