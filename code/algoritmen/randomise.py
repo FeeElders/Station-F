@@ -55,7 +55,7 @@ class Random():
 #         ## inherited class
 #         return 'Station'
     
-# class NotSoRandomBaseline(random, greedy):
+# class NotSoRandomBaseline(random):
 #     def get_start_station(self):
 #         """ Get start station that has not been accessed before. """
 #         all_stations = self.new_railway.get_all_stations()
