@@ -55,16 +55,18 @@ class Random():
 #         ## inherited class
 #         return 'Station'
     
-# class NotSoRandomBaseline(random):
-#     def get_start_station(self):
-#         all_station = self.new_railway.get_all_stations()
-#         visited_connections = self.new_railway.get_visited_connections()
-#
-#         return None
-#
-#     def get_possible_connections(self):
-#         all_connections = self.new_railway.get_all_connections()
-#         visited_connections = self.new_railway.get_visited_connections()
-#         possible_connections = all_connections - visited_connections
+class NotSoRandomBaseline(random, greedy):
+    def get_start_station(self):
+        """ Get start station that has not been accessed before. """
+        all_stations = self.new_railway.get_all_stations()
+        visited_stations = self.new_railway.get_visited_stations()
+        
+        return None
 
-#         return None
+    def get_possible_connections(self):
+        """ Get connections that are not visited yet. """
+        all_connections = self.new_railway.get_all_connections()
+        visited_connections = self.new_railway.get_visited_connections()
+        possible_connections = all_connections - visited_connections
+
+        return None

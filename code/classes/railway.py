@@ -11,7 +11,8 @@ class Railway():
         self._max_time: int = time
         self._trains: dict[int: 'Trajectory'] = {}
         self._train_counter = 0
-        self._choices = set()        
+        self._visited_connections = set()        
+        self._visited_stations = set()
         self._stations: dict[str: 'Station'] = {}
         self._connections: list[Connection] = []
 
@@ -30,6 +31,7 @@ class Railway():
                 station = Station(name, x, y)
                 self._stations[station._name] = station
 
+                
     def load_connections(self, connections_csv) -> None:
         """ Load connections from csv file into railway object. """        
         # Open files with all connections
@@ -58,6 +60,7 @@ class Railway():
             station_obj = self._stations[station]
             print(f"{station_obj.name}, {station_obj.x}, {station_obj.y}\n")
 
+            
     def print_connections(self) -> None:
         """ print all connections """
         for connection in self._connections:
@@ -70,25 +73,34 @@ class Railway():
             print(f"train {train}")
             trajectory.print_trajectory()
 
+            
     def add_station(self, station: 'Station') -> None:
         """ Add station to all stations """
         self._stations[station._name] = station
 
-
+        
     def get_all_stations(self) -> list['Station']:
         """
         Choose a random station from the list with stations.
         """
         return self._stations.values()
 
+    
+    def get_visited_stations(self) -> set['Station']:
+        """ Get the stations that are visited. """
+        return self._visited_stations
+
+    
     def get_all_connections(self) -> set['Connection']:
         """ Get all existing connections"""
         return set(self._connections)
 
+    
     def get_visited_connections(self) -> set['Connection']:
         """ Get the connections that are visited within a railway"""
-        return self._choices
+        return self._visited_connections
 
+    
     def add_visited_connection(self, connection) -> None:
         """ Add a connection to the visited connections. """
         self._choices.add(connection)
@@ -109,7 +121,7 @@ class Railway():
         station = station._name
 
         for connection in self._connections:
-            if (connection._station1._name == station or connection._station2._name == station) and connection._distance <= time_left and connection not in self._choices:
+            if (connection._station1._name == station or connection._station2._name == station) and connection._distance <= time_left and connection not in self._visited_stations:
                 list_connections.append(connection)
                         
         # als er geen verbindingen meer mogelijk zijn          
@@ -157,16 +169,14 @@ class Railway():
                 writer.writerow([formatted_id, stations_string])
             writer.writerow(['score', self.score()])
 
-            
-
 
     def is_valid(self) -> bool:
         """ Check if the railway is valid."""
 
         # Check that railway has no more than maximum trains
         return 0 < self._train_counter < self._max_trains
-            
-        
+ 
+ 
     def score(self) -> int:
         """Define score of all trajectories. """
 
@@ -182,7 +192,6 @@ class Railway():
 
         # set p to the connections that have been accessed 
         p = len(self._choices)/len(self._connections)
-#        print(f"connections: {len(self._connections)} vs all choices: {len(self._choices)}")
 
         K = p*10000 - (T*100 + min)
 
