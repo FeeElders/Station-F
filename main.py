@@ -7,6 +7,7 @@ from code import helpers
 from code.classes import station, railway, connection, trajectory
 from code.visualisation import visuals 
 from code.algoritmen  import randomise as rd
+from code.algoritmen  import hillclimber as hc
 
 if __name__ == "__main__":
     print("WELCOME TO RailNL")
@@ -37,7 +38,15 @@ if __name__ == "__main__":
         helpers.append_to_csv(name, interval, count, csv_scores)      
  
 
-    # --------------------Hill climber------------------------------
+    # --------------------------- Hill Climber ---------------------------------
+        print("Setting up Hill Climber...")
+        climber = hc.HillClimber(random_railway)
+
+        print("Running Hill Climber...")
+        climber.run(2000, active=True)
+
+        print(f"Value of the configuration after Hill Climber: "
+              f"{climber.railway.score()}")
    
  #   climber = HillClimber(random_railway)
    
