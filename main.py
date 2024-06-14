@@ -38,21 +38,21 @@ if __name__ == "__main__":
         helpers.append_to_csv(name, interval, count, csv_scores)      
  
 
-    # --------------------------- Hill Climber ---------------------------------
-        print("Setting up Hill Climber...")
-        climber = hc.HillClimber(random_railway)
-
-        print("Running Hill Climber...")
-        climber.run(2000, active=True)
-
-        print(f"Value of the configuration after Hill Climber: "
-              f"{climber.railway.score()}")
-   
- #   climber = HillClimber(random_railway)
-   
+    # # --------------------------- Hill Climber ---------------------------------
+ #        print("Setting up Hill Climber...")
+ #        climber = hc.HillClimber(random_railway)
+ #
+ #        print("Running Hill Climber...")
+ #        climber.run(2000, active=True)
+ #
+ #        print(f"Value of the configuration after Hill Climber: "
+ #              f"{climber.railway.score()}")
+      
 
     # --------------------------- Visualisation --------------------
-    #visuals.line_graph(scoreplot, iterations)
+    #visuals.line_graph(scoreplot, count)
+    #visuals.hillclimber_graph(scoreplot, count)
+    
     visuals.railway_map(best_random_railway)
 
 

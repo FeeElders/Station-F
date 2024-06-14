@@ -8,10 +8,10 @@ import csv
 
 
 
-def line_graph(scores, iterations, fast_plot=False):
+def line_graph(scores, count, fast_plot=False):
     """
-    Plotten van de scores per algoritme in een lijn grafiek
-    y as komt de score en op de x as het aantal pogingen
+    Plotten van de scores per algoritme in een hisogram
+    y as komt het aantal pogingen en op de x as de score
     """
 
     n_bins = 400
@@ -25,9 +25,31 @@ def line_graph(scores, iterations, fast_plot=False):
     axs.hist(dist1, bins=n_bins)
     axs.set_xlim(0, 10000)
     axs.set(xlabel='score (K)', ylabel='aantal keer',
-               title='Random algoritme')
+               title=f'Random algoritme 400 bins {iterations} keer')
 
     plt.show()
+
+# def hillclimber_graph(scores, count, fast_plot=False):
+#     """
+#     Plotten van de score vs de iteraties in een histogram
+#     y as komt de score en op de x as het aantal pogingen
+#     """
+#
+#     n_bins = 400
+#
+#     # Generate a normal distributions
+#     dist1 = scores.values()
+#     iterations = [0:count]
+#
+#     fig, axs = plt.subplots(sharey=True, tight_layout=True)
+#
+#     # We can set the number of bins with the *bins* keyword argument.
+#     axs.hist(iterations, dist1, bins=n_bins)
+#     axs.set_xlim(0, count)
+#     axs.set(xlabel='iteraties', ylabel='score',
+#                title=f'Hill Climber algoritme 400 bins {iterations} keer')
+#
+#     plt.show()
 
     
 def railway_map(best_random_railway):
@@ -49,18 +71,27 @@ def railway_map(best_random_railway):
     for station in stations_dict:
         value=(stations_dict[station])
         x_values.append(float(value._y)) 
-        y_values.append(float(value._x))    
+        y_values.append(float(value._x))   
         
-    # Collect trajectories from railway    
-    trajectory_dict = best_random_railway._trains  
-    for traject in trajectory_dict:
-        
-       
-    
-    # Collect stations from trajectories         
-
     plt.figure(figsize = (6,9))
     plt.scatter(x_values, y_values) 
+        
+    # Collect trajectories from railway      
+    trajectory_dict = best_random_railway._trains  
+    my_colors = plt.rcParams['axes.prop_cycle']() 
+    
+    for traject in trajectory_dict:
+        print(trajectory_dict[traject])
+        station_list = trajectory_dict[traject]
+        print(station_list)
+        xline = []
+        yline = []
+        for station in station_list:
+            print(station)
+            xline.append(float(station._y))
+            yline.append(float(station._x))
+        plt.plot(xline, yline, linestyle="--") # **next(my_colors),
+
     
     plt.show()
     
