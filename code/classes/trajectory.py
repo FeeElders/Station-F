@@ -23,6 +23,14 @@ class Trajectory():
         for station in self._trajectory:
             print(station._name)
     
+
+    def get_trajectory(self) -> list['Station']:
+        stations: list['Station'] = []
+        for station in self._trajectory:
+            stations.append(station)
+
+        return stations
+            
     
     def current_station(self) -> 'Station':
         return self._current_station
