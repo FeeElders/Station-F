@@ -25,7 +25,7 @@ if __name__ == "__main__":
     interval = 20
     helpers.create_csv(name)
 
-    while count < 100:
+    while count < 10:
         random = rd.Random(railway)
         random_railway = random.run(20)
 
@@ -39,14 +39,14 @@ if __name__ == "__main__":
  
 
     # --------------------------- Hill Climber ---------------------------------
-        print("Setting up Hill Climber...")
-        climber = hc.HillClimber(random_railway)
+    print("Setting up Hill Climber...")
+    climber = hc.HillClimber(random_railway)
 
-        print("Running Hill Climber...")
-        climber.run(200, active=True)
+    print("Running Hill Climber...")
+    climber.run(200, active=True)
 
-        print(f"Value of the configuration after Hill Climber: "
-              f"{climber.railway.score()}")
+    print(f"Value of the configuration after Hill Climber: "
+          f"{climber.railway.score()}")
 
 
     # --------------------------- Visualisation --------------------

@@ -1,8 +1,10 @@
 import copy
 import random
-# from .randomise import Random as rd
-# from .randomise import NotSoRandom as nsr
+from .randomise import Random 
+from .randomise import NotSoRandom 
 from code.algoritmen  import randomise as rd
+from code.classes.trajectory import Trajectory
+
 
 from code.classes import station, railway, connection, trajectory
 
@@ -20,30 +22,41 @@ class HillClimber():
     def get_start_station(self):
         return random.choice(list(self.railway.get_all_stations()))
         
-    def create_new_train(self, new_railway, traject):
+    def get_random_connection(self, station: 'Station', time: int, new_railway) -> 'Connection':
+        connections = new_railway.get_available_connections(station, time)
+        if connections is None:
+            return None
+
+        choice = random.choice(connections)
+        new_railway.add_visited_connection(choice)
+        return choice
+        
+    def create_new_train(self, new_railway, traject, random_train):
         
         start_station = self.get_start_station()
-        Trajectory(start_station, new_railway._max_time)
+        train = Trajectory(start_station, new_railway._max_time)
+        new_railway._trains[random_train] = train
         
         while traject.is_running():
             time = traject.time_left()
             current_station = traject.current_station()
-            connection = self.get_random_connection(current_station, time)
+            connection = self.get_random_connection(current_station, time, new_railway)
             if connection == None:
                 break
             else:
                 traject.add_connection(connection)
+                
+        return new_railway
         
     def mutate_single_trajectory(self, new_railway):
         """
         Changes the connections of a random traject with a random valid traject.
         """
         random_train = random.choice(list(new_railway._trains.keys()))   
-        
         traject = new_railway._trains[random_train]     
-        new_train = self.create_new_train(new_railway, traject)
+        new_train = self.create_new_train(new_railway, traject, random_train)
         
-        new_railway._trains[random_train] = new_train
+        return new_train
         
         # TODO: een aspect elke run veranderen en opnieuw genereren.
             # bijv: als een traject minder dan 4 verbindingen heeft vervang je deze, alleen stopt dit vrij snel wss.
@@ -65,7 +78,7 @@ class HillClimber():
         old_score = self.score
 
         # We are looking for maps that score better!
-        if new_score >= old_score:
+        if new_score > old_score:
             self.railway = new_railway
             self.score = new_score
 
