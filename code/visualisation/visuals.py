@@ -39,6 +39,8 @@ def line_graph(scores, count, fast_plot=False):
 #
 #     # Generate a normal distributions
 #     dist1 = scores.values()
+
+# Lijst maken van de pogingen
 #     iterations = [0:count]
 #
 #     fig, axs = plt.subplots(sharey=True, tight_layout=True)
@@ -64,33 +66,38 @@ def railway_map(best_random_railway):
     Wanneer een station wordt gebruit wordt het vakje zwart. 
     """
     stations_dict = best_random_railway._stations
+    labels = []
     x_values = []
     y_values = []
         
     # Add x-as and y-as list
     for station in stations_dict:
         value=(stations_dict[station])
+        labels.append(value._name)
         x_values.append(float(value._y)) 
         y_values.append(float(value._x))   
         
     plt.figure(figsize = (6,9))
     plt.scatter(x_values, y_values) 
+    # Add labels using annotate()
+    for i, label in enumerate(labels):
+        plt.annotate(label, (x_values[i], y_values[i]))
         
-    # Collect trajectories from railway      
-    trajectory_dict = best_random_railway._trains  
-    my_colors = plt.rcParams['axes.prop_cycle']() 
-    
-    for traject in trajectory_dict:
-        print(trajectory_dict[traject])
-        station_list = trajectory_dict[traject]
-        print(station_list)
-        xline = []
-        yline = []
-        for station in station_list:
-            print(station)
-            xline.append(float(station._y))
-            yline.append(float(station._x))
-        plt.plot(xline, yline, linestyle="--") # **next(my_colors),
+    # # Collect trajectories from railway
+#     trajectory_dict = best_random_railway._trains
+#     my_colors = plt.rcParams['axes.prop_cycle']()
+#
+#     for traject in trajectory_dict:
+#         print(trajectory_dict[traject])
+#         station_list = trajectory_dict[traject]
+#         print(station_list.print_trajectory())
+#         xline = []
+#         yline = []
+#         for station in station_list:
+#             print(station)
+#             xline.append(float(station._y))
+#             yline.append(float(station._x))
+#         plt.plot(xline, yline, linestyle="--") # **next(my_colors),
 
     
     plt.show()
