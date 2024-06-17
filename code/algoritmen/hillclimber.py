@@ -12,7 +12,7 @@ class HillClimber():
         
         
         self.railway = copy.deepcopy(random_railway)
-        self.score = railway.score(random_railway)
+        self.score = self.railway.score()
         self.all_connections = self.railway.get_all_connections()
         
     def mutate_single_trajectory(self, new_railway):
@@ -53,10 +53,10 @@ class HillClimber():
             # Nice trick to only print if variable is set to True
             print(f'Iteration {iteration}/{iterations}, current value: {self.score}') if verbose else None
 
-            # Create a copy of the graph to simulate the change
+            # Create a copy of the railway to simulate the change
             new_railway = copy.deepcopy(self.railway)
 
-            self.mutate_railway(new_railway, number_of_changes=mutate_nodes_number)
+            self.mutate_railway(new_railway)
 
             # Accept it if it is better
             self.check_solution(new_railway)
