@@ -1,24 +1,50 @@
 import copy
 import random
-from .randomise import Random
-from .randomise import NotSoRandom
+# from .randomise import Random as rd
+# from .randomise import NotSoRandom as nsr
+from code.algoritmen  import randomise as rd
+
 from code.classes import station, railway, connection, trajectory
 
 
 class HillClimber():
     def __init__(self, random_railway) -> None:
-        if not railway.is_valid():
-            raise Exception("HillClimber requires a complete solution.")
+        # if not railway.is_valid():
+#             raise Exception("HillClimber requires a complete solution.")
         
         
         self.railway = copy.deepcopy(random_railway)
         self.score = self.railway.score()
         self.all_connections = self.railway.get_all_connections()
         
+    def get_start_station(self):
+        return random.choice(list(self.railway.get_all_stations()))
+        
+    def create_new_train(self, new_railway, traject):
+        
+        start_station = self.get_start_station()
+        Trajectory(start_station, new_railway._max_time)
+        
+        while traject.is_running():
+            time = traject.time_left()
+            current_station = traject.current_station()
+            connection = self.get_random_connection(current_station, time)
+            if connection == None:
+                break
+            else:
+                traject.add_connection(connection)
+        
     def mutate_single_trajectory(self, new_railway):
         """
         Changes the connections of a random traject with a random valid traject.
         """
+        random_train = random.choice(list(new_railway._trains.keys()))   
+        
+        traject = new_railway._trains[random_train]     
+        new_train = self.create_new_train(new_railway, traject)
+        
+        new_railway._trains[random_train] = new_train
+        
         # TODO: een aspect elke run veranderen en opnieuw genereren.
             # bijv: als een traject minder dan 4 verbindingen heeft vervang je deze, alleen stopt dit vrij snel wss.
             # andere optie: elke keer het kleinste traject eruit halen en vervangen
@@ -38,8 +64,8 @@ class HillClimber():
         new_score = new_railway.score()
         old_score = self.score
 
-        # We are looking for maps that cost less!
-        if new_score <= old_score:
+        # We are looking for maps that score better!
+        if new_score >= old_score:
             self.railway = new_railway
             self.score = new_score
 
@@ -51,7 +77,7 @@ class HillClimber():
 
         for iteration in range(iterations):
             # Nice trick to only print if variable is set to True
-            print(f'Iteration {iteration}/{iterations}, current value: {self.score}') if verbose else None
+            print(f'Iteration {iteration}/{iterations}, current value: {self.score}') if active else None
 
             # Create a copy of the railway to simulate the change
             new_railway = copy.deepcopy(self.railway)

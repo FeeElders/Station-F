@@ -25,7 +25,7 @@ def line_graph(scores, count, fast_plot=False):
     axs.hist(dist1, bins=n_bins)
     axs.set_xlim(0, 10000)
     axs.set(xlabel='score (K)', ylabel='aantal keer',
-               title=f'Random algoritme 400 bins {iterations} keer')
+               title=f'Random algoritme 400 bins {count} keer')
 
     plt.show()
 
@@ -69,6 +69,7 @@ def railway_map(best_random_railway):
     labels = []
     x_values = []
     y_values = []
+    colors = ["black", "grey", "firebrick", "darksalmon", "lightgrey", "gold", "chartreuse", "green", "teal", "deepskyblue", "blue", "indigo", "deeppink", "plum", "olive", "orange", "greenyellow", "crimson", "lemonchiffon", "darkmagenta", "azure", "bisque"]
         
     # Add x-as and y-as list
     for station in stations_dict:
@@ -79,77 +80,28 @@ def railway_map(best_random_railway):
         
     plt.figure(figsize = (6,9))
     plt.scatter(x_values, y_values) 
-    # Add labels using annotate()
-    for i, label in enumerate(labels):
-        plt.annotate(label, (x_values[i], y_values[i]))
-        
-    # # Collect trajectories from railway
-#     trajectory_dict = best_random_railway._trains
-#     my_colors = plt.rcParams['axes.prop_cycle']()
-#
-#     for traject in trajectory_dict:
-#         print(trajectory_dict[traject])
-#         station_list = trajectory_dict[traject]
-#         print(station_list.print_trajectory())
-#         xline = []
-#         yline = []
-#         for station in station_list:
-#             print(station)
-#             xline.append(float(station._y))
-#             yline.append(float(station._x))
-#         plt.plot(xline, yline, linestyle="--") # **next(my_colors),
+    # # Add labels using annotate()
+ #    for i, label in enumerate(labels):
+ #        plt.annotate(label, (x_values[i], y_values[i]))
+
+    # Collect trajectories from railway
+    trajectory_dict = best_random_railway._trains
+
+    for i,traject in enumerate(trajectory_dict):
+        station_list = trajectory_dict[traject].get_trajectory()
+        xline = []
+        yline = []
+        for station in station_list:
+            xline.append(float(station._y))
+            yline.append(float(station._x))
+        plt.plot(xline, yline, color=colors[i], linestyle="-")
 
     
     plt.show()
     
     
     
-    # To create line segments between two points in matplotlib, we can take the following steps
-#
-#     Set the figure size and adjust the padding between and around the subplots.
-#     To make two points, create two lists.
-#     Extract x and y values from point1 and point2.
-#     Plot x and y values using plot() method.
-#     Place text for both the points.
-#     To display the figure, use show() method.
-#     Example
-#     import matplotlib.pyplot as plt
-#     plt.rcParams["figure.figsize"] = [7.50, 3.50]
-#     plt.rcParams["figure.autolayout"] = True
-#     point1 = [1, 2]
-#     point2 = [3, 4]
-#     x_values = [point1[0], point2[0]]
-#     y_values = [point1[1], point2[1]]
-#     plt.plot(x_values, y_values, 'bo', linestyle="--")
-#     plt.text(point1[0]-0.015, point1[1]+0.25, "Point1")
-#     plt.text(point2[0]-0.050, point2[1]-0.25, "Point2")
-#     plt.show()
-    
-    
-    
-    
-    
-    
-#https://matplotlib.org/basemap/stable/users/merc.html 
 
-# from mpl_toolkits.basemap import Basemap
-# import numpy as np
-# import matplotlib.pyplot as plt
-# # llcrnrlat,llcrnrlon,urcrnrlat,urcrnrlon
-# # are the lat/lon values of the lower left and upper right corners
-# # of the map.
-# # lat_ts is the latitude of true scale.
-# # resolution = 'c' means use crude resolution coastlines.
-# m = Basemap(projection='merc',llcrnrlat=-80,urcrnrlat=80,\
-#             llcrnrlon=-180,urcrnrlon=180,lat_ts=20,resolution='c')
-# m.drawcoastlines()
-# m.fillcontinents(color='coral',lake_color='aqua')
-# # draw parallels and meridians.
-# m.drawparallels(np.arange(-90.,91.,30.))
-# m.drawmeridians(np.arange(-180.,181.,60.))
-# m.drawmapboundary(fill_color='aqua')
-# plt.title("Mercator Projection")
-# plt.show()
 
 
 
