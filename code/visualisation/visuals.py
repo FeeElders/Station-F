@@ -8,26 +8,26 @@ import csv
 
 
 
-# def line_graph(scores, count, fast_plot=False):
-#     """
-#     Plotten van de scores per algoritme in een hisogram
-#     y as komt het aantal pogingen en op de x as de score
-#     """
-#
-#     n_bins = 400
-#
-#     # Generate a normal distributions
-#     dist1 = scores.values()
-#
-#     fig, axs = plt.subplots(sharey=True, tight_layout=True)
-#
-#     # We can set the number of bins with the *bins* keyword argument.
-#     axs.hist(dist1, bins=n_bins)
-#     axs.set_xlim(0, 10000)
-#     axs.set(xlabel='Score (K)', ylabel='Frequentie',
-#                title=f'Random algoritme 400 bins {count} keer')
-#
-#     plt.show()
+def line_graph(scores, count, fast_plot=False):
+    """
+    Plotten van de scores per algoritme in een hisogram
+    y as komt het aantal pogingen en op de x as de score
+    """
+
+    n_bins = 400
+
+    # Generate a normal distributions
+    dist1 = scores.values()
+
+    fig, axs = plt.subplots(sharey=True, tight_layout=True)
+
+    # We can set the number of bins with the *bins* keyword argument.
+    axs.hist(dist1, bins=n_bins)
+    axs.set_xlim(0, 10000)
+    axs.set(xlabel='Score (K)', ylabel='Frequentie',
+               title=f'Random algoritme 400 bins {count} keer')
+
+    plt.show()
 
 def hillclimber_graph(all_scores, fast_plot=False):
     """
@@ -65,7 +65,7 @@ def railway_map(best_railway, score, algoritme):
     labels = []
     x_values = []
     y_values = []
-    colors = ["black", "grey", "firebrick", "darksalmon", "lightgrey", "gold", "chartreuse", "green", "teal", "deepskyblue", "blue", "indigo", "deeppink", "plum", "olive", "orange", "greenyellow", "crimson", "lemonchiffon", "darkmagenta", "azure", "bisque"]
+    colors = ["black", "deeppink", "plum", "olive", "orange", "grey", "firebrick", "darksalmon", "lightgrey", "gold", "deepskyblue", "chartreuse", "green", "teal",  "blue", "indigo", "greenyellow", "crimson", "lemonchiffon", "darkmagenta", "azure", "bisque"]
         
     # Add x-as and y-as list
     for station in stations_dict:
@@ -75,7 +75,8 @@ def railway_map(best_railway, score, algoritme):
         y_values.append(float(value._x))   
         
     plt.figure(figsize = (6,9))
-    plt.scatter(x_values, y_values) 
+    plt.scatter(x_values, y_values)
+    
     # # Add labels using annotate()
  #    for i, label in enumerate(labels):
  #        plt.annotate(label, (x_values[i], y_values[i]))

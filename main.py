@@ -9,7 +9,7 @@ from code.visualisation import visuals
 from code.algoritmen  import randomise as rd
 from code.algoritmen  import hillclimber as hc
 
-from experimenten import hillclimber_experiment
+#from experimenten import hillclimber_experiment
 
 
 if __name__ == "__main__":
@@ -63,7 +63,7 @@ if __name__ == "__main__":
     
     
     # --------------------------- Hill Climber ---------------------------------
-    iterations = 30000
+    iterations = 300
     helpers.create_csv(f"hillyscores{iterations}")
     start = time.time()
     print("Setting up Hill Climber...")
@@ -96,9 +96,9 @@ if __name__ == "__main__":
     visuals.railway_map(climbing_railway, climber.railway.score(), "Hill Climber")
     # visuals.climbing_map(climbing_railway)
     
-    csv_scores = climber.all_scores.values()
+    csv_scores_climber = list(climber.all_scores.values())
     climber.railway.formatted_output(f"hilly{iterations}.csv")
-    helpers.append_to_csv(f"hillyscores{iterations}", csv_scores, time)
+    helpers.append_to_csv(f"hillyscores{iterations}", csv_scores_climber, time)
 
 
 
