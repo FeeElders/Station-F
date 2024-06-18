@@ -9,6 +9,7 @@ class Trajectory():
         self._time_usage = 0
         self._current_station = station
         self._trajectory: list['Station'] = [station]
+        self._connections: list['Connection'] = []
 
     def time_left(self) -> int:
         return self._max_time - self._time_usage
@@ -54,7 +55,15 @@ class Trajectory():
         
         # add the distance in time to the usage
         self._time_usage += connection._distance
-            
+        
+        #add connections to self._connection
+        self._connections.append(connection)
+        
+    def get_visited_connections(self) -> list['Connection']:
+        return self._connections
+        
+    def clear_visited_connections(self) -> None:
+        self._connections.clear()
 
     def end(self) -> list["station"]:
         """ 

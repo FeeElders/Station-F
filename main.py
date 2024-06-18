@@ -25,7 +25,7 @@ if __name__ == "__main__":
     interval = 20
     helpers.create_csv(name)
 
-    while count < 10:
+    while count < 1:
         random = rd.Random(railway)
         random_railway = random.run(20)
 
@@ -35,25 +35,35 @@ if __name__ == "__main__":
         scoreplot[count]= random_railway.score()
         csv_scores.append(random_railway.score())
         count += 1  
-        helpers.append_to_csv(name, interval, count, csv_scores)      
+        if count%interval == 0:
+            # sla elke +-10 minuten de scores op in een bestand
+            helpers.append_to_csv(name, csv_scores)      
  
 
     # --------------------------- Hill Climber ---------------------------------
+    count = 2
+    helpers.create_csv(f"hillyscores{count}")
+    start = time.time()
     print("Setting up Hill Climber...")
     climber = hc.HillClimber(random_railway)
 
     print("Running Hill Climber...")
-    climber.run(200, active=True)
+    climbing_railway = climber.run(5000, active=True)
 
     print(f"Value of the configuration after Hill Climber: "
           f"{climber.railway.score()}")
-
+    end = time.time()
+    time = end - start      
+    # csv_scores = climber.all_scores.values
+#     climber.railway.formatted_output(f"hilly{count}.csv")
+#     helpers.append_to_csv(f"hillyscores{count}", csv_scores, time)
+          
 
     # --------------------------- Visualisation --------------------
-    visuals.line_graph(scoreplot, count)
-    #visuals.hillclimber_graph(scoreplot, count)
-    
-    #visuals.railway_map(best_random_railway)
+    # visuals.line_graph(scoreplot, count)
+    visuals.hillclimber_graph(climber.all_scores)
+    visuals.railway_map(climbing_railway, climber.railway.score(), "Hill Climber")
+    # visuals.climbing_map(climbing_railway)
 
 
 

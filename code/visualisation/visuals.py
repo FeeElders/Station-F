@@ -8,53 +8,49 @@ import csv
 
 
 
-def line_graph(scores, count, fast_plot=False):
-    """
-    Plotten van de scores per algoritme in een hisogram
-    y as komt het aantal pogingen en op de x as de score
-    """
-
-    n_bins = 400
-
-    # Generate a normal distributions
-    dist1 = scores.values()
-
-    fig, axs = plt.subplots(sharey=True, tight_layout=True)
-
-    # We can set the number of bins with the *bins* keyword argument.
-    axs.hist(dist1, bins=n_bins)
-    axs.set_xlim(0, 10000)
-    axs.set(xlabel='score (K)', ylabel='aantal keer',
-               title=f'Random algoritme 400 bins {count} keer')
-
-    plt.show()
-
-# def hillclimber_graph(scores, count, fast_plot=False):
+# def line_graph(scores, count, fast_plot=False):
 #     """
-#     Plotten van de score vs de iteraties in een histogram
-#     y as komt de score en op de x as het aantal pogingen
+#     Plotten van de scores per algoritme in een hisogram
+#     y as komt het aantal pogingen en op de x as de score
 #     """
 #
 #     n_bins = 400
 #
 #     # Generate a normal distributions
 #     dist1 = scores.values()
-
-# Lijst maken van de pogingen
-#     iterations = [0:count]
 #
 #     fig, axs = plt.subplots(sharey=True, tight_layout=True)
 #
 #     # We can set the number of bins with the *bins* keyword argument.
-#     axs.hist(iterations, dist1, bins=n_bins)
-#     axs.set_xlim(0, count)
-#     axs.set(xlabel='iteraties', ylabel='score',
-#                title=f'Hill Climber algoritme 400 bins {iterations} keer')
+#     axs.hist(dist1, bins=n_bins)
+#     axs.set_xlim(0, 10000)
+#     axs.set(xlabel='score (K)', ylabel='aantal keer',
+#                title=f'Random algoritme 400 bins {count} keer')
 #
 #     plt.show()
 
+def hillclimber_graph(all_scores, fast_plot=False):
+    """
+    Plotten van de score vs de iteraties in een histogram
+    y as komt de score en op de x as het aantal pogingen
+    """
     
-def railway_map(best_random_railway):
+    n_bins = 400
+    # Generate a normal distributions
+    x = all_scores.keys()
+    y = all_scores.values()
+    
+    plt.title('Hill Climber algoritme')
+    plt.xlabel('iteraties')
+    plt.ylabel('score')
+
+    # We can set the number of bins with the *bins* keyword argument.
+    plt.plot(x, y, linestyle="-")    
+
+    plt.show()
+
+    
+def railway_map(best_railway, score, algoritme):
     """
     De visualisatie van de opties
 
@@ -65,7 +61,7 @@ def railway_map(best_random_railway):
     Rood, Oranje, Geel, Groen, Blauw, Roze, Paars. 
     Wanneer een station wordt gebruit wordt het vakje zwart. 
     """
-    stations_dict = best_random_railway._stations
+    stations_dict = best_railway._stations
     labels = []
     x_values = []
     y_values = []
@@ -85,7 +81,7 @@ def railway_map(best_random_railway):
  #        plt.annotate(label, (x_values[i], y_values[i]))
 
     # Collect trajectories from railway
-    trajectory_dict = best_random_railway._trains
+    trajectory_dict = best_railway._trains
 
     for i,traject in enumerate(trajectory_dict):
         station_list = trajectory_dict[traject].get_trajectory()
@@ -95,6 +91,8 @@ def railway_map(best_random_railway):
             xline.append(float(station._y))
             yline.append(float(station._x))
         plt.plot(xline, yline, color=colors[i], linestyle="-")
+    plt.title(f'{algoritme} met een score van: {score}')
+    
 
     
     plt.show()

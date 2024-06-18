@@ -1,9 +1,13 @@
 import copy
 import random
+from code import helpers
+
 from .randomise import Random 
 from .randomise import NotSoRandom 
 from code.algoritmen  import randomise as rd
 from code.classes.trajectory import Trajectory
+from code.classes.station import Station
+from code.classes.connection import Connection
 
 
 from code.classes import station, railway, connection, trajectory
@@ -18,6 +22,7 @@ class HillClimber():
         self.railway = copy.deepcopy(random_railway)
         self.score = self.railway.score()
         self.all_connections = self.railway.get_all_connections()
+        self.all_scores: dict[int:int] = {}
         
     def get_start_station(self):
         return random.choice(list(self.railway.get_all_stations()))
@@ -33,27 +38,40 @@ class HillClimber():
         
     def create_new_train(self, new_railway, traject, random_train):
         
-        start_station = self.get_start_station()
-        train = Trajectory(start_station, new_railway._max_time)
+        current_station = self.get_start_station()
+        train = Trajectory(current_station, new_railway._max_time)
         new_railway._trains[random_train] = train
         
-        while traject.is_running():
-            time = traject.time_left()
-            current_station = traject.current_station()
+        while train.is_running():
+            time = train.time_left()
+            current_station = train.current_station()
             connection = self.get_random_connection(current_station, time, new_railway)
             if connection == None:
                 break
             else:
-                traject.add_connection(connection)
+                train.add_connection(connection)
                 
         return new_railway
+        
+    def remove_old_connections(self, traject):
+        """
+        from visited connevtions remove the connections that are in de traject we want to change. 
+        """
+        traject.clear_visited_connections()
         
     def mutate_single_trajectory(self, new_railway):
         """
         Changes the connections of a random traject with a random valid traject.
         """
-        random_train = random.choice(list(new_railway._trains.keys()))   
-        traject = new_railway._trains[random_train]     
+        # get the key from the traject that is going to change
+        random_train = random.choice(list(new_railway._trains.keys()))
+        
+        # With the key we have acces to the traject object   
+        traject = new_railway._trains[random_train] 
+        
+        # to make a new traject we have to delete the old connections from visited conections  
+        self.remove_old_connections(traject)   
+        
         new_train = self.create_new_train(new_railway, traject, random_train)
         
         return new_train
@@ -99,5 +117,10 @@ class HillClimber():
 
             # Accept it if it is better
             self.check_solution(new_railway)
+            
+            self.all_scores[iteration]= self.score
+    
+            
+        return self.railway
             
 
