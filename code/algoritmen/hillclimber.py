@@ -81,6 +81,8 @@ class HillClimber():
             # andere optie: elke keer het kleinste traject eruit halen en vervangen
             # andere optie: kleinste trajct eruit halen, dan vergelijken of de score beter wordt en behouden of vervangen. Dan pas kiezen of er ook een nieuw traject wordt aangemaakt, misschien wel trajecten blijven verwijderen tot de score niet meer beter wordt. dan komen we misschien op een gemiddeld aantal trajecten dat optimaal is.
 
+        
+
     def mutate_railway(self, new_railway, number_of_changes=1):
         """
         Changes the value of a number of trajectories with a random valid traject.
