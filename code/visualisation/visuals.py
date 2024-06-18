@@ -24,7 +24,7 @@ import csv
 #     # We can set the number of bins with the *bins* keyword argument.
 #     axs.hist(dist1, bins=n_bins)
 #     axs.set_xlim(0, 10000)
-#     axs.set(xlabel='score (K)', ylabel='aantal keer',
+#     axs.set(xlabel='Score (K)', ylabel='Frequentie',
 #                title=f'Random algoritme 400 bins {count} keer')
 #
 #     plt.show()
@@ -41,8 +41,8 @@ def hillclimber_graph(all_scores, fast_plot=False):
     y = all_scores.values()
     
     plt.title('Hill Climber algoritme')
-    plt.xlabel('iteraties')
-    plt.ylabel('score')
+    plt.xlabel('Iteraties')
+    plt.ylabel('Score')
 
     # We can set the number of bins with the *bins* keyword argument.
     plt.plot(x, y, linestyle="-")    

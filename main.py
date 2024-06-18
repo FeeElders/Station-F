@@ -9,6 +9,9 @@ from code.visualisation import visuals
 from code.algoritmen  import randomise as rd
 from code.algoritmen  import hillclimber as hc
 
+from experimenten import hillclimber_experiment
+
+
 if __name__ == "__main__":
     print("WELCOME TO RailNL")
 
@@ -39,28 +42,28 @@ if __name__ == "__main__":
             # sla elke +-10 minuten de scores op in een bestand
             helpers.append_to_csv(name, csv_scores)
 
-    print("random railway in the making")
-    random = rd.Random(railway)
-    random_railway = random.run(20)
-    print(f"print random trajectories")
-    random_railway.formatted_output("random_railway.csv")
-   
-    
-    # ---------------------------NoVisitedConnections----------------------------
-    print("no visited connections railway in the making")
-    nvc_random = rd.NoVisitedConnections(railway)
-    random_railway2 = nvc_random.run(20)
-    random_railway2.formatted_output("no_visited_connections.csv")
-
-
-    # -------------------------------NotSoRandom-----------------------
-    print(f"not so random trajectories in the making\n")
-    ns_random = rd.NotSoRandom(railway)
-    random_railway3 = ns_random.run(4)
+    # print("random railway in the making")
+ #    random = rd.Random(railway)
+ #    random_railway = random.run(20)
+ #    print(f"print random trajectories")
+ #    random_railway.formatted_output("random_railway.csv")
+ #
+ #
+ #    # ---------------------------NoVisitedConnections----------------------------
+ #    print("no visited connections railway in the making")
+ #    nvc_random = rd.NoVisitedConnections(railway)
+ #    random_railway2 = nvc_random.run(20)
+ #    random_railway2.formatted_output("no_visited_connections.csv")
+ #
+ #
+ #    # -------------------------------NotSoRandom-----------------------
+ #    print(f"not so random trajectories in the making\n")
+ #    ns_random = rd.NotSoRandom(railway)
+ #    random_railway3 = ns_random.run(4)
     
     
     # --------------------------- Hill Climber ---------------------------------
-    iterations = 500
+    iterations = 30000
     helpers.create_csv(f"hillyscores{iterations}")
     start = time.time()
     print("Setting up Hill Climber...")
@@ -73,7 +76,18 @@ if __name__ == "__main__":
           f"{climber.railway.score()}")
           
     end = time.time()
-    time = end - start      
+    time = end - start    
+    
+    # hillclimber_experiment.hillclimb(test_graph, transmitters)
+    # hillclimber_experiment.hillclimb_continue(test_graph, transmitters, "output/hillclimber/hillclimber.csv")
+    # hillclimber_experiment.hillclimb_graph()
+
+    # hillclimber_experiment.hillclimber_averages(test_graph, transmitters)
+    # hillclimber_experiment.hillclimber_averages_graph()
+    # hillclimber_experiment.hillclimber_averages_filled_graph()
+
+    # hillclimber_experiment.hillclimber_xopt_comparison(test_graph, transmitters)
+    # hillclimber_experiment.hillclimber_xopt_comparison_graph()  
     
     # --------------------------- Visualisation --------------------
 

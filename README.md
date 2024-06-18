@@ -11,8 +11,6 @@ Min = het totaal aantal gereden minuten
   K = p*10000 - (T*100 + Min)
 
 ## StateSpace
-Dit is ook het punt in het verhaal waarin je kort toelicht wat de case lastig maakt 
-
 State Space NEDERLAND
 180 min max per traject en voor nu gaan we er van uit dat ieder traject deze vol maakt
 kortste verbinding is 5 minuten
@@ -32,7 +30,10 @@ Formule voor de hele dienstregeling waarbij repetitie kan en volgorde niet belan
 N = 9^36
 r = 20
 resultaten = 4.1 *10^-19 
+10 ^ 310
 Dit lijkt ons niet de juiste methode
 
 ## Keuzes
+#Hill Climber
+
 
