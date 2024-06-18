@@ -29,11 +29,12 @@ class HillClimber():
         
     def get_random_connection(self, station: 'Station', time: int, new_railway) -> 'Connection':
         connections = new_railway.get_available_connections(station, time)
+
         if connections is None:
             return None
 
         choice = random.choice(connections)
-        new_railway.add_visited_connection(choice)
+        
         return choice
         
     def create_new_train(self, new_railway, traject, random_train):
@@ -41,9 +42,10 @@ class HillClimber():
         current_station = self.get_start_station()
         train = Trajectory(current_station, new_railway._max_time)
         new_railway._trains[random_train] = train
-        
+
         while train.is_running():
             time = train.time_left()
+
             current_station = train.current_station()
             connection = self.get_random_connection(current_station, time, new_railway)
             if connection == None:
@@ -98,7 +100,7 @@ class HillClimber():
         old_score = self.score
 
         # We are looking for maps that score better!
-        if new_score > old_score:
+        if new_score >= old_score:
             self.railway = new_railway
             self.score = new_score
 

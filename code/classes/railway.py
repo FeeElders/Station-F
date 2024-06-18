@@ -11,8 +11,6 @@ class Railway():
         self._max_time: int = time
         self._trains: dict[int: 'Trajectory'] = {}
         self._train_counter = 0
-        self._visited_connections = set()        
-        self._visited_stations = set()
         self._stations: dict[str: 'Station'] = {}
         self._connections: list[Connection] = []
 
@@ -88,18 +86,18 @@ class Railway():
     
     def get_visited_stations(self) -> set['Station']:
         """ Get the stations that are visited. """
-        visited_connections = self.get_visited_connections()
+        visited_connections = self.get_all_visited_connections()
         visited_stations: list['Station'] = []
 
         for connection in visited_connections:
             station1 = connection.get_station1()
             station2 = connection.get_station2()
-            
+             
             visited_stations.append(station1)
             visited_stations.append(station2)
 
         return set(visited_stations)
-    
+         
     def get_all_connections(self) -> set['Connection']:
         """ Get all existing connections"""
         return set(self._connections)
@@ -107,12 +105,19 @@ class Railway():
     
     def get_all_visited_connections(self) -> set['Connection']:
         """ Get the connections that are visited within a railway"""
-        return self._visited_connections
+        visited_connections: list['Connection'] = []
+
+        for train in self._trains:
+            trajectory = self._trains[train]
+            traject_visited_connections = trajectory.get_visited_connections()
+            visited_connections.extend(traject_visited_connections)
+
+        return set(visited_connections)
 
     
-    def add_visited_connection(self, connection) -> None:
-        """ Add a connection to the visited connections. """
-        self._visited_connections.add(connection)
+    # def add_visited_connection(self, connection) -> None:
+    #     """ Add a connection to the visited connections. """
+    #     self._visited_connections.add(connection)
 
 
     def choose_connection(self, station1: str, station2: str) -> 'Connection':
@@ -127,10 +132,10 @@ class Railway():
     def get_available_connections(self, station: 'Station', time: int) -> list['Connection']:
         time_left = time
         list_connections = []
-        station = station._name
+        station = station
 
         for connection in self._connections:
-            if (connection._station1._name == station or connection._station2._name == station) and connection._distance <= time_left:                list_connections.append(connection)
+            if (connection._station1 == station or connection._station2 == station) and connection._distance <= time_left:                list_connections.append(connection)
                         
         # als er geen verbindingen meer mogelijk zijn          
         if not list_connections:
@@ -199,7 +204,7 @@ class Railway():
             min += self._trains[trajectory].time_usage()
 
         # set p to the connections that have been accessed 
-        p = len(self._visited_connections)/len(self._connections)
+        p = len(self.get_all_visited_connections())/len(self._connections)
 
         K = p*10000 - (T*100 + min)
 

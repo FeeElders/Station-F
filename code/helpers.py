@@ -23,3 +23,4 @@ def append_to_csv(name, csv_scores, time) -> None:
                 writer_new.writerow([score])
                 
         csv_scores.clear()
+ 

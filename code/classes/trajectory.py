@@ -66,6 +66,8 @@ class Trajectory():
     
     def clear_visited_connections(self) -> None:
         self._connections.clear()
+        self._time_usage = 0
+        self._trajectory = {}
 
         
     def end(self) -> list["station"]:
