@@ -58,13 +58,16 @@ class Trajectory():
         
         #add connections to self._connection
         self._connections.append(connection)
+
         
     def get_visited_connections(self) -> list['Connection']:
         return self._connections
-        
+
+    
     def clear_visited_connections(self) -> None:
         self._connections.clear()
 
+        
     def end(self) -> list["station"]:
         """ 
         if no more connections are possible or the time is up

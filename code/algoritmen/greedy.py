@@ -4,15 +4,15 @@ from randomise import Random, NotSoRandom
 
 class Greedy():
     def __init__(self, railway: 'Railway') -> None:
-        # TODO: copy railway
+        self.railway = copy.deepcopy(railway)
 
 
-    def get_shortest_connection(self) -> 'Railway':
+    def get_shortest_connection(self) -> 'Connection':
         # TODO: implement
         pass
 
     
-    def get_longest_connection(self) -> 'Railway':
+    def get_longest_connection(self) -> 'Connection':
         # TODO: implement
         pass
 

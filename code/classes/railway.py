@@ -88,16 +88,24 @@ class Railway():
     
     def get_visited_stations(self) -> set['Station']:
         """ Get the stations that are visited. """
-        # TODO: implement
-#        return self._visited_stations
+        visited_connections = self.get_visited_connections()
+        visited_stations: list['Station'] = []
 
+        for connection in visited_connections:
+            station1 = connection.get_station1()
+            station2 = connection.get_station2()
+            
+            visited_stations.append(station1)
+            visited_stations.append(station2)
+
+        return set(visited_stations)
     
     def get_all_connections(self) -> set['Connection']:
         """ Get all existing connections"""
         return set(self._connections)
 
     
-    def get_visited_connections(self) -> set['Connection']:
+    def get_all_visited_connections(self) -> set['Connection']:
         """ Get the connections that are visited within a railway"""
         return self._visited_connections
 
@@ -122,8 +130,7 @@ class Railway():
         station = station._name
 
         for connection in self._connections:
-            if (connection._station1._name == station or connection._station2._name == station) and connection._distance <= time_left and connection not in self._visited_stations:
-                list_connections.append(connection)
+            if (connection._station1._name == station or connection._station2._name == station) and connection._distance <= time_left:                list_connections.append(connection)
                         
         # als er geen verbindingen meer mogelijk zijn          
         if not list_connections:
@@ -196,8 +203,8 @@ class Railway():
 
         K = p*10000 - (T*100 + min)
 
-#        print(f"trains: {T}")
- #       print(f"min: {min}")
-  #      print(f"percentage {p}")
+        print(f"trains: {T}")
+        print(f"min: {min}")
+        print(f"percentage {p}")
 
         return K

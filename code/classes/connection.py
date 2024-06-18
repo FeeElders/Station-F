@@ -9,3 +9,9 @@ class Connection():
 
     def __repr__(self) -> str:
         return f"{self._station1._name} - {self._station2._name}, {self._distance}"
+
+    def get_station1(self) -> 'Station':
+        return self._station1
+
+    def get_station2(self) -> 'Station':
+        return self._station2
