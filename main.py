@@ -41,29 +41,30 @@ if __name__ == "__main__":
  
 
     # --------------------------- Hill Climber ---------------------------------
-    count = 2
-    helpers.create_csv(f"hillyscores{count}")
+    iterations = 500
+    helpers.create_csv(f"hillyscores{iterations}")
     start = time.time()
     print("Setting up Hill Climber...")
     climber = hc.HillClimber(random_railway)
 
     print("Running Hill Climber...")
-    climbing_railway = climber.run(5000, active=True)
+    climbing_railway = climber.run(iterations, active=True)
 
     print(f"Value of the configuration after Hill Climber: "
           f"{climber.railway.score()}")
+          
     end = time.time()
     time = end - start      
-    # csv_scores = climber.all_scores.values
-#     climber.railway.formatted_output(f"hilly{count}.csv")
-#     helpers.append_to_csv(f"hillyscores{count}", csv_scores, time)
-          
-
+    
     # --------------------------- Visualisation --------------------
     # visuals.line_graph(scoreplot, count)
     visuals.hillclimber_graph(climber.all_scores)
     visuals.railway_map(climbing_railway, climber.railway.score(), "Hill Climber")
     # visuals.climbing_map(climbing_railway)
+    
+    csv_scores = climber.all_scores.values()
+    climber.railway.formatted_output(f"hilly{iterations}.csv")
+    helpers.append_to_csv(f"hillyscores{iterations}", csv_scores, time)
 
 
 
