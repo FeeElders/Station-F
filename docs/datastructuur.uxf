@@ -5,7 +5,7 @@
     <id>UMLClass</id>
     <coordinates>
       <x>530</x>
-      <y>250</y>
+      <y>310</y>
       <w>240</w>
       <h>80</h>
     </coordinates>
@@ -20,7 +20,7 @@ distance: int</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>530</x>
-      <y>400</y>
+      <y>460</y>
       <w>240</w>
       <h>80</h>
     </coordinates>
@@ -37,7 +37,7 @@ y: int</panel_attributes>
       <x>530</x>
       <y>30</y>
       <w>240</w>
-      <h>160</h>
+      <h>230</h>
     </coordinates>
     <panel_attributes>Trajectory
 --
@@ -47,6 +47,10 @@ current_station: Station
 trajectory: list[Station]
 --
 time_left(): int
+time_usage(): int
+print_trajectory(): None
+get_trajectory(): list[Station]
+current_station(): Station
 add_connection(Connection): None
 end(): list[list[Station], int]
 is_running(): bool</panel_attributes>
@@ -68,7 +72,7 @@ m1=0..n</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>640</x>
-      <y>320</y>
+      <y>380</y>
       <w>30</w>
       <h>100</h>
     </coordinates>
@@ -79,18 +83,18 @@ m1=0..n</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>640</x>
-      <y>180</y>
+      <y>250</y>
       <w>30</w>
-      <h>90</h>
+      <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>380</x>
-      <y>290</y>
+      <y>350</y>
       <w>170</w>
       <h>30</h>
     </coordinates>
@@ -116,8 +120,8 @@ visited_connections: set(Connection)
 stations: dict[str: Station]
 connections: list[Connection]
 --
-load_stations(csv): None
-load_connections(csv): None
+load_stations(str): None
+load_connections(str): None
 trains(): int
 print_stations(): None
 print_connections(): None
@@ -131,7 +135,7 @@ add_visited_connection(Connection): None
 choose_connection(str, str): Connection
 get_available_connections(Station, int): list[Connection]
 new_trajectory(Station): None
-formatted_output(): none
+formatted_output(str): none
 is_valid(): None
 score(): int</panel_attributes>
     <additional_attributes/>
