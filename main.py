@@ -42,24 +42,24 @@ if __name__ == "__main__":
             # sla elke +-10 minuten de scores op in een bestand
             helpers.append_to_csv(name, csv_scores)
 
-    # print("random railway in the making")
- #    random = rd.Random(railway)
- #    random_railway = random.run(20)
- #    print(f"print random trajectories")
- #    random_railway.formatted_output("random_railway.csv")
- #
- #
- #    # ---------------------------NoVisitedConnections----------------------------
- #    print("no visited connections railway in the making")
- #    nvc_random = rd.NoVisitedConnections(railway)
- #    random_railway2 = nvc_random.run(20)
- #    random_railway2.formatted_output("no_visited_connections.csv")
- #
- #
- #    # -------------------------------NotSoRandom-----------------------
- #    print(f"not so random trajectories in the making\n")
- #    ns_random = rd.NotSoRandom(railway)
- #    random_railway3 = ns_random.run(4)
+
+    print("random railway in the making")
+    random = rd.Random(railway)
+    random_railway = random.run(20)
+  #    random_railway.formatted_output("random_railway.csv")
+   
+    
+    # # ---------------------------NoVisitedConnections----------------------------
+    print("no visited connections railway in the making")
+    nvc_random = rd.NoVisitedConnections(railway)
+    random_railway2 = nvc_random.run(20)
+    # random_railway2.formatted_output("no_visited_connections.csv")
+
+
+    # # -------------------------------NotSoRandom-----------------------
+    print(f"not so random trajectories in the making\n")
+    ns_random = rd.NotSoRandom(railway)
+    random_railway3 = ns_random.run(20)
     
     
     # --------------------------- Hill Climber ---------------------------------
@@ -70,6 +70,7 @@ if __name__ == "__main__":
     climber = hc.HillClimber(random_railway)
 
     print("Running Hill Climber...")
+<<<<<<< HEAD
     climbing_railway = climber.run(iterations, active=True)
 
     print(f"Value of the configuration after Hill Climber: "
@@ -91,8 +92,9 @@ if __name__ == "__main__":
     
     # --------------------------- Visualisation --------------------
 
-    # visuals.line_graph(scoreplot, count)
+ #   visuals.line_graph(scoreplot, count)
     visuals.hillclimber_graph(climber.all_scores)
+<<<<<<< HEAD
     visuals.railway_map(climbing_railway, climber.railway.score(), "Hill Climber")
     # visuals.climbing_map(climbing_railway)
     
