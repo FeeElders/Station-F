@@ -48,17 +48,12 @@ if __name__ == "__main__":
    
       
     # --------------------------- Hill Climber ---------------------------------
+
     hillclimber_experiment.hillclimb(railway)
-    
-    
+
 #     # --------------------------- Visualisation --------------------
 #
 #     visuals.line_graph(scoreplot, count)
 #     visuals.hillclimber_graph(climber.all_scores)
 #     visuals.railway_map(climbing_railway, climber.railway.score(), "Hill Climber")
 #     visuals.climbing_map(climbing_railway)
-
-
-
-
-
