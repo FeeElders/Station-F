@@ -10,6 +10,8 @@ from code.algoritmen  import randomise as rd
 from code.algoritmen  import hillclimber as hc
 
 from experimenten import random_experiment
+from experimenten import hillclimber_experiment
+
 
 
 if __name__ == "__main__":
@@ -42,45 +44,20 @@ if __name__ == "__main__":
     random_experiment.max_traject(railway, max_trajectories)
     random_experiment.no_visited_connections(railway, max_trajectories)
     random_experiment.not_so_random(railway, max_trajectories)
+    # random_experiment.graph()
    
       
-    # # --------------------------- Hill Climber ---------------------------------
-#     iterations = 300
-#     helpers.create_csv(f"hillyscores{iterations}")
-#     # start = time.time()
-#     print("Setting up Hill Climber...")
-#     climber = hc.HillClimber(random_railway)
-#
-#     print("Running Hill Climber...")
-#     climbing_railway = climber.run(iterations, active=True)
-#
-#     print(f"Value of the configuration after Hill Climber: "
-#           f"{climber.railway.score()}")
-#
-#     # end = time.time()
-# #     time = end - start
-#
-#     # hillclimber_experiment.hillclimb(test_graph, transmitters)
-#     # hillclimber_experiment.hillclimb_continue(test_graph, transmitters, "output/hillclimber/hillclimber.csv")
-#     # hillclimber_experiment.hillclimb_graph()
-#
-#     # hillclimber_experiment.hillclimber_averages(test_graph, transmitters)
-#     # hillclimber_experiment.hillclimber_averages_graph()
-#     # hillclimber_experiment.hillclimber_averages_filled_graph()
-#
-#     # hillclimber_experiment.hillclimber_xopt_comparison(test_graph, transmitters)
-#     # hillclimber_experiment.hillclimber_xopt_comparison_graph()
-#
+    # --------------------------- Hill Climber ---------------------------------
+    hillclimber_experiment.hillclimb(railway)
+    
+    
 #     # --------------------------- Visualisation --------------------
 #
-#  #   visuals.line_graph(scoreplot, count)
+#     visuals.line_graph(scoreplot, count)
 #     visuals.hillclimber_graph(climber.all_scores)
 #     visuals.railway_map(climbing_railway, climber.railway.score(), "Hill Climber")
-#     # visuals.climbing_map(climbing_railway)
-#
-#     csv_scores_climber = list(climber.all_scores.values())
-#     climber.railway.formatted_output(f"hilly{iterations}.csv")
-#     helpers.append_to_csv(f"hillyscores{iterations}", csv_scores_climber, time)
+#     visuals.climbing_map(climbing_railway)
+
 
 
 

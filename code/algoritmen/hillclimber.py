@@ -1,5 +1,6 @@
 import copy
 import random
+import csv
 from code import helpers
 
 from .randomise import Random 
@@ -92,7 +93,7 @@ class HillClimber():
         for _ in range(number_of_changes):
             self.mutate_single_trajectory(new_railway)
 
-    def check_solution(self, new_railway):
+    def check_solution(self, new_railway) -> bool:
         """
         Checks and accepts better solutions than the current solution.
         """
@@ -103,16 +104,22 @@ class HillClimber():
         if new_score >= old_score:
             self.railway = new_railway
             self.score = new_score
+            
+            return True
+            
+        return False
 
-    def run(self, iterations, active=False) -> 'Railway':
+    def run(self, run_count, active=False) -> 'Railway': #TODO: iterations toevoegen
         """
         Runs the hillclimber algorithm for a specific amount of iterations.
         """
-        self.iterations = iterations
-
-        for iteration in range(iterations):
+        error_margin = 2
+        no_change = 0
+        iteration = 0
+        while no_change <= error_margin:
+        #for iteration in range(iterations):
             # Nice trick to only print if variable is set to True
-            print(f'Iteration {iteration}/{iterations}, current value: {self.score}') if active else None
+            print(f'Iteration {iteration} and {no_change}, current value: {self.score}') if active else None
 
             # Create a copy of the railway to simulate the change
             new_railway = copy.deepcopy(self.railway)
@@ -122,7 +129,22 @@ class HillClimber():
             # Accept it if it is better
             self.check_solution(new_railway)
             
+            if self.check_solution(new_railway) == False:
+                no_change += 1
+            else:
+                no_change = 0
+            
             self.all_scores[iteration]= self.score
+            
+            # add score and iterations to csv every 20 iterations
+            if iteration%20 == 0 or no_change == error_margin:
+                with open(f'output/hillclimber/run_{run_count}.csv', 'a', newline='') as file:
+                    writer_new = csv.writer(file)
+                    for iteration in self.all_scores:
+                        writer_new.writerow([iteration, self.all_scores[iteration]])
+                self.all_scores={}
+            
+            iteration += 1
     
             
         return self.railway

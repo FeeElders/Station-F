@@ -150,7 +150,7 @@ class Railway():
         self._trains[self._train_counter] = train
 
 
-    def formatted_output(self, filename: str) -> None:
+    def formatted_output(self, filename: str, time: int) -> None:
         """ 
         Save the connections
         When the track is complete give back all the connections
@@ -159,9 +159,9 @@ class Railway():
 
         stations_string = ""
         
-        with open(filename, 'w', newline='') as file:
+        with open(f'output/{filename}', 'w', newline='') as file:
             writer = csv.writer(file)
-            writer.writerow(['train', 'stations'])
+            writer.writerow(['train', 'stations', 'time'])
 
             
             for train in self._trains:
@@ -180,7 +180,7 @@ class Railway():
                     counter += 1
 
                 writer.writerow([formatted_id, stations_string])
-            writer.writerow(['score', self.score()])
+            writer.writerow(['score', self.score(), time])
 
 
     def is_valid(self) -> bool:
@@ -208,8 +208,8 @@ class Railway():
 
         K = p*10000 - (T*100 + min)
 
-        print(f"trains: {T}")
-        print(f"min: {min}")
-        print(f"percentage {p}")
+        # print(f"trains: {T}")
+#         print(f"min: {min}")
+#         print(f"percentage {p}")
 
         return K
