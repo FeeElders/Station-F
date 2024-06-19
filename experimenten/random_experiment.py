@@ -29,11 +29,11 @@ def baseline(railway):
       random = rd.Random(railway)
       random_railway = random.run()
       end = time.time()
-      time = end - start
+      running_time = end - start
 
       if helpers.best_score(random_railway, best_random_railway):
           best_random_railway = copy.copy(random_railway)
-          best_random_railway.formatted_output(f"best_{name}_railway.csv", time)
+          best_random_railway.formatted_output(f"best_{name}_railway.csv", running_time)
       scoreplot[count]= random_railway.score()
       
       if count%interval == 0:
@@ -67,12 +67,12 @@ def max_traject(railway, max_trajectories):
         random = rd.Random(railway)
         random_railway = random.run(max_trajectories)
         end = time.time()
-        time = end - start
+        running_time = end - start
         
 
         if helpers.best_score(random_railway, best_random_railway):
             best_random_railway = copy.copy(random_railway)
-            best_random_railway.formatted_output(f"best_{name}_railway.csv", time)
+            best_random_railway.formatted_output(f"best_{name}_railway.csv", running_time)
         scoreplot[count]= random_railway.score()
         
         if count%interval == 0:
@@ -109,11 +109,11 @@ def no_visited_connections(railway, max_trajectories):
         nvc_random = rd.NoVisitedConnections(railway)
         random_railway = nvc_random.run(max_trajectories)
         end = time.time()
-        time = end - start
+        running_time = end - start
         
         if helpers.best_score(random_railway, best_random_railway):
             best_random_railway = copy.copy(random_railway)
-            best_random_railway.formatted_output(f"best_{name}_railway.csv", time)
+            best_random_railway.formatted_output(f"best_{name}_railway.csv", running_time)
         scoreplot[count]= random_railway.score()
         
         if count%interval == 0:
@@ -152,11 +152,11 @@ def not_so_random(railway, max_trajectories):
         ns_random = rd.NotSoRandom(railway)
         random_railway = ns_random.run(max_trajectories)
         end = time.time()
-        time = end - start
+        running_time = end - start
 
         if helpers.best_score(random_railway, best_random_railway):
             best_random_railway = copy.copy(random_railway)
-            best_random_railway.formatted_output(f"best_{name}_railway.csv", time)
+            best_random_railway.formatted_output(f"best_{name}_railway.csv", running_time)
         scoreplot[count]= random_railway.score()
         
         if count%interval == 0:

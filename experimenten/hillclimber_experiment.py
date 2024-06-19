@@ -39,8 +39,8 @@ def hillclimb(railway):
         print(f"Value of the configuration after Hill Climber: "
               f"{climber.railway.score()}")
         end = time.time()
-        time = end - start      
-        climber.railway.formatted_output(f"hillclimber/formatted_output_climber_{run_count}.csv", time)
+        running_time = end - start      
+        climber.railway.formatted_output(f"hillclimber/formatted_output_climber_{run_count}.csv", running_time)
                 
         # Add end score to csv        
         with open(f'output/hillclimber/hillclimber_{datum}.csv', 'a', newline='') as file:
