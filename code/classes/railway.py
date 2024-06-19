@@ -161,7 +161,7 @@ class Railway():
         
         with open(f'output/{filename}', 'w', newline='') as file:
             writer = csv.writer(file)
-            writer.writerow(['train', 'stations', 'time'])
+            writer.writerow(['train', 'stations'])
 
             
             for train in self._trains:
@@ -180,8 +180,8 @@ class Railway():
                     counter += 1
 
                 writer.writerow([formatted_id, stations_string])
-            writer.writerow(['score', self.score(), time])
-
+            writer.writerow(['score', self.score()]) 
+            writer.writerow(['time', time])
 
     def is_valid(self) -> bool:
         """ Check if the railway is valid."""
