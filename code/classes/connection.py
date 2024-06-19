@@ -15,3 +15,6 @@ class Connection():
 
     def get_station2(self) -> 'Station':
         return self._station2
+
+    def get_distance(self) -> int:
+        return self._distance

@@ -8,10 +8,10 @@ from code.classes import station, railway, connection, trajectory
 from code.visualisation import visuals 
 from code.algoritmen  import randomise as rd
 from code.algoritmen  import hillclimber as hc
+from code.algoritmen import greedy as gr
 
 from experimenten import random_experiment
 from experimenten import hillclimber_experiment
-
 
 
 if __name__ == "__main__":
@@ -46,12 +46,22 @@ if __name__ == "__main__":
     random_experiment.not_so_random(railway, max_trajectories)
     # random_experiment.graph()
    
-      
-    # --------------------------- Hill Climber ---------------------------------
 
+
+    # ------------------------------------Greedy------------------------------
+    greedy = gr.Greedy(railway)
+    greedy_railway = greedy.run(20)
+    print(f"greedy score: {greedy_railway.score()}")
+
+    greedy_long = gr.GetLongestConnection(railway)
+    gr_long = greedy_long.run(20)
+    print(f"greedy score: {gr_long.score()}")
+    
+
+    # ------------------------------HillClimber-------------------------------
     hillclimber_experiment.hillclimb(railway)
 
-#     # --------------------------- Visualisation --------------------
+    #     # --------------------------- Visualisation --------------------
 #
 #     visuals.line_graph(scoreplot, count)
 #     visuals.hillclimber_graph(climber.all_scores)

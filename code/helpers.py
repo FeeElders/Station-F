@@ -14,11 +14,11 @@ def create_csv(name) -> None:
         writer.writerow(['score'])
 
 
-def append_to_csv(name, csv_scores, time) -> None:   
+def append_to_csv(name, csv_scores) -> None:   
     
         with open(f'output/{name}.csv', 'a', newline='') as file:
             writer_new = csv.writer(file)
-            writer_new.writerow(["time", time])
+#            writer_new.writerow(["time", time])
             for score in csv_scores:
                 writer_new.writerow([score])
                 
