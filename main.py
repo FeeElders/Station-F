@@ -9,98 +9,78 @@ from code.visualisation import visuals
 from code.algoritmen  import randomise as rd
 from code.algoritmen  import hillclimber as hc
 
-#from experimenten import hillclimber_experiment
+from experimenten import random_experiment
 
 
 if __name__ == "__main__":
     print("WELCOME TO RailNL")
+    
+    data = "nl"
+    
+    if data == "nl":
+        time = 180
+        max_trajectories = 20
+        stations_csv = "StationsNationaal"
+        connections_csv = "ConnectiesNationaal"
+        
+    elif data == "nh":
+        time = 120
+        trajectories = 7
+        stations_csv = "StationsHolland"
+        connections_csv = "ConnectiesHolland"
 
-    railway = railway.Railway(20, 180)
-    railway.load_stations("data/StationsNationaal.csv")
-    railway.load_connections("data/ConnectiesNationaal.csv")
+    railway = railway.Railway(max_trajectories, time)
+    railway.load_stations(f"data/{stations_csv}.csv")
+    railway.load_connections(f"data/{connections_csv}.csv")
+    
+ 
+
 
     # --------------------Random----------------------------------
-    count = 0
-    scoreplot:dict[int:int] = {}
-    csv_scores:list[int]= []
-    best_random_railway: 'Railway' = None
-    name = "scores"
-    interval = 20
-    helpers.create_csv(name)
-
-    while count < 1:
-        random = rd.Random(railway)
-        random_railway = random.run(20)
-
-        if helpers.best_score(random_railway, best_random_railway):
-            best_random_railway = copy.copy(random_railway)
-            best_random_railway.formatted_output("best_random_railway.csv")
-        scoreplot[count]= random_railway.score()
-        csv_scores.append(random_railway.score())
-        count += 1  
-        if count%interval == 0:
-            # sla elke +-10 minuten de scores op in een bestand
-            helpers.append_to_csv(name, csv_scores)
-
-
-    print("random railway in the making")
-    random = rd.Random(railway)
-    random_railway = random.run(20)
-  #    random_railway.formatted_output("random_railway.csv")
+    
+    random_experiment.baseline(railway)
+    random_experiment.max_traject(railway, max_trajectories)
+    random_experiment.no_visited_connections(railway, max_trajectories)
+    random_experiment.not_so_random(railway, max_trajectories)
    
-    
-    # # ---------------------------NoVisitedConnections----------------------------
-    print("no visited connections railway in the making")
-    nvc_random = rd.NoVisitedConnections(railway)
-    random_railway2 = nvc_random.run(20)
-    # random_railway2.formatted_output("no_visited_connections.csv")
-
-
-    # # -------------------------------NotSoRandom-----------------------
-    print(f"not so random trajectories in the making\n")
-    ns_random = rd.NotSoRandom(railway)
-    random_railway3 = ns_random.run(20)
-    
-    
-    # --------------------------- Hill Climber ---------------------------------
-    iterations = 300
-    helpers.create_csv(f"hillyscores{iterations}")
-    start = time.time()
-    print("Setting up Hill Climber...")
-    climber = hc.HillClimber(random_railway)
-
-    print("Running Hill Climber...")
-<<<<<<< HEAD
-    climbing_railway = climber.run(iterations, active=True)
-
-    print(f"Value of the configuration after Hill Climber: "
-          f"{climber.railway.score()}")
-          
-    end = time.time()
-    time = end - start    
-    
-    # hillclimber_experiment.hillclimb(test_graph, transmitters)
-    # hillclimber_experiment.hillclimb_continue(test_graph, transmitters, "output/hillclimber/hillclimber.csv")
-    # hillclimber_experiment.hillclimb_graph()
-
-    # hillclimber_experiment.hillclimber_averages(test_graph, transmitters)
-    # hillclimber_experiment.hillclimber_averages_graph()
-    # hillclimber_experiment.hillclimber_averages_filled_graph()
-
-    # hillclimber_experiment.hillclimber_xopt_comparison(test_graph, transmitters)
-    # hillclimber_experiment.hillclimber_xopt_comparison_graph()  
-    
-    # --------------------------- Visualisation --------------------
-
- #   visuals.line_graph(scoreplot, count)
-    visuals.hillclimber_graph(climber.all_scores)
-<<<<<<< HEAD
-    visuals.railway_map(climbing_railway, climber.railway.score(), "Hill Climber")
-    # visuals.climbing_map(climbing_railway)
-    
-    csv_scores_climber = list(climber.all_scores.values())
-    climber.railway.formatted_output(f"hilly{iterations}.csv")
-    helpers.append_to_csv(f"hillyscores{iterations}", csv_scores_climber, time)
+      
+    # # --------------------------- Hill Climber ---------------------------------
+#     iterations = 300
+#     helpers.create_csv(f"hillyscores{iterations}")
+#     # start = time.time()
+#     print("Setting up Hill Climber...")
+#     climber = hc.HillClimber(random_railway)
+#
+#     print("Running Hill Climber...")
+#     climbing_railway = climber.run(iterations, active=True)
+#
+#     print(f"Value of the configuration after Hill Climber: "
+#           f"{climber.railway.score()}")
+#
+#     # end = time.time()
+# #     time = end - start
+#
+#     # hillclimber_experiment.hillclimb(test_graph, transmitters)
+#     # hillclimber_experiment.hillclimb_continue(test_graph, transmitters, "output/hillclimber/hillclimber.csv")
+#     # hillclimber_experiment.hillclimb_graph()
+#
+#     # hillclimber_experiment.hillclimber_averages(test_graph, transmitters)
+#     # hillclimber_experiment.hillclimber_averages_graph()
+#     # hillclimber_experiment.hillclimber_averages_filled_graph()
+#
+#     # hillclimber_experiment.hillclimber_xopt_comparison(test_graph, transmitters)
+#     # hillclimber_experiment.hillclimber_xopt_comparison_graph()
+#
+#     # --------------------------- Visualisation --------------------
+#
+#  #   visuals.line_graph(scoreplot, count)
+#     visuals.hillclimber_graph(climber.all_scores)
+#     visuals.railway_map(climbing_railway, climber.railway.score(), "Hill Climber")
+#     # visuals.climbing_map(climbing_railway)
+#
+#     csv_scores_climber = list(climber.all_scores.values())
+#     climber.railway.formatted_output(f"hilly{iterations}.csv")
+#     helpers.append_to_csv(f"hillyscores{iterations}", csv_scores_climber, time)
 
 
 

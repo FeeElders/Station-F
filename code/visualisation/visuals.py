@@ -8,7 +8,7 @@ import csv
 
 
 
-def line_graph(scores, count, fast_plot=False):
+def line_graph(scores, count, name, fast_plot=False):
     """
     Plotten van de scores per algoritme in een hisogram
     y as komt het aantal pogingen en op de x as de score
@@ -25,7 +25,7 @@ def line_graph(scores, count, fast_plot=False):
     axs.hist(dist1, bins=n_bins)
     axs.set_xlim(0, 10000)
     axs.set(xlabel='Score (K)', ylabel='Frequentie',
-               title=f'Random algoritme 400 bins {count} keer')
+               title=f'{name} 400 bins {count} keer')
 
     plt.show()
 
