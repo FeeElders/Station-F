@@ -56,18 +56,19 @@ if __name__ == "__main__":
 
 
     # ------------------------------------Greedy------------------------------
-    # greedy = gr.Greedy(railway)
- #    greedy_railway = greedy.run(20)
- #    print(f"greedy score: {greedy_railway.score()}")
- #
- #    greedy_long = gr.GetLongestConnection(railway)
- #    gr_long = greedy_long.run(20)
- #    print(f"greedy score: {gr_long.score()}")
- #
- #
- #    rd_greedy = gr.RandomGreedy(railway)
- #    randgr_railway = rd_greedy.run(20)
- #    print(f"greedy score: {randgr_railway.score()}")
+
+    greedy = gr.Greedy(railway)
+    greedy_railway = greedy.run(20)
+    print(f"greedy score: {greedy_railway.score()}")
+
+    smart_greedy = gr.SmartStartStation(railway)
+    smart_railway = smart_greedy.run(20)
+    print(f"greedy score: {smart_railway.score()}")
+
+    visuals.railway_map(smart_railway, smart_railway.score(), "Smart Start Station")
+    # greedy_long = gr.GetLongestConnection(railway)
+    # gr_long = greedy_long.run(20)
+    # print(f"greedy score: {gr_long.score()}")
 
 
     # ------------------------------HillClimber-------------------------------
@@ -95,5 +96,5 @@ if __name__ == "__main__":
 #
 #     visuals.line_graph(scoreplot, count)
 #     visuals.hillclimber_graph(climber.all_scores)
-#     visuals.railway_map(climbing_railway, climber.railway.score(), "Hill Climber")
+#     visuals.railway_map(smart_railway, smart_railway.score(), "Smart Start Station")
 #     visuals.climbing_map(climbing_railway)

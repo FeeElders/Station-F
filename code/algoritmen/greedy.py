@@ -131,10 +131,47 @@ class GetLongestConnection(Greedy):
 class SmartStartStation(Greedy):
     """ Use heuristics to get smart start station """
     def get_start_station(self) -> 'Station':
+        # # Get all stations
+        # all_stations = self.railway.get_all_stations()
+    
+        # # get visited_stations
+        # visited_stations = self.railway.get_visited_stations()
 
-        # get available 
-        pass
+        stations_dict = self.railway.get_unvisited_station_connections()
+        minimal_station: dict[int: list['Station']] = {}
+        
+        for station in stations_dict:
+            connections = stations_dict[station]
+            amount_connections = len(connections)
+            if amount_connections in minimal_station.keys():
+                minimal_station[amount_connections].append(station)
+            else:
+                minimal_station[amount_connections] = [station]
 
+
+        list_keys = list(minimal_station.keys())
+        list_keys.sort()
+        key = list_keys[0]
+        if key == 0:
+            try:
+                key = list_keys[1]
+            except IndexError:
+                return None
+        
+        
+        possible_stations = minimal_station[key]
+        if len(possible_stations) == 0:
+            choice = None
+
+        elif len(possible_stations) == 1:
+            choice = possible_stations[0]
+
+        else:
+            choice = random.choice(possible_stations)
+
+        print(minimal_station)
+        print(choice)
+        return choice
 
 class RandomGreedy(Greedy):
     def random_or_greedy(self, unsorted_connections: list['Connection'], sorted_connections: list['Connection']) -> 'Connection':
