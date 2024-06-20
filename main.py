@@ -34,10 +34,9 @@ if __name__ == "__main__":
     railway = railway.Railway(max_trajectories, time)
     railway.load_stations(f"data/{stations_csv}.csv")
     railway.load_connections(f"data/{connections_csv}.csv")
+
     
  
-
-
     # --------------------Random----------------------------------
     
     # name = random_experiment.baseline(railway)
@@ -58,21 +57,21 @@ if __name__ == "__main__":
     greedy_railway = greedy.run(20)
     print(f"greedy score: {greedy_railway.score()}")
 
-    greedy_long = gr.GetLongestConnection(railway)
-    gr_long = greedy_long.run(20)
-    print(f"greedy score: {gr_long.score()}")
+    # greedy_long = gr.GetLongestConnection(railway)
+    # gr_long = greedy_long.run(20)
+    # print(f"greedy score: {gr_long.score()}")
 
 
-    rd_greedy = gr.RandomGreedy(railway)
-    randgr_railway = rd_greedy.run(20)
-    print(f"greedy score: {randgr_railway.score()}")
+    # rd_greedy = gr.RandomGreedy(railway)
+    # randgr_railway = rd_greedy.run(20)
+    # print(f"greedy score: {randgr_railway.score()}")
 
 
-    # ------------------------------HillClimber-------------------------------
+    # # ------------------------------HillClimber-------------------------------
 
-    #datum = hillclimber_experiment.hillclimb(railway)
-    count = hillclimber_experiment.hist_graph("19-06-2024")
-    hillclimber_experiment.line_graph(count)
+    # #datum = hillclimber_experiment.hillclimb(railway)
+    # count = hillclimber_experiment.hist_graph("19-06-2024")
+    # hillclimber_experiment.line_graph(count)
     
     #     # --------------------------- Visualisation --------------------
 #

@@ -10,7 +10,6 @@ class Railway():
         self._max_trains: int = trains
         self._max_time: int = time
         self._trains: dict[int: 'Trajectory'] = {}
-        self._train_counter = 0
         self._stations: dict[str: 'Station'] = {}
         self._connections: list[Connection] = []
 
@@ -46,10 +45,10 @@ class Railway():
 
                 # add connection to the list of all connections
                 self._connections.append(connection)
-                
+
 
     def trains(self) -> int:
-        return self._train_counter
+        return len(list(self._trains.keys()))
                 
                 
     def print_stations(self) -> None:
@@ -114,11 +113,30 @@ class Railway():
 
         return set(visited_connections)
 
-    
-    # def add_visited_connection(self, connection) -> None:
-    #     """ Add a connection to the visited connections. """
-    #     self._visited_connections.add(connection)
 
+    def get_unvisited_station_connections(self) -> dict['Station': list['Connection']]:
+        """ Get unvisited connections per station """
+        
+        all_stations = self.get_all_stations()
+        
+        stations_connections: dict['Station': list['Connection']] = {}
+        for station in all_stations:
+            stations_connections[station] = []
+                                
+        all_connections = set(self.get_all_connections())
+        visited_connections = set(self.get_all_visited_connections())
+
+        unvisited_connections = all_connections - visited_connections
+
+        for connection in unvisited_connections:
+            stations_connections[connection.get_station1()].append(connection)
+            stations_connections[connection.get_station2()].append(connection)
+
+        for key in stations_connections:
+            set(stations_connections[key])
+
+        return stations_connections
+        
 
     def choose_connection(self, station1: str, station2: str) -> 'Connection':
         """ Get connection object from two station strings. """
@@ -144,10 +162,20 @@ class Railway():
         return list_connections
 
 
-    def new_trajectory(self, current_station: 'Station') -> None:
-        self._train_counter += 1
+    def new_trajectory(self, current_station: 'Station') -> int:
+        train_id = self.trains() + 1
         train = Trajectory(current_station, self._max_time)
-        self._trains[self._train_counter] = train
+        self._trains[train_id] = train
+
+        return train_id
+
+
+    def delete_trajectory(self, trajectory_number: int) -> None:
+
+        trajectory = self._trains[trajectory_number]
+        trajectory.clear_visited_connections()
+
+        self._trains.pop(trajectory_number)
 
 
     def formatted_output(self, filename: str, time: int) -> None:
@@ -187,14 +215,14 @@ class Railway():
         """ Check if the railway is valid."""
 
         # Check that railway has no more than maximum trains
-        return 0 < self._train_counter < self._max_trains
+        return 0 < self.trains() < self._max_trains
  
  
     def score(self) -> int:
         """Define score of all trajectories. """
 
         # set T to the amount of trains
-        T = self._train_counter
+        T = self.trains()
 
         # Set start counter for minutes used
         min = 0
