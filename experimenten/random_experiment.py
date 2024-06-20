@@ -25,7 +25,7 @@ def baseline(railway):
         writer.writerow(['iterations','score'])
     
     start = time.time()
-    while count < 100000:
+    while count < 100:
       random = rd.Random(railway)
       random_railway = random.run()
       end = time.time()
@@ -42,7 +42,7 @@ def baseline(railway):
                 writer_new = csv.writer(file)
                 for score in scoreplot:
                     writer_new.writerow([score, scoreplot[score]])
-            scoreplot.clear()
+            scoreplot= {}
       count += 1  
     with open(f'output/random/{name}.csv', 'a', newline='') as file:
         writer_new = csv.writer(file)
@@ -65,7 +65,7 @@ def max_traject(railway, max_trajectories):
         writer.writerow(['iterations','score'])
     
     start = time.time()
-    while count < 100000:
+    while count < 100:
         random = rd.Random(railway)
         random_railway = random.run(max_trajectories)
         end = time.time()
@@ -83,7 +83,7 @@ def max_traject(railway, max_trajectories):
                 writer_new = csv.writer(file)
                 for score in scoreplot:
                     writer_new.writerow([score, scoreplot[score]])
-            scoreplot.clear()
+            scoreplot= {}
         count += 1
         with open(f'output/random/{name}.csv', 'a', newline='') as file:
             writer_new = csv.writer(file)
@@ -109,7 +109,7 @@ def no_visited_connections(railway, max_trajectories):
         writer.writerow(['iterations','score'])    
     
     start = time.time()
-    while count < 100000:
+    while count < 100:
         nvc_random = rd.NoVisitedConnections(railway)
         random_railway = nvc_random.run(max_trajectories)
         end = time.time()
@@ -126,7 +126,7 @@ def no_visited_connections(railway, max_trajectories):
                 writer_new = csv.writer(file)
                 for score in scoreplot:
                     writer_new.writerow([score, scoreplot[score]])
-            scoreplot.clear()
+            scoreplot= {}
         count += 1 
         with open(f'output/random/{name}.csv', 'a', newline='') as file:
             writer_new = csv.writer(file)
@@ -154,7 +154,7 @@ def not_so_random(railway, max_trajectories):
     
     print(f"not so random trajectories in the making\n")
     start = time.time()
-    while count < 100000:
+    while count < 100:
         ns_random = rd.NotSoRandom(railway)
         random_railway = ns_random.run(max_trajectories)
         end = time.time()
@@ -171,7 +171,7 @@ def not_so_random(railway, max_trajectories):
                 writer_new = csv.writer(file)
                 for score in scoreplot:
                     writer_new.writerow([score, scoreplot[score]])
-            scoreplot.clear()
+            scoreplot= {}
         count += 1
         with open(f'output/random/{name}.csv', 'a', newline='') as file:
             writer_new = csv.writer(file)
@@ -185,8 +185,6 @@ def graph(name):
     Plotten van de scores per algoritme in een hisogram
     y as komt het aantal pogingen en op de x as de score
     """
-    
-    name = "random_baseline"
     fig, ax = plt.subplots()
     df = pd.read_csv(f'output/random/{name}.csv', delimiter=',')   
     count = len(df["score"])
@@ -196,13 +194,11 @@ def graph(name):
     # Generate a normal distributions
     dist1 = df['score']
 
-    fig, axs = plt.subplots(sharey=True, tight_layout=True)
-
     # We can set the number of bins with the *bins* keyword argument.
-    axs.hist(dist1, bins=n_bins)
-    axs.set_xlim(0, 8000)
+    ax.hist(dist1, bins=n_bins)
+    ax.set_xlim(0, 8000)
     
-    axs.set(xlabel='Score (K)', ylabel='Frequentie',
+    ax.set(xlabel='Score (K)', ylabel='Frequentie',
                title=f'{name} 400 bins {count} keer')
 
     plt.show()

@@ -20,7 +20,7 @@ def hillclimb(railway):
         writer = csv.writer(file)
         writer.writerow(['run_count','end_score'])
         
-    while run_count < 10000:
+    while run_count < 10:
         random = rd.Random(railway)
         random_railway = random.run(20)
         start = time.time()
