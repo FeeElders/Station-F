@@ -12,7 +12,7 @@ from code.algoritmen import greedy as gr
 
 from experimenten import random_experiment
 from experimenten import hillclimber_experiment
-
+from experimenten import greedy_experiment
 from datetime import datetime
 
 if __name__ == "__main__":
@@ -40,17 +40,17 @@ if __name__ == "__main__":
  
     # --------------------Random----------------------------------
     
-    name = random_experiment.baseline(railway)
-    random_experiment.graph("random_baseline")
+    # name = random_experiment.baseline(railway)
+    # random_experiment.graph("random_baseline")
 
-    name = random_experiment.max_traject(railway, max_trajectories)
-    random_experiment.graph("random_max_traject")
+    # name = random_experiment.max_traject(railway, max_trajectories)
+    # random_experiment.graph("random_max_traject")
 
-    name = random_experiment.no_visited_connections(railway, max_trajectories)
-    random_experiment.graph("no_visited_connections")
+    # name = random_experiment.no_visited_connections(railway, max_trajectories)
+    # random_experiment.graph("no_visited_connections")
 
-    name = random_experiment.not_so_random(railway, max_trajectories)
-    random_experiment.graph("not_so_random")
+    # name = random_experiment.not_so_random(railway, max_trajectories)
+    # random_experiment.graph("not_so_random")
 
 
 
@@ -65,7 +65,9 @@ if __name__ == "__main__":
     smart_railway = smart_greedy.run(20)
     print(f"greedy score: {smart_railway.score()}")
 
-    visuals.railway_map(smart_railway, smart_railway.score(), "Smart Start Station")
+    #name = greedy_experiment.greedy(railway)
+    name = greedy_experiment.smart_greedy(railway)
+    #visuals.railway_map(smart_railway, smart_railway.score(), "Smart Start Station")
     # greedy_long = gr.GetLongestConnection(railway)
     # gr_long = greedy_long.run(20)
     # print(f"greedy score: {gr_long.score()}")
@@ -73,23 +75,23 @@ if __name__ == "__main__":
 
     # ------------------------------HillClimber-------------------------------
 
-    random = rd.Random(railway)
-    random_railway = random.run(15)
-    climber = hc.NoReturn(random_railway)
+    # random = rd.Random(railway)
+    # random_railway = random.run(15)
+    # climber = hc.NoReturn(random_railway)
 
-    print("Running Hill Climber...")
-    climbing_railway = climber.run(1, delete, add, active=True)
+    # print("Running Hill Climber...")
+    # climbing_railway = climber.run(1, delete, add, active=True)
 
-    print(f"Value of the configuration after Hill Climber: "
-          f"{climber.railway.score()}")
+    # print(f"Value of the configuration after Hill Climber: "
+    #       f"{climber.railway.score()}")
 
-    naam = hillclimber_experiment.hillclimb(railway)
-    naam = hillclimber_experiment.hillclimb_4_2(railway)
-    naam = hillclimber_experiment.hillclimb_noreturn(railway)
+    # naam = hillclimber_experiment.hillclimb(railway)
+    # naam = hillclimber_experiment.hillclimb_4_2(railway)
+    # naam = hillclimber_experiment.hillclimb_noreturn(railway)
 
 
-    count = hillclimber_experiment.hist_graph(name)
-    hillclimber_experiment.line_graph(count, "random 1 traject", name)
+    # count = hillclimber_experiment.hist_graph(name)
+    # hillclimber_experiment.line_graph(count, "random 1 traject", name)
 
     
     # --------------------------- Visualisation --------------------
