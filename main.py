@@ -41,37 +41,55 @@ if __name__ == "__main__":
     # --------------------Random----------------------------------
     
     #name = random_experiment.baseline(railway)
-    random_experiment.graph("random_baseline")
-    
+    #random_experiment.graph("random_baseline")
+
     #name = random_experiment.max_traject(railway, max_trajectories)
-    random_experiment.graph("random_max_traject")
-    
+    #random_experiment.graph("random_max_traject")
+
     #name = random_experiment.no_visited_connections(railway, max_trajectories)
-    random_experiment.graph("no_visited_connections")
-    
+    #random_experiment.graph("no_visited_connections")
+
     #name = random_experiment.not_so_random(railway, max_trajectories)
-    random_experiment.graph("not_so_random")
-   
+    #random_experiment.graph("not_so_random")
+
+
 
 
     # ------------------------------------Greedy------------------------------
     # greedy = gr.Greedy(railway)
-#     greedy_railway = greedy.run(20)
-#     print(f"greedy score: {greedy_railway.score()}")
-#
-#     greedy_long = gr.GetLongestConnection(railway)
-#     gr_long = greedy_long.run(20)
-#     print(f"greedy score: {gr_long.score()}")
-    
+ #    greedy_railway = greedy.run(20)
+ #    print(f"greedy score: {greedy_railway.score()}")
+ #
+ #    greedy_long = gr.GetLongestConnection(railway)
+ #    gr_long = greedy_long.run(20)
+ #    print(f"greedy score: {gr_long.score()}")
+ #
+ #
+ #    rd_greedy = gr.RandomGreedy(railway)
+ #    randgr_railway = rd_greedy.run(20)
+ #    print(f"greedy score: {randgr_railway.score()}")
+
 
     # ------------------------------HillClimber-------------------------------
-    # datum = hillclimber_experiment.hillclimb(railway)
-#     count = hillclimber_experiment.hist_graph(datum)
-#     hillclimber_experiment.line_graph(count)
-    
-    
+    delete = 4
+    add = 2
+    random = rd.Random(railway)
+    random_railway = random.run(20)
+    climber = hc.HillClimber(random_railway)
 
-    #     # --------------------------- Visualisation --------------------
+    print("Running Hill Climber...")
+    climbing_railway = climber.run(run_count, delete, add, active=True)
+
+    print(f"Value of the configuration after Hill Climber: "
+          f"{climber.railway.score()}")
+
+    # datum = hillclimber_experiment.hillclimb(railway)
+    # datum = hillclimber_experiment.hillclimb_4_2(railway)
+      
+    #count = hillclimber_experiment.hist_graph("19-06-2024")   
+    #hillclimber_experiment.line_graph(20, "random 1 traject")
+    
+    # --------------------------- Visualisation --------------------
 #
 #     visuals.line_graph(scoreplot, count)
 #     visuals.hillclimber_graph(climber.all_scores)

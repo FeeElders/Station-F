@@ -32,10 +32,10 @@ class Random():
         if trains is None:
             amount = random.randint(1, self.railway._max_trains)
         else:
-            amount = trains - 1
+            amount = trains
 
         # loop for each train/trajectory
-        while self.railway.trains() <= amount:
+        while self.railway.trains() < amount:
 
             # get start station
             current_station = self.get_start_station()

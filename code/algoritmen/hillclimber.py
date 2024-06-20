@@ -38,11 +38,11 @@ class HillClimber():
         
         return choice
         
-    def create_new_train(self, new_railway, traject, random_train):
+    def create_new_train(self, new_railway):
         
         current_station = self.get_start_station()
-        train = Trajectory(current_station, new_railway._max_time)
-        new_railway._trains[random_train] = train
+        train_id = new_trajectory(current_station)
+        train = new_railway._trains[train_id]
 
         while train.is_running():
             time = train.time_left()
@@ -56,42 +56,35 @@ class HillClimber():
                 
         return new_railway
         
-    def remove_old_connections(self, traject):
-        """
-        from visited connevtions remove the connections that are in de traject we want to change. 
-        """
-        traject.clear_visited_connections()
         
-    def mutate_single_trajectory(self, new_railway):
+    def mutate_single_trajectory(self, new_railway, action:int, type_action:str):
         """
         Changes the connections of a random traject with a random valid traject.
         """
-        # get the key from the traject that is going to change
-        random_train = random.choice(list(new_railway._trains.keys()))
         
-        # With the key we have acces to the traject object   
-        traject = new_railway._trains[random_train] 
+        if type_action == "delete":    
+            
+            # get the key from the traject that is going to change
+            random_train = random.choice(list(new_railway._trains.keys()))
+            
+            # delete traject from dictionary
+            delete_trajectory(random_train)
         
-        # to make a new traject we have to delete the old connections from visited conections  
-        self.remove_old_connections(traject)   
+        if type_action == "add":
+            
+            new_train = self.create_new_train(new_railway)
         
-        new_train = self.create_new_train(new_railway, traject, random_train)
-        
-        return new_train
-        
-        # TODO: een aspect elke run veranderen en opnieuw genereren.
-            # bijv: als een traject minder dan 4 verbindingen heeft vervang je deze, alleen stopt dit vrij snel wss.
-            # andere optie: elke keer het kleinste traject eruit halen en vervangen
-            # andere optie: kleinste trajct eruit halen, dan vergelijken of de score beter wordt en behouden of vervangen. Dan pas kiezen of er ook een nieuw traject wordt aangemaakt, misschien wel trajecten blijven verwijderen tot de score niet meer beter wordt. dan komen we misschien op een gemiddeld aantal trajecten dat optimaal is.
+            return new_train  
 
-        
-
-    def mutate_railway(self, new_railway, number_of_changes=1):
+    def mutate_railway(self, new_railway, delete, add):
         """
         Changes the value of a number of trajectories with a random valid traject.
         """
-        for _ in range(number_of_changes):
-            self.mutate_single_trajectory(new_railway)
+        for _ in range(delete):
+            self.mutate_single_trajectory(new_railway, delete, "delete")
+            
+        for _ in range(add):
+            self.mutate_single_trajectory(new_railway, add, "add")
 
     def check_solution(self, new_railway) -> bool:
         """
@@ -109,7 +102,7 @@ class HillClimber():
             
         return False
 
-    def run(self, run_count, active=False) -> 'Railway': #TODO: iterations toevoegen
+    def run(self, run_count, delete, add, active=False) -> 'Railway': #TODO: iterations toevoegen
         """
         Runs the hillclimber algorithm for a specific amount of iterations.
         """
@@ -124,7 +117,7 @@ class HillClimber():
             # Create a copy of the railway to simulate the change
             new_railway = copy.deepcopy(self.railway)
 
-            self.mutate_railway(new_railway)
+            self.mutate_railway(new_railway, delete, add)
 
             # Accept it if it is better
             self.check_solution(new_railway)
@@ -136,13 +129,13 @@ class HillClimber():
             
             self.all_scores[iteration]= self.score
             
-            # add score and iterations to csv every 20 iterations
-            if iteration%20 == 0 or no_change == error_margin:
-                with open(f'output/hillclimber/run_{run_count}.csv', 'a', newline='') as file:
-                    writer_new = csv.writer(file)
-                    for iteration in self.all_scores:
-                        writer_new.writerow([iteration, self.all_scores[iteration]])
-                self.all_scores={}
+            # # add score and iterations to csv every 20 iterations
+#             if iteration%20 == 0 or no_change == error_margin:
+#                 with open(f'output/hillclimber/run_{run_count}.csv', 'a', newline='') as file:
+#                     writer_new = csv.writer(file)
+#                     for iteration in self.all_scores:
+#                         writer_new.writerow([iteration, self.all_scores[iteration]])
+#                 self.all_scores={}
             
             iteration += 1
     

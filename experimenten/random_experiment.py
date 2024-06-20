@@ -49,7 +49,7 @@ def baseline(railway):
         for score in scoreplot:
             writer_new.writerow([score, scoreplot[score]])
             
-    return(name)
+    return name
         
       
 def max_traject(railway, max_trajectories):
@@ -90,10 +90,9 @@ def max_traject(railway, max_trajectories):
             for score in scoreplot:
                 writer_new.writerow([score, scoreplot[score]])
     
-    return(name)
-    
-            
-def no_visited_connections(railway, max_trajectories):
+    return name 
+
+def no_visited_connections_max(railway, max_trajectories):
     """
     Also with max traject
     """
@@ -133,7 +132,49 @@ def no_visited_connections(railway, max_trajectories):
             for score in scoreplot:
                 writer_new.writerow([score, scoreplot[score]]) 
     
-    return(name)
+    return name    
+            
+def no_visited_connections_random(railway, max_trajectories):
+    """
+    Also with max traject
+    """
+    count = 0
+    scoreplot:dict[int:int] = {}
+    best_random_railway: 'Railway' = None
+    name = "no_visited_connections"
+    interval = 20
+    
+    # create a new file
+    with open(f'output/random/{name}.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['iterations','score'])    
+    
+    start = time.time()
+    while count < 100:
+        nvc_random = rd.NoVisitedConnections(railway)
+        random_railway = nvc_random.run()
+        end = time.time()
+        running_time = end - start
+        
+        if helpers.best_score(random_railway, best_random_railway):
+            best_random_railway = copy.copy(random_railway)
+            best_random_railway.formatted_output(f"best_{name}_railway.csv", running_time)
+        scoreplot[count]= random_railway.score()
+        
+        if count%interval == 0:
+            # sla elke +-10 minuten de scores op in een bestand
+            with open(f'output/random/{name}.csv', 'a', newline='') as file:
+                writer_new = csv.writer(file)
+                for score in scoreplot:
+                    writer_new.writerow([score, scoreplot[score]])
+            scoreplot= {}
+        count += 1 
+        with open(f'output/random/{name}.csv', 'a', newline='') as file:
+            writer_new = csv.writer(file)
+            for score in scoreplot:
+                writer_new.writerow([score, scoreplot[score]]) 
+    
+    return name
             
 def not_so_random(railway, max_trajectories):
     """
@@ -178,11 +219,11 @@ def not_so_random(railway, max_trajectories):
             for score in scoreplot:
                 writer_new.writerow([score, scoreplot[score]])
     
-    return(name)
+    return name 
     
 def graph(name):
     """
-    Plotten van de scores per algoritme in een hisogram
+    Plotten van de scores per experiment in een hisogram
     y as komt het aantal pogingen en op de x as de score
     """
     fig, ax = plt.subplots()
@@ -193,6 +234,7 @@ def graph(name):
 
     # Generate a normal distributions
     dist1 = df['score']
+    print(df['score'])
 
     # We can set the number of bins with the *bins* keyword argument.
     ax.hist(dist1, bins=n_bins)
