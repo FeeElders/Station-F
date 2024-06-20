@@ -15,12 +15,12 @@ def hillclimb(railway):
     run_count = 0
     #TO DO random_railway importeren of maken
     
-    datum = "19-06-2024"
+    datum = "20-06-2024"
     with open(f'output/hillclimber/hillclimber_{datum}.csv', 'w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(['run_count','end_score'])
         
-    while run_count < 2:
+    while run_count < 10000:
         random = rd.Random(railway)
         random_railway = random.run(20)
         start = time.time()
@@ -48,9 +48,64 @@ def hillclimb(railway):
             writer.writerow([run_count, climber.railway.score()])
                 
         run_count += 1
-     
-     
         
+    return datum
+       
+def line_graph(counts):  
+    """
+    Plotten van de score vs de iteraties in een histogram
+    y as komt de score en op de x as het aantal pogingen
+    """
+    colors = ["black", "deeppink", "plum", "olive", "orange", "grey", "firebrick", "darksalmon", "lightgrey", "gold", "deepskyblue", "chartreuse", "green", "teal",  "blue", "indigo", "greenyellow", "crimson", "lemonchiffon", "darkmagenta", "azure", "bisque"]
+    fig, ax = plt.subplots()
+    for run_count in counts:
+        df = pd.read_csv(f'output/hillclimber/run_{run_count}.csv', delimiter=',')   
+        x = df["iterations"]
+        y = df["score"]
+    
+        ax.title('Hill Climber algoritme')
+        ax.xlabel('Iteraties')
+        ax.ylabel('Score')
+
+        # We can set the number of bins with the *bins* keyword argument.
+        plt.plot(x, y, color=colors[run_count], linestyle="-")    
+
+    plt.show()
+    fig.savefig(f"output/hillclimber/line_graph_hillclimber.png")      
+        
+def hist_graph(datum):
+    """
+    Plotten van de scores per algoritme in een hisogram
+    y as komt het aantal pogingen en op de x as de score
+    """
+    
+    fig, ax = plt.subplots()
+    df = pd.read_csv(f'output/hillclimber/hillclimber_{datum}.csv', delimiter=',')   
+    run_count = df["run_count"]
+    end_score = df["end_score"]
+    
+    count = len(df["end_score"])
+  
+    n_bins = 400
+
+    # Generate a normal distributions
+    dist1 = df['score']
+
+    fig, axs = plt.subplots(sharey=True, tight_layout=True)
+
+    # We can set the number of bins with the *bins* keyword argument.
+    axs.hist(dist1, bins=n_bins)
+    axs.set_xlim(0, 8000)
+   
+    axs.set(xlabel='Score (K)', ylabel='Frequentie',
+              title=f'Hill Climber 400 bins {count} keer')
+    plt.show()
+    fig.savefig(f"output/hillclimber/histogram_hillclimber_{datum}.png")
+    
+    return count
+     
+     
+
     
 
 

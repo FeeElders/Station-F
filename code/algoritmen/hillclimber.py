@@ -113,7 +113,7 @@ class HillClimber():
         """
         Runs the hillclimber algorithm for a specific amount of iterations.
         """
-        error_margin = 2
+        error_margin = 10000
         no_change = 0
         iteration = 0
         while no_change <= error_margin:

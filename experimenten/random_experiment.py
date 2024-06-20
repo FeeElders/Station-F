@@ -25,7 +25,7 @@ def baseline(railway):
         writer.writerow(['iterations','score'])
     
     start = time.time()
-    while count < 100:
+    while count < 100000:
       random = rd.Random(railway)
       random_railway = random.run()
       end = time.time()
@@ -48,6 +48,8 @@ def baseline(railway):
         writer_new = csv.writer(file)
         for score in scoreplot:
             writer_new.writerow([score, scoreplot[score]])
+            
+    return(name)
         
       
 def max_traject(railway, max_trajectories):
@@ -63,7 +65,7 @@ def max_traject(railway, max_trajectories):
         writer.writerow(['iterations','score'])
     
     start = time.time()
-    while count < 100:
+    while count < 100000:
         random = rd.Random(railway)
         random_railway = random.run(max_trajectories)
         end = time.time()
@@ -88,6 +90,8 @@ def max_traject(railway, max_trajectories):
             for score in scoreplot:
                 writer_new.writerow([score, scoreplot[score]])
     
+    return(name)
+    
             
 def no_visited_connections(railway, max_trajectories):
     """
@@ -105,7 +109,7 @@ def no_visited_connections(railway, max_trajectories):
         writer.writerow(['iterations','score'])    
     
     start = time.time()
-    while count < 100:
+    while count < 100000:
         nvc_random = rd.NoVisitedConnections(railway)
         random_railway = nvc_random.run(max_trajectories)
         end = time.time()
@@ -128,6 +132,8 @@ def no_visited_connections(railway, max_trajectories):
             writer_new = csv.writer(file)
             for score in scoreplot:
                 writer_new.writerow([score, scoreplot[score]]) 
+    
+    return(name)
             
 def not_so_random(railway, max_trajectories):
     """
@@ -148,7 +154,7 @@ def not_so_random(railway, max_trajectories):
     
     print(f"not so random trajectories in the making\n")
     start = time.time()
-    while count < 10:
+    while count < 100000:
         ns_random = rd.NotSoRandom(railway)
         random_railway = ns_random.run(max_trajectories)
         end = time.time()
@@ -171,7 +177,8 @@ def not_so_random(railway, max_trajectories):
             writer_new = csv.writer(file)
             for score in scoreplot:
                 writer_new.writerow([score, scoreplot[score]])
- 
+    
+    return(name)
     
 def graph(name):
     """
