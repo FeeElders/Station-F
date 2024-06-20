@@ -54,20 +54,25 @@ if __name__ == "__main__":
 
 
     # ------------------------------------Greedy------------------------------
-    # greedy = gr.Greedy(railway)
-#     greedy_railway = greedy.run(20)
-#     print(f"greedy score: {greedy_railway.score()}")
-#
-#     greedy_long = gr.GetLongestConnection(railway)
-#     gr_long = greedy_long.run(20)
-#     print(f"greedy score: {gr_long.score()}")
-    
+    greedy = gr.Greedy(railway)
+    greedy_railway = greedy.run(20)
+    print(f"greedy score: {greedy_railway.score()}")
+
+    greedy_long = gr.GetLongestConnection(railway)
+    gr_long = greedy_long.run(20)
+    print(f"greedy score: {gr_long.score()}")
+
+
+    rd_greedy = gr.RandomGreedy(railway)
+    randgr_railway = rd_greedy.run(20)
+    print(f"greedy score: {randgr_railway.score()}")
+
 
     # ------------------------------HillClimber-------------------------------
+
     datum = hillclimber_experiment.hillclimb(railway)
     count = hillclimber_experiment.hist_graph(datum)
     hillclimber_experiment.line_graph(count)
-    
     
     #     # --------------------------- Visualisation --------------------
 #

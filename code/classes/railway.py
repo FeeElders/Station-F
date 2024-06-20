@@ -208,8 +208,8 @@ class Railway():
 
         K = p*10000 - (T*100 + min)
 
-        # print(f"trains: {T}")
-#         print(f"min: {min}")
-#         print(f"percentage {p}")
+        print(f"trains: {T}")
+        print(f"min: {min}")
+        print(f"percentage {p}")
 
         return K

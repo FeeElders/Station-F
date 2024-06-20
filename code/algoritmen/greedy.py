@@ -13,6 +13,7 @@ class Greedy():
         """ Get random start station """
         return random.choice(list(self.railway.get_all_stations()))
 
+    
     def sort_connections(self, list_connections: list['Connection']) -> dict[int: list['Connection']]:
         sorted_connections: dict[int: list['Connection']] = {}
 
@@ -28,21 +29,53 @@ class Greedy():
 
         return sorted_connections
 
-    def get_connection(self, station: 'Station', time: int) -> 'Connection':
-        """ Get shortest connection """
-        # Get all available connections
-        connections = self.railway.get_available_connections(station, time)
-        if connections == None:
-            return None
+    
+    def get_longest_connection(self, connections: dict[int:  list['Connection']]) -> 'Connection':
+        """ Get longest connection """
+        keys = connections.keys()
+        len_dict = len(keys)
         
-        sorted_connections = self.sort_connections(connections)
-        
-        possible_connections = sorted_connections[list(sorted_connections.keys())[0]]
+        possible_connections = connections[list(connections.keys())[len_dict-1]]
         if len(possible_connections) > 1:
             return random.choice(possible_connections)
 
         return possible_connections[0]
-            
+
+
+    def get_shortest_connection(self, connections: dict[int: list['Connection']]) -> 'Connection':
+        """ Get shortest connection """
+
+        # Get first key value pair of the sorted dict
+        possible_connections = connections[list(connections.keys())[0]]
+
+        # if more than one connections in the list, choose randomly.
+        if len(possible_connections) > 1:
+            return random.choice(possible_connections)
+
+        # if only one connection in list, choose that one.
+        return possible_connections[0]
+
+
+    def get_random_connection(self, connections: list['Connection']) -> 'Connection':
+        """ Get a random connection """
+        return random.choice(connections)
+
+    
+    def get_connection(self, station: 'Station', time: int) -> 'Connection':
+        """ Get connection to add to trajectory """
+        # Get all available connections
+        connections = self.railway.get_available_connections(station, time)
+        if connections == None:
+            return None
+        visited_connections = self.railway.get_all_visited_connections()
+        not_visited_connections = list(set(connections) - set(visited_connections))
+        
+        sorted_connections = self.sort_connections(not_visited_connections)
+
+        if len(sorted_connections) == 0:
+            return None
+        
+        return self.get_shortest_connection(sorted_connections)
         
     def run(self, trains = None) -> 'Railway':
         if trains is None:
@@ -82,18 +115,17 @@ class GetLongestConnection(Greedy):
         connections = self.railway.get_available_connections(station, time)
         if connections == None:
             return None
-        
-        sorted_connections = self.sort_connections(connections)
 
-        keys = sorted_connections.keys()
-        len_dict = len(keys)
-        
-        possible_connections = sorted_connections[list(sorted_connections.keys())[len_dict-1]]
-        if len(possible_connections) > 1:
-            return random.choice(possible_connections)
 
-        return possible_connections[0]
-    
+        visited_connections = self.railway.get_all_visited_connections()
+        not_visited_connections = list(set(connections) - set(visited_connections))
+        
+        sorted_connections = self.sort_connections(not_visited_connections)
+
+        if len(sorted_connections) == 0:
+            return None
+
+        return self.get_longest_connection(sorted_connections)
                     
             
 class SmartStartStation(Greedy):
@@ -104,21 +136,35 @@ class SmartStartStation(Greedy):
         pass
 
 
-class RandomGreedy(Greedy, NotSoRandom):
-    def random_or_greedy(self, station: 'Station', time: int) -> 'Connection':
+class RandomGreedy(Greedy):
+    def random_or_greedy(self, unsorted_connections: list['Connection'], sorted_connections: list['Connection']) -> 'Connection':
         """ Choose either a random connection or a greedy connection. """
         random_number = random.random()
 
         if random_number < 0.2:
-            connection = get_random_connection()
+            connection = self.get_random_connection(unsorted_connections)
         elif random_number < 0.8:
-            connection = get_shortest_connection()
+            connection = self.get_shortest_connection(sorted_connections)
         else:
-            connection = get_longest_connection()
+            connection = self.get_longest_connection(sorted_connections)
 
         return connection
 
 
     def get_connection(self, station: 'Station', time: int) -> 'Connection':
         """ Get random station or greedy station """
-        return self.random_or_greedy(station, time)
+        # Get all available connections
+        connections = self.railway.get_available_connections(station, time)
+        if connections == None:
+            return None
+
+        visited_connections = self.railway.get_all_visited_connections()
+        not_visited_connections = list(set(connections) - set(visited_connections))
+        
+        sorted_connections = self.sort_connections(not_visited_connections)
+
+        if len(sorted_connections) == 0:
+            return None
+
+
+        return self.random_or_greedy(not_visited_connections, sorted_connections)
