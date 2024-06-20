@@ -1,7 +1,4 @@
 matplotlib
-<<<<<<< HEAD
 pandas
 numpy
-=======
 python3-tk
->>>>>>> 1815a5a644a273ccab2cb48df80875daeba6a0b9

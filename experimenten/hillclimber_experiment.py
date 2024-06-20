@@ -3,6 +3,7 @@ from code.algoritmen import randomise as rd
 from code import helpers
 from code.visualisation import visuals 
 
+import pandas as pd
 import matplotlib.pyplot as plt
 import csv
 import copy
@@ -161,15 +162,19 @@ def hist_graph(datum):
     
     fig, axs = plt.subplots()
     df = pd.read_csv(f'output/hillclimber/tryout/hillclimber_{datum}.csv', delimiter=',')   
+
     run_count = df["run_count"]
     end_score = df["end_score"]
     
+    print(end_score)
+
     count = len(df["end_score"])
-  
-    n_bins = 6
+    print(count)
+    n_bins = 5
 
     # We can set the number of bins with the *bins* keyword argument.
     axs.hist(end_score, bins=n_bins)
+
     axs.set_xlim(0, 8000)
    
     axs.set(xlabel='Score (K)', ylabel='Frequentie',

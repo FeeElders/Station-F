@@ -34,10 +34,9 @@ if __name__ == "__main__":
     railway = railway.Railway(max_trajectories, time)
     railway.load_stations(f"data/{stations_csv}.csv")
     railway.load_connections(f"data/{connections_csv}.csv")
+
     
  
-
-
     # --------------------Random----------------------------------
     
     #name = random_experiment.baseline(railway)
@@ -88,6 +87,7 @@ if __name__ == "__main__":
       
     #count = hillclimber_experiment.hist_graph("19-06-2024")   
     #hillclimber_experiment.line_graph(20, "random 1 traject")
+
     
     # --------------------------- Visualisation --------------------
 #
