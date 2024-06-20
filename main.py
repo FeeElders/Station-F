@@ -40,17 +40,17 @@ if __name__ == "__main__":
 
     # --------------------Random----------------------------------
     
-    name = random_experiment.baseline(railway)
-    random_experiment.graph(name)
+    # name = random_experiment.baseline(railway)
+    # random_experiment.graph(name)
     
-    name = random_experiment.max_traject(railway, max_trajectories)
-    random_experiment.graph(name)
+    # name = random_experiment.max_traject(railway, max_trajectories)
+    # random_experiment.graph(name)
     
-    name = random_experiment.no_visited_connections(railway, max_trajectories)
-    random_experiment.graph(name)
+    # name = random_experiment.no_visited_connections(railway, max_trajectories)
+    # random_experiment.graph(name)
     
-    name = random_experiment.not_so_random(railway, max_trajectories)
-    random_experiment.graph(name)   
+    # name = random_experiment.not_so_random(railway, max_trajectories)
+    # random_experiment.graph(name)   
 
 
     # ------------------------------------Greedy------------------------------
@@ -70,8 +70,8 @@ if __name__ == "__main__":
 
     # ------------------------------HillClimber-------------------------------
 
-    datum = hillclimber_experiment.hillclimb(railway)
-    count = hillclimber_experiment.hist_graph(datum)
+    #datum = hillclimber_experiment.hillclimb(railway)
+    count = hillclimber_experiment.hist_graph("19-06-2024")
     hillclimber_experiment.line_graph(count)
     
     #     # --------------------------- Visualisation --------------------

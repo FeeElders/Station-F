@@ -3,6 +3,7 @@ from code.algoritmen import randomise as rd
 from code import helpers
 from code.visualisation import visuals 
 
+import pandas as pd
 import matplotlib.pyplot as plt
 import csv
 import copy
@@ -57,15 +58,18 @@ def line_graph(counts):
     """
     colors = ["black", "deeppink", "plum", "olive", "orange", "grey", "firebrick", "darksalmon", "lightgrey", "gold", "deepskyblue", "chartreuse", "green", "teal",  "blue", "indigo", "greenyellow", "crimson", "lemonchiffon", "darkmagenta", "azure", "bisque"]
     fig, ax = plt.subplots()
-    for run_count in counts:
+
+    ax.set_title('Hill Climber algoritme')
+    ax.set_xlabel('Iteraties')
+    ax.set_ylabel('Score')
+
+    print(f"counts: {counts}")
+    for run_count in range(counts):
+        print(run_count)
         df = pd.read_csv(f'output/hillclimber/run_{run_count}.csv', delimiter=',')   
         x = df["iterations"]
         y = df["score"]
-    
-        ax.title('Hill Climber algoritme')
-        ax.xlabel('Iteraties')
-        ax.ylabel('Score')
-
+           
         # We can set the number of bins with the *bins* keyword argument.
         plt.plot(x, y, color=colors[run_count], linestyle="-")    
 
@@ -78,22 +82,20 @@ def hist_graph(datum):
     y as komt het aantal pogingen en op de x as de score
     """
     
-    fig, ax = plt.subplots()
-    df = pd.read_csv(f'output/hillclimber/hillclimber_{datum}.csv', delimiter=',')   
+    fig, axs = plt.subplots()
+    df = pd.read_csv(f'output/hillclimber/hillclimber_{datum}.csv', delimiter=',')
     run_count = df["run_count"]
-    end_score = df["end_score"]
+    end_score = df["end_score"]#.values.tolist()
     
+    print(end_score)
+
     count = len(df["end_score"])
-  
-    n_bins = 400
-
-    # Generate a normal distributions
-    dist1 = df['score']
-
-    fig, axs = plt.subplots(sharey=True, tight_layout=True)
+    print(count)
+    n_bins = 5
 
     # We can set the number of bins with the *bins* keyword argument.
-    axs.hist(dist1, bins=n_bins)
+    axs.hist(end_score, bins=n_bins)
+
     axs.set_xlim(0, 8000)
    
     axs.set(xlabel='Score (K)', ylabel='Frequentie',
