@@ -2,6 +2,7 @@ from code.algoritmen import hillclimber as hc
 from code.algoritmen import randomise as rd
 from code import helpers
 from code.visualisation import visuals 
+from code.algoritmen.randomise import Random, NotSoRandom, NoVisitedConnections  
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -12,13 +13,14 @@ import pandas as pd
 
 
 from statistics import mean 
+from datetime import datetime
 
 
 def hillclimb(railway):
     run_count = 0
-    
-    datum = "20-06-2024"
-    with open(f'output/hillclimber/hillclimber_{datum}.csv', 'w', newline='') as file:
+    date = datetime.today().strftime('%d-%m-%Y')
+    name = f"HillClimber_{date}"
+    with open(f'output/hillclimber/{name}.csv', 'w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(['run_count','end_score'])
         
@@ -30,7 +32,7 @@ def hillclimb(railway):
         delete = 1
         add = 1
         # create a new file
-        with open(f'output/hillclimber/run_{run_count}.csv', 'w', newline='') as file:
+        with open(f'output/hillclimber/{name}_run_{run_count}.csv', 'w', newline='') as file:
             writer = csv.writer(file)
             writer.writerow(['iterations','score'])
         
@@ -44,23 +46,24 @@ def hillclimb(railway):
               f"{climber.railway.score()}")
         end = time.time()
         running_time = end - start      
-        climber.railway.formatted_output(f"hillclimber/formatted_output_climber_{run_count}.csv", running_time)
+        climber.railway.formatted_output(f"hillclimber/formatted_output_{name}_{run_count}.csv", running_time)
                 
         # Add end score to csv        
-        with open(f'output/hillclimber/hillclimber_{datum}.csv', 'a', newline='') as file:
+        with open(f'output/hillclimber/{name}.csv', 'a', newline='') as file:
             writer = csv.writer(file)
             writer.writerow([run_count, climber.railway.score()])
                 
         run_count += 1
         
-    return datum
+    return name
 
     
 def hillclimb_4_2(railway):
     run_count = 0
     
-    datum = "20-06-2024"
-    with open(f'output/hillclimber/hillclimber_4_2_{datum}.csv', 'w', newline='') as file:
+    date = datetime.today().strftime('%d-%m-%Y')
+    name = f"HillClimber-4-2_{date}"
+    with open(f'output/hillclimber/{name}.csv', 'w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(['run_count','end_score'])
         
@@ -72,7 +75,7 @@ def hillclimb_4_2(railway):
         delete = 4
         add = 2
         # create a new file
-        with open(f'output/hillclimber/run_{run_count}.csv', 'w', newline='') as file:
+        with open(f'output/hillclimber/{name}_run_{run_count}.csv', 'w', newline='') as file:
             writer = csv.writer(file)
             writer.writerow(['iterations','score'])
         
@@ -86,20 +89,60 @@ def hillclimb_4_2(railway):
               f"{climber.railway.score()}")
         end = time.time()
         running_time = end - start      
-        climber.railway.formatted_output(f"hillclimber/formatted_output_climber_{run_count}.csv", running_time)
+        climber.railway.formatted_output(f"hillclimber/formatted_output_{name}_{run_count}.csv", running_time)
                 
         # Add end score to csv        
-        with open(f'output/hillclimber/hillclimber_{datum}.csv', 'a', newline='') as file:
+        with open(f'output/hillclimber/{name}.csv', 'a', newline='') as file:
             writer = csv.writer(file)
             writer.writerow([run_count, climber.railway.score()])
                 
         run_count += 1
         
-    return datum
+    return name
 
-   
+def hillclimb_noreturn(railway):
+    run_count = 0
+    
+    datum = "20-06-2024"
+    with open(f'output/hillclimber/{name}.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['run_count','end_score'])
+        
+    while run_count < 1:
+
+        random = rd.Random(railway)
+        random_railway = random.run(20)
+        start = time.time()
+        delete = 1
+        add = 1
+        # create a new file
+        with open(f'output/hillclimber/{name}_run_{run_count}.csv', 'w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(['iterations','score'])
+                
+        print("Setting up Hill Climber...")
+        climber = hc.NoReturn(random_railway)
+
+        print("Running Hill Climber...")
+        climbing_railway = climber.run(run_count, name, delete, add, active=True)
+
+        print(f"Value of the configuration after Hill Climber: "
+              f"{climber.railway.score()}")
+        end = time.time()
+        running_time = end - start      
+        climber.railway.formatted_output(f"hillclimber/formatted_output_{name}_{run_count}.csv", running_time)
+                
+        # Add end score to csv        
+        with open(f'output/hillclimber/{name}.csv', 'a', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow([run_count, climber.railway.score()])
+                
+        run_count += 1
+        
+    return name
        
-def line_graph(counts, heuristic):  
+       
+def line_graph(counts, heuristic, name):  
     """
     Plotten van de score vs de iteraties in een histogram
     y as komt de score en op de x as het aantal pogingen
@@ -118,7 +161,7 @@ def line_graph(counts, heuristic):
     iteration = []
     
     for run_count in range(counts):
-        df = pd.read_csv(f'output/hillclimber/tryout/run_{run_count}.csv', delimiter=',')
+        df = pd.read_csv(f'output/hillclimber/{name}_run_{run_count}.csv', delimiter=',')
         for i in df["iterations"]:
             if len(maximum)-1 < i:
                  maximum.append(df["score"][i])
@@ -152,16 +195,16 @@ def line_graph(counts, heuristic):
         
 
     plt.show()
-    fig.savefig(f"output/hillclimber/average_line_hillclimber_{heuristic}.png")      
+    fig.savefig(f"output/hillclimber/average_line_{name}_{heuristic}.png")      
         
-def hist_graph(datum):
+def hist_graph(name):
     """
     Plotten van de scores per algoritme in een hisogram
     y as komt het aantal pogingen en op de x as de score
     """
     
     fig, axs = plt.subplots()
-    df = pd.read_csv(f'output/hillclimber/tryout/hillclimber_{datum}.csv', delimiter=',')   
+    df = pd.read_csv(f'output/hillclimber/{name}.csv', delimiter=',')   
 
     run_count = df["run_count"]
     end_score = df["end_score"]
@@ -180,7 +223,7 @@ def hist_graph(datum):
     axs.set(xlabel='Score (K)', ylabel='Frequentie',
               title=f'Hill Climber {n_bins} bins {count} keer')
     plt.show()
-    fig.savefig(f"output/hillclimber/histogram_hillclimber_{datum}.png")
+    fig.savefig(f"output/hillclimber/histogram_{name}.png")
     
     return count
      

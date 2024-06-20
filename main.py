@@ -13,6 +13,7 @@ from code.algoritmen import greedy as gr
 from experimenten import random_experiment
 from experimenten import hillclimber_experiment
 
+from datetime import datetime
 
 if __name__ == "__main__":
     print("WELCOME TO RailNL")
@@ -39,17 +40,17 @@ if __name__ == "__main__":
  
     # --------------------Random----------------------------------
     
-    #name = random_experiment.baseline(railway)
-    #random_experiment.graph("random_baseline")
+    name = random_experiment.baseline(railway)
+    random_experiment.graph("random_baseline")
 
-    #name = random_experiment.max_traject(railway, max_trajectories)
-    #random_experiment.graph("random_max_traject")
+    name = random_experiment.max_traject(railway, max_trajectories)
+    random_experiment.graph("random_max_traject")
 
-    #name = random_experiment.no_visited_connections(railway, max_trajectories)
-    #random_experiment.graph("no_visited_connections")
+    name = random_experiment.no_visited_connections(railway, max_trajectories)
+    random_experiment.graph("no_visited_connections")
 
-    #name = random_experiment.not_so_random(railway, max_trajectories)
-    #random_experiment.graph("not_so_random")
+    name = random_experiment.not_so_random(railway, max_trajectories)
+    random_experiment.graph("not_so_random")
 
 
 
@@ -70,23 +71,24 @@ if __name__ == "__main__":
 
 
     # ------------------------------HillClimber-------------------------------
-    delete = 4
-    add = 2
+
     random = rd.Random(railway)
-    random_railway = random.run(20)
-    climber = hc.HillClimber(random_railway)
+    random_railway = random.run(15)
+    climber = hc.NoReturn(random_railway)
 
     print("Running Hill Climber...")
-    climbing_railway = climber.run(run_count, delete, add, active=True)
+    climbing_railway = climber.run(1, delete, add, active=True)
 
     print(f"Value of the configuration after Hill Climber: "
           f"{climber.railway.score()}")
 
-    # datum = hillclimber_experiment.hillclimb(railway)
-    # datum = hillclimber_experiment.hillclimb_4_2(railway)
-      
-    #count = hillclimber_experiment.hist_graph("19-06-2024")   
-    #hillclimber_experiment.line_graph(20, "random 1 traject")
+    naam = hillclimber_experiment.hillclimb(railway)
+    naam = hillclimber_experiment.hillclimb_4_2(railway)
+    naam = hillclimber_experiment.hillclimb_noreturn(railway)
+
+
+    count = hillclimber_experiment.hist_graph(name)
+    hillclimber_experiment.line_graph(count, "random 1 traject", name)
 
     
     # --------------------------- Visualisation --------------------

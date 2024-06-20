@@ -3,8 +3,7 @@ import random
 import csv
 from code import helpers
 
-from .randomise import Random 
-from .randomise import NotSoRandom 
+from code.algoritmen.randomise import Random, NotSoRandom, NoVisitedConnections  
 from code.algoritmen  import randomise as rd
 from code.classes.trajectory import Trajectory
 from code.classes.station import Station
@@ -28,7 +27,7 @@ class HillClimber():
     def get_start_station(self):
         return random.choice(list(self.railway.get_all_stations()))
         
-    def get_random_connection(self, station: 'Station', time: int, new_railway) -> 'Connection':
+    def get_connection(self, station: 'Station', time: int, new_railway) -> 'Connection':
         connections = new_railway.get_available_connections(station, time)
 
         if connections is None:
@@ -41,14 +40,14 @@ class HillClimber():
     def create_new_train(self, new_railway):
         
         current_station = self.get_start_station()
-        train_id = new_trajectory(current_station)
+        train_id = new_railway.new_trajectory(current_station)
         train = new_railway._trains[train_id]
 
         while train.is_running():
             time = train.time_left()
 
             current_station = train.current_station()
-            connection = self.get_random_connection(current_station, time, new_railway)
+            connection = self.get_connection(current_station, time, new_railway)
             if connection == None:
                 break
             else:
@@ -68,7 +67,7 @@ class HillClimber():
             random_train = random.choice(list(new_railway._trains.keys()))
             
             # delete traject from dictionary
-            delete_trajectory(random_train)
+            new_railway.delete_trajectory(random_train)
         
         if type_action == "add":
             
@@ -102,11 +101,11 @@ class HillClimber():
             
         return False
 
-    def run(self, run_count, delete, add, active=False) -> 'Railway': #TODO: iterations toevoegen
+    def run(self, run_count, name, delete, add, active=False) -> 'Railway': #TODO: iterations toevoegen
         """
         Runs the hillclimber algorithm for a specific amount of iterations.
         """
-        error_margin = 100
+        error_margin = 10000
         no_change = 0
         iteration = 0
         while no_change <= error_margin:
@@ -129,17 +128,36 @@ class HillClimber():
             
             self.all_scores[iteration]= self.score
             
-            # # add score and iterations to csv every 20 iterations
-#             if iteration%20 == 0 or no_change == error_margin:
-#                 with open(f'output/hillclimber/run_{run_count}.csv', 'a', newline='') as file:
-#                     writer_new = csv.writer(file)
-#                     for iteration in self.all_scores:
-#                         writer_new.writerow([iteration, self.all_scores[iteration]])
-#                 self.all_scores={}
+            # add score and iterations to csv every 20 iterations
+            if iteration%20 == 0 or no_change == error_margin:
+                with open(f'output/hillclimber/{name}_run_{run_count}.csv', 'a', newline='') as file:
+                    writer_new = csv.writer(file)
+                    for iteration in self.all_scores:
+                        writer_new.writerow([iteration, self.all_scores[iteration]])
+                self.all_scores={}
             
             iteration += 1
     
             
         return self.railway
             
+class NoReturn(HillClimber):
+    
+    def get_connection(self, station: 'Station', time: int, new_railway) -> 'Connection':
+        """ Get connection that is not visited yet. """
+        visited_connections = new_railway.get_all_visited_connections()
+        available_connections = new_railway.get_available_connections(station, time)
 
+        if not available_connections:
+            return None
+
+        elif not visited_connections:
+            choice = random.choice(available_connections)
+
+        else:
+            possible_connections = list(set(available_connections) - set(visited_connections))
+            if possible_connections:
+                choice = random.choice(possible_connections)
+            else:
+                return None
+        return choice
