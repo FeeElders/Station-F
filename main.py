@@ -50,8 +50,7 @@ if __name__ == "__main__":
     random_experiment.graph(name)
     
     name = random_experiment.not_so_random(railway, max_trajectories)
-    random_experiment.graph(name)
-   
+    random_experiment.graph(name)   
 
 
     # ------------------------------------Greedy------------------------------
@@ -70,7 +69,6 @@ if __name__ == "__main__":
     hillclimber_experiment.line_graph(count)
     
     
-
     #     # --------------------------- Visualisation --------------------
 #
 #     visuals.line_graph(scoreplot, count)
