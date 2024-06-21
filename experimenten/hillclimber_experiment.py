@@ -15,6 +15,11 @@ from datetime import datetime
 
 
 def hillclimb(railway):
+    """
+    Random hillclimber where a random traject is removed and a random new traject is made
+    
+    20 trajectories to start with and connections can be traveled multiple times
+    """
     run_count = 0
     date = datetime.today().strftime('%d-%m-%Y')
     name = f"HillClimber_{date}"
@@ -57,6 +62,11 @@ def hillclimb(railway):
 
     
 def hillclimb_4_2(railway):
+    """
+    Experiment where 4 trajects are deleted and then 2 new ones are created
+    
+    20 trajectories to start with and connections can be traveled multiple times
+    """
     run_count = 0
     
     date = datetime.today().strftime('%d-%m-%Y')
@@ -99,9 +109,16 @@ def hillclimb_4_2(railway):
     return name
 
 def hillclimb_noreturn(railway):
+    """
+    Experiment where new trajects can't do the connection twice
+    
+    start with 20 trajectories and 1 trajectory is replaced by one where connections can't be traveled twice
+    """
     run_count = 0
     
-    datum = "20-06-2024"
+    date = datetime.today().strftime('%d-%m-%Y')
+    name = f"HillClimber-4-2_{date}"
+    
     with open(f'output/hillclimber/{name}.csv', 'w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(['run_count','end_score'])
@@ -138,6 +155,57 @@ def hillclimb_noreturn(railway):
         run_count += 1
         
     return name
+
+def hillclimb_smart_start(railway):
+    """
+    Experiment where a start station is chosen where the possible connections is te lowest.
+    
+    New trajects can't do the connection twice, we start with 20 trajectories. 
+    1 trajectory is replaced by one where connections can't be traveled twice
+    and have a smart start staion
+    """
+    run_count = 0
+    
+    date = datetime.today().strftime('%d-%m-%Y')
+    name = f"HillClimber-4-2_{date}"
+    
+    with open(f'output/hillclimber/{name}.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['run_count','end_score'])
+        
+    while run_count < 1:
+
+        random = rd.Random(railway)
+        random_railway = random.run(20)
+        start = time.time()
+        delete = 1
+        add = 1
+        # create a new file
+        with open(f'output/hillclimber/{name}_run_{run_count}.csv', 'w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(['iterations','score'])
+                
+        print("Setting up Hill Climber...")
+        climber = hc.SmartStart(random_railway)
+
+        print("Running Hill Climber...")
+        climbing_railway = climber.run(run_count, name, delete, add, active=True)
+
+        print(f"Value of the configuration after Hill Climber: "
+              f"{climber.railway.score()}")
+        end = time.time()
+        running_time = end - start      
+        climber.railway.formatted_output(f"hillclimber/formatted_output_{name}_{run_count}.csv", running_time)
+                
+        # Add end score to csv        
+        with open(f'output/hillclimber/{name}.csv', 'a', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow([run_count, climber.railway.score()])
+                
+        run_count += 1
+        
+    return name
+    
        
        
 def line_graph(counts, heuristic, name):  
@@ -213,7 +281,6 @@ def hist_graph(name):
     print(count)
     n_bins = 5
 
-    # We can set the number of bins with the *bins* keyword argument.
     axs.hist(end_score, bins=n_bins)
 
     axs.set_xlim(0, 8000)

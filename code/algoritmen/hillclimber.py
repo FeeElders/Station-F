@@ -8,6 +8,7 @@ from code.algoritmen  import randomise as rd
 from code.classes.trajectory import Trajectory
 from code.classes.station import Station
 from code.classes.connection import Connection
+from code.visualisation import visuals 
 
 
 from code.classes import station, railway, connection, trajectory
@@ -24,8 +25,8 @@ class HillClimber():
         self.all_connections = self.railway.get_all_connections()
         self.all_scores: dict[int:int] = {}
         
-    def get_start_station(self):
-        return random.choice(list(self.railway.get_all_stations()))
+    def get_start_station(self, new_railway):
+        return random.choice(list(new_railway.get_all_stations()))
         
     def get_connection(self, station: 'Station', time: int, new_railway) -> 'Connection':
         connections = new_railway.get_available_connections(station, time)
@@ -39,7 +40,7 @@ class HillClimber():
         
     def create_new_train(self, new_railway):
         
-        current_station = self.get_start_station()
+        current_station = self.get_start_station(new_railway)
         train_id = new_railway.new_trajectory(current_station)
         train = new_railway._trains[train_id]
 
@@ -56,34 +57,37 @@ class HillClimber():
         return new_railway
         
         
-    def mutate_single_trajectory(self, new_railway, action:int, type_action:str):
+    def remove_single_trajectory(self, new_railway):
         """
-        Changes the connections of a random traject with a random valid traject.
+        removes a random traject.
         """
+                    
+        # get the key from the traject that is going to change
+        random_train = random.choice(list(new_railway._trains.keys()))
         
-        if type_action == "delete":    
-            
-            # get the key from the traject that is going to change
-            random_train = random.choice(list(new_railway._trains.keys()))
-            
-            # delete traject from dictionary
-            new_railway.delete_trajectory(random_train)
+        # delete traject from dictionary
+        new_railway.delete_trajectory(random_train)
         
-        if type_action == "add":
             
-            new_train = self.create_new_train(new_railway)
-        
-            return new_train  
+    def add_single_trajectory(self, new_railway):
+        """
+        add random valid traject.
+        """
+
+        new_train = self.create_new_train(new_railway)
+    
+        return new_train  
+    
 
     def mutate_railway(self, new_railway, delete, add):
         """
         Changes the value of a number of trajectories with a random valid traject.
         """
         for _ in range(delete):
-            self.mutate_single_trajectory(new_railway, delete, "delete")
+            self.remove_single_trajectory(new_railway)
             
         for _ in range(add):
-            self.mutate_single_trajectory(new_railway, add, "add")
+            self.add_single_trajectory(new_railway)
 
     def check_solution(self, new_railway) -> bool:
         """
@@ -96,6 +100,7 @@ class HillClimber():
         if new_score >= old_score:
             self.railway = new_railway
             self.score = new_score
+            visuals.railway_map(self.railway, self.score, "Hilly")
             
             return True
             
@@ -128,15 +133,16 @@ class HillClimber():
             
             self.all_scores[iteration]= self.score
             
-            # add score and iterations to csv every 20 iterations
-            if iteration%20 == 0 or no_change == error_margin:
-                with open(f'output/hillclimber/{name}_run_{run_count}.csv', 'a', newline='') as file:
-                    writer_new = csv.writer(file)
-                    for iteration in self.all_scores:
-                        writer_new.writerow([iteration, self.all_scores[iteration]])
-                self.all_scores={}
+            # # add score and iterations to csv every 20 iterations
+#             if iteration%20 == 0 or no_change == error_margin:
+#                 with open(f'output/hillclimber/{name}_run_{run_count}.csv', 'a', newline='') as file:
+#                     writer_new = csv.writer(file)
+#                     for iteration in self.all_scores:
+#                         writer_new.writerow([iteration, self.all_scores[iteration]])
+#                 self.all_scores={}
             
             iteration += 1
+            
     
             
         return self.railway
@@ -161,3 +167,76 @@ class NoReturn(HillClimber):
             else:
                 return None
         return choice
+        
+        
+class SmartStart(NoReturn):
+    
+    def get_start_station(self, new_railway) -> 'station':
+        stations_dict = new_railway.get_unvisited_station_connections()
+        minimal_station: dict[int: list['Station']] = {}
+        
+        for station in stations_dict:
+            connections = stations_dict[station]
+            amount_connections = len(connections)
+            if amount_connections in minimal_station.keys():
+                minimal_station[amount_connections].append(station)
+            else:
+                minimal_station[amount_connections] = [station]
+
+
+        list_keys = list(minimal_station.keys())
+        list_keys.sort(reverse=True)
+        key = list_keys[0]
+        if key == 0:
+            try:
+                key = list_keys[1]
+            except IndexError:
+                return None
+        
+        
+        possible_stations = minimal_station[key]
+        if len(possible_stations) == 0:
+            choice = None
+
+        elif len(possible_stations) == 1:
+            choice = possible_stations[0]
+
+        else:
+            choice = random.choice(possible_stations)
+
+        return choice
+
+class SmartRemove(NoReturn):
+    
+    def remove_single_trajectory(self, new_railway):
+        
+        # get the key from the traject that is going to change that has stations with unvisited connections
+        uvisited_station_connection_dict = new_railway.get_unvisited_station_connections()
+        stations = list(uvisited_station_connection_dict.keys())
+        
+        # loop door trajecten en kijk welke dit station bevatten
+        # geef de key van dat traject terug
+        
+        
+        random_train = random.choice(list(new_railway._trains.keys()))
+        
+        # delete traject from dictionary
+        new_railway.delete_trajectory(random_train)
+        
+        
+class SmallRemove(NoReturn):
+    
+    def mutate_railway(self, new_railway):
+        """ Add stations to the front of a traject """
+        
+        # get the key from the straject that is going to change
+        random_train = random.choice(list(new_railway._trains.keys()))
+        
+        # alter traject 
+        self.alter(random_train, new_railway)
+        
+    def alter(self, new_railway):
+        """ change within traject"""
+        
+        
+        

@@ -57,16 +57,16 @@ if __name__ == "__main__":
 
     # ------------------------------------Greedy------------------------------
 
-    greedy = gr.Greedy(railway)
-    greedy_railway = greedy.run(20)
-    print(f"greedy score: {greedy_railway.score()}")
-
-    smart_greedy = gr.SmartStartStation(railway)
-    smart_railway = smart_greedy.run(20)
-    print(f"greedy score: {smart_railway.score()}")
-
-    #name = greedy_experiment.greedy(railway)
-    name = greedy_experiment.smart_greedy(railway)
+    # greedy = gr.Greedy(railway)
+#     greedy_railway = greedy.run(20)
+#     print(f"greedy score: {greedy_railway.score()}")
+#
+#     smart_greedy = gr.SmartStartStation(railway)
+#     smart_railway = smart_greedy.run(20)
+#     print(f"greedy score: {smart_railway.score()}")
+#
+#     #name = greedy_experiment.greedy(railway)
+#     name = greedy_experiment.smart_greedy(railway)
     #visuals.railway_map(smart_railway, smart_railway.score(), "Smart Start Station")
     # greedy_long = gr.GetLongestConnection(railway)
     # gr_long = greedy_long.run(20)
@@ -74,16 +74,18 @@ if __name__ == "__main__":
 
 
     # ------------------------------HillClimber-------------------------------
+    delete = 1
+    add = 1
+    name = "test"
+    greedy = gr.SmartStartStation(railway)
+    greedy_railway = greedy.run(15)
+    climber = hc.SmartStart(greedy_railway)
 
-    # random = rd.Random(railway)
-    # random_railway = random.run(15)
-    # climber = hc.NoReturn(random_railway)
+    print("Running Hill Climber...")
+    climbing_railway = climber.run(1, name, delete, add, active=True)
 
-    # print("Running Hill Climber...")
-    # climbing_railway = climber.run(1, delete, add, active=True)
-
-    # print(f"Value of the configuration after Hill Climber: "
-    #       f"{climber.railway.score()}")
+    print(f"Value of the configuration after Hill Climber: "
+          f"{climber.railway.score()}")
 
     # naam = hillclimber_experiment.hillclimb(railway)
     # naam = hillclimber_experiment.hillclimb_4_2(railway)
