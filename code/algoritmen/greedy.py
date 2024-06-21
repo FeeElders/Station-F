@@ -169,8 +169,6 @@ class SmartStartStation(Greedy):
         else:
             choice = random.choice(possible_stations)
 
-        print(minimal_station)
-        print(choice)
         return choice
 
 class RandomGreedy(Greedy):

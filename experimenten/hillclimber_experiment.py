@@ -10,6 +10,7 @@ import csv
 import copy
 import time
 
+
 from statistics import mean 
 from datetime import datetime
 
@@ -49,7 +50,7 @@ def hillclimb(railway):
               f"{climber.railway.score()}")
         end = time.time()
         running_time = end - start      
-        climber.railway.formatted_output(f"greedy/formatted_output_{name}_{run_count}.csv", running_time)
+        climber.railway.formatted_output(f"hillclimber/formatted_output_{name}_{run_count}.csv", running_time)
                 
         # Add end score to csv        
         with open(f'output/hillclimber/{name}.csv', 'a', newline='') as file:

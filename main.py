@@ -56,22 +56,30 @@ if __name__ == "__main__":
 
 
     # ------------------------------------Greedy------------------------------
+    greedy = gr.Greedy(railway)
+    greedy_railway = greedy.run(20)
+    print(f"greedy score: {greedy_railway.score()}")
 
-    # greedy = gr.Greedy(railway)
-#     greedy_railway = greedy.run(20)
-#     print(f"greedy score: {greedy_railway.score()}")
-#
-#     smart_greedy = gr.SmartStartStation(railway)
-#     smart_railway = smart_greedy.run(20)
-#     print(f"greedy score: {smart_railway.score()}")
-#
-#     #name = greedy_experiment.greedy(railway)
-#     name = greedy_experiment.smart_greedy(railway)
-    #visuals.railway_map(smart_railway, smart_railway.score(), "Smart Start Station")
+    smart_greedy = gr.SmartStartStation(railway)
+    smart_railway = smart_greedy.run(20)
+    print(f"greedy score: {smart_railway.score()}")
+
+
+    greedy_experiment.graph("SmartGreedy_20-06-2024")
+    greedy_experiment.graph("Greedy_20-06-2024")
+
+    #   name = greedy_experiment.greedy(railway)
+
+#    name = greedy_experiment.smart_greedy(railway)
+
     # greedy_long = gr.GetLongestConnection(railway)
     # gr_long = greedy_long.run(20)
     # print(f"greedy score: {gr_long.score()}")
 
+
+    rd_greedy = gr.RandomGreedy(railway)
+    rand_gr_railway = rd_greedy.run(20)
+    print(f"randomgreedy score: {rand_gr_railway.score()}")
 
     # ------------------------------HillClimber-------------------------------
     delete = 1
