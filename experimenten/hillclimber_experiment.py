@@ -11,6 +11,7 @@ import copy
 import time
 import pickle
 
+
 from statistics import mean 
 from datetime import datetime
 
@@ -25,6 +26,7 @@ def hillclimb(railway, traject_amount = 20, delete = 1, add = 1, iterations = 20
     name = f"HillClimber_{date}"
     title = "Baseline"
     run_experiment(railway, traject_amount, name, heuristic, iterations, delete, add, title)
+
     
 def hillclimb_4_2(railway, traject_amount = 20, delete = 4, add = 2, iterations = 20, heuristic = hc.HillClimber):
     """
@@ -38,18 +40,16 @@ def hillclimb_4_2(railway, traject_amount = 20, delete = 4, add = 2, iterations 
     run_experiment(railway, traject_amount, name, heuristic, iterations, delete, add, title)
     
 def hillclimb_noreturn(railway, traject_amount = 20, delete = 1, add = 1, iterations = 20, heuristic = hc.NoReturn):
-    """
-    Experiment where new trajects can't do the connection twice
-    
-    start with 20 trajectories and 1 trajectory is replaced by one where connections can't be traveled twice
-    """
+
     date = datetime.today().strftime('%d-%m-%Y')
     name = f"HillClimber-no_return_{date}"
     title = "No return"
     run_experiment(railway, traject_amount, name, heuristic, iterations, delete, add, title)
     
+    
 
 def hillclimb_smart_start(railway, traject_amount = 20, delete = 1, add = 1, iterations = 20, heuristic = hc.SmartStart):
+
     """
     Experiment where a start station is chosen where the possible connections is te lowest.
     
@@ -85,6 +85,7 @@ def run_experiment(railway, traject_amount: int, name: str, heuristic, iteration
     """ Arg: Heuristic is a class from algorithms """  
     
     run_count = 0
+
     
     with open(f'output/hillclimber/{name}.csv', 'w', newline='') as file:
         writer = csv.writer(file)
@@ -105,10 +106,10 @@ def run_experiment(railway, traject_amount: int, name: str, heuristic, iteration
         climber = heuristic(random_railway)
 
         print("Running Hill Climber...")
-        climbing_railway = climber.run(run_count, name, delete, add, active=True)
+        climbing_railway = climber.run(run_count, name, delete, add, active=False)
 
         print(f"Value of the configuration after Hill Climber: "
-              f"{climber.railway.score()}")
+              f"{climbing_railway.score()}")
         end = time.time()
         running_time = end - start      
          
@@ -116,7 +117,8 @@ def run_experiment(railway, traject_amount: int, name: str, heuristic, iteration
         with open(f'output/hillclimber/{name}.csv', 'a', newline='') as file:
             writer = csv.writer(file)
             writer.writerow([run_count, climber.railway.score()])
-        
+
+        climbing_railway.formatted_output(f"hillclimber/formatted_output_{name}_{run_count}.csv", running_time)    
         
         run_count += 1    
         

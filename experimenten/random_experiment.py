@@ -16,7 +16,7 @@ def baseline(railway):
     count = 0
     scoreplot:dict[int:int] = {}
     best_random_railway: 'Railway' = None
-    name = "random_baseline"
+    name = "nh_random_baseline"
     interval = 20
     
     # create a new file
@@ -25,7 +25,7 @@ def baseline(railway):
         writer.writerow(['iterations','score'])
     
     start = time.time()
-    while count < 100:
+    while count < 10000:
       random = rd.Random(railway)
       random_railway = random.run()
       end = time.time()
@@ -56,7 +56,7 @@ def max_traject(railway, max_trajectories):
     count = 0
     scoreplot:dict[int:int] = {}
     best_random_railway: 'Railway' = None
-    name = "random_max_traject"
+    name = "nh_random_max_traject"
     interval = 20
     
     # create a new file
@@ -65,7 +65,7 @@ def max_traject(railway, max_trajectories):
         writer.writerow(['iterations','score'])
     
     start = time.time()
-    while count < 100:
+    while count < 10000:
         random = rd.Random(railway)
         random_railway = random.run(max_trajectories)
         end = time.time()
@@ -99,7 +99,7 @@ def no_visited_connections_max(railway, max_trajectories):
     count = 0
     scoreplot:dict[int:int] = {}
     best_random_railway: 'Railway' = None
-    name = "no_visited_connections"
+    name = "nh_no_visited_connections"
     interval = 20
     
     # create a new file
@@ -108,7 +108,7 @@ def no_visited_connections_max(railway, max_trajectories):
         writer.writerow(['iterations','score'])    
     
     start = time.time()
-    while count < 100:
+    while count < 10000:
         nvc_random = rd.NoVisitedConnections(railway)
         random_railway = nvc_random.run(max_trajectories)
         end = time.time()
@@ -125,7 +125,7 @@ def no_visited_connections_max(railway, max_trajectories):
                 writer_new = csv.writer(file)
                 for score in scoreplot:
                     writer_new.writerow([score, scoreplot[score]])
-            scoreplot= {}
+            scoreplot = {}
         count += 1 
     with open(f'output/random/{name}.csv', 'a', newline='') as file:
         writer_new = csv.writer(file)
@@ -141,7 +141,7 @@ def no_visited_connections_random(railway, max_trajectories):
     count = 0
     scoreplot:dict[int:int] = {}
     best_random_railway: 'Railway' = None
-    name = "no_visited_connections"
+    name = "nh_no_visited_connections"
     interval = 20
     
     # create a new file
@@ -150,7 +150,7 @@ def no_visited_connections_random(railway, max_trajectories):
         writer.writerow(['iterations','score'])    
     
     start = time.time()
-    while count < 100:
+    while count < 10000:
         nvc_random = rd.NoVisitedConnections(railway)
         random_railway = nvc_random.run()
         end = time.time()
@@ -173,7 +173,7 @@ def no_visited_connections_random(railway, max_trajectories):
         writer_new = csv.writer(file)
         for score in scoreplot:
             writer_new.writerow([score, scoreplot[score]]) 
-    
+
     return name
             
 def not_so_random(railway, max_trajectories):
@@ -185,7 +185,7 @@ def not_so_random(railway, max_trajectories):
     count = 0
     scoreplot:dict[int:int] = {}
     best_random_railway: 'Railway' = None
-    name = "not_so_random"
+    name = "nh_not_so_random"
     interval = 20
     
     # create a new file
@@ -195,7 +195,7 @@ def not_so_random(railway, max_trajectories):
     
     print(f"not so random trajectories in the making\n")
     start = time.time()
-    while count < 100:
+    while count < 10000:
         ns_random = rd.NotSoRandom(railway)
         random_railway = ns_random.run(max_trajectories)
         end = time.time()
@@ -219,7 +219,53 @@ def not_so_random(railway, max_trajectories):
         for score in scoreplot:
             writer_new.writerow([score, scoreplot[score]])
     
-    return name 
+    return name
+
+
+def trajectory_amount(railway):
+
+    train_count = 20
+    for _ in range(10):
+        count = 0
+        scoreplot:dict[int:int] = {}
+        best_random_railway: 'Railway' = None
+        name = f"nh_not_so_random_{train_count}_trains"
+        interval = 20
+        
+        # create a new file
+        with open(f'output/random/{name}.csv', 'w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(['iterations','score'])
+        
+        print(f"not so random trajectory {train_count} in the making\n")
+
+        while count < 1000:
+            start = time.time()
+            ns_random = rd.NotSoRandom(railway)
+            random_railway = ns_random.run(train_count)
+            end = time.time()
+            running_time = end - start
+
+            if helpers.best_score(random_railway, best_random_railway):
+                best_random_railway = copy.copy(random_railway)
+                best_random_railway.formatted_output(f"best_{name}_railway.csv", running_time)
+            scoreplot[count]= random_railway.score()
+        
+            if count%interval == 0:
+                # sla elke +-10 minuten de scores op in een bestand
+                with open(f'output/random/{name}.csv', 'a', newline='') as file:
+                    writer_new = csv.writer(file)
+                    for score in scoreplot:
+                        writer_new.writerow([score, scoreplot[score]])
+                scoreplot = {}
+            count += 1
+        with open(f'output/random/{name}.csv', 'a', newline='') as file:
+            writer_new = csv.writer(file)
+            for score in scoreplot:
+                writer_new.writerow([score, scoreplot[score]])
+        train_count -= 1
+        graph(name)
+    return name    
     
 def graph(name):
     """
@@ -243,7 +289,7 @@ def graph(name):
     ax.set(xlabel='Score (K)', ylabel='Frequentie',
                title=f'{name} 400 bins {count} keer')
 
-    plt.show()
+#    plt.show()
     fig.savefig(f"output/random/{name}.png")
    
 def railway_map(filename):

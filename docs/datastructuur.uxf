@@ -1,43 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="15.1">
-  <zoom_level>10</zoom_level>
+  <zoom_level>8</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>530</x>
-      <y>310</y>
-      <w>240</w>
-      <h>80</h>
+      <x>552</x>
+      <y>272</y>
+      <w>192</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>Connection
 --
 station1: Station
 statin2: Station
-distance: int</panel_attributes>
+distance: int
+--
+__repr__(): str
+get_station1(): Station
+get_station2(): Station
+get_distance(): int</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>530</x>
-      <y>460</y>
-      <w>240</w>
-      <h>80</h>
+      <x>552</x>
+      <y>456</y>
+      <w>192</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>Station
 --
 name: str
 x: int
-y: int</panel_attributes>
+y: int
+--
+__repr__(): str
+__eq__(): bool
+__ne__(): bool
+__hash__(): int</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>530</x>
-      <y>30</y>
-      <w>240</w>
-      <h>230</h>
+      <x>552</x>
+      <y>32</y>
+      <w>192</w>
+      <h>184</h>
     </coordinates>
     <panel_attributes>Trajectory
 --
@@ -59,22 +69,33 @@ is_running(): bool</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>380</x>
-      <y>80</y>
-      <w>170</w>
-      <h>40</h>
+      <x>408</x>
+      <y>152</y>
+      <w>160</w>
+      <h>32</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m1=0..n</panel_attributes>
-    <additional_attributes>10.0;10.0;150.0;10.0</additional_attributes>
+    <additional_attributes>10.0;10.0;180.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>640</x>
-      <y>380</y>
-      <w>30</w>
-      <h>100</h>
+      <y>384</y>
+      <w>24</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>640</x>
+      <y>208</y>
+      <w>24</w>
+      <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
@@ -82,60 +103,43 @@ m1=0..n</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>640</x>
-      <y>250</y>
-      <w>30</w>
-      <h>80</h>
+      <x>400</x>
+      <y>304</y>
+      <w>168</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>380</x>
-      <y>350</y>
-      <w>170</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;150.0;10.0</additional_attributes>
+    <additional_attributes>10.0;10.0;190.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>30</x>
-      <y>30</y>
+      <x>56</x>
+      <y>112</y>
       <w>360</w>
-      <h>450</h>
+      <h>288</h>
     </coordinates>
     <panel_attributes>Railway
 --
 max_trains: int
 max_time: int
 trains: dict[int: Trajectory]
-train_counter: int
-visited_stations: set(Station)
-visited_connections: set(Connection)
 stations: dict[str: Station]
 connections: list[Connection]
 --
 load_stations(str): None
 load_connections(str): None
 trains(): int
-print_stations(): None
-print_connections(): None
-print_trajectories(): None
-add_station(Station): None
 get_all_stations(): list[Station]
 get_visited_stations(): list[Station]
 get_all_connections(): set[Connection]
-get_visited_connections(): set[Connection]
-add_visited_connection(Connection): None
+get_all_visited_connections(): set[Connection]
+get_unvisited_station_connections(): dict['Station: list['Connection']]
 choose_connection(str, str): Connection
 get_available_connections(Station, int): list[Connection]
 new_trajectory(Station): None
-formatted_output(str): none
+delete_trajectory(int): None
+formatted_output(str): None
 is_valid(): None
 score(): int</panel_attributes>
     <additional_attributes/>
