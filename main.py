@@ -72,17 +72,19 @@ if __name__ == "__main__":
     # print(f"greedy score: {gr_long.score()}")
 
 
-    rd_greedy = gr.RandomGreedy(railway)
-    rand_gr_railway = rd_greedy.run(20)
-    print(f"randomgreedy score: {rand_gr_railway.score()}")
+    # rd_greedy = gr.RandomGreedy(railway)
+    # rand_gr_railway = rd_greedy.run(20)
+    # print(f"randomgreedy score: {rand_gr_railway.score()}")
+
+    greedy_experiment.trajectory_amount(railway)
 
     # ------------------------------HillClimber-------------------------------
 
 
-    naam = hillclimber_experiment.hillclimb(railway)
-    # naam = hillclimber_experiment.hillclimb_4_2(railway)
-    # hillclimber_experiment.hillclimb_noreturn(railway)
-    hillclimber_experiment.hillclimb_smart_start(railway)
+    # naam = hillclimber_experiment.hillclimb(railway)
+    # # naam = hillclimber_experiment.hillclimb_4_2(railway)
+    # # hillclimber_experiment.hillclimb_noreturn(railway)
+    # hillclimber_experiment.hillclimb_smart_start(railway)
 
 
     # count = hillclimber_experiment.hist_graph(name)
