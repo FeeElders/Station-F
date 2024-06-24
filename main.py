@@ -74,26 +74,28 @@ if __name__ == "__main__":
 
 
     # ------------------------------HillClimber-------------------------------
-    delete = 1
-    add = 1
-    name = "test"
-    greedy = gr.SmartStartStation(railway)
-    greedy_railway = greedy.run(15)
-    climber = hc.SmartStart(greedy_railway)
-
-    print("Running Hill Climber...")
-    climbing_railway = climber.run(1, name, delete, add, active=True)
-
-    print(f"Value of the configuration after Hill Climber: "
-          f"{climber.railway.score()}")
+    # delete = 1
+#     add = 1
+#     name = "test"
+#     greedy = gr.SmartStartStation(railway)
+#     greedy_railway = greedy.run(15)
+#     climber = hc.SmartStart(greedy_railway)
+#
+#     print("Running Hill Climber...")
+#     climbing_railway = climber.run(1, name, delete, add, active=True)
+#
+#     print(f"Value of the configuration after Hill Climber: "
+#           f"{climber.railway.score()}")
 
     # naam = hillclimber_experiment.hillclimb(railway)
     # naam = hillclimber_experiment.hillclimb_4_2(railway)
-    # naam = hillclimber_experiment.hillclimb_noreturn(railway)
+    # hillclimber_experiment.hillclimb_noreturn(railway)
+    hillclimber_experiment.hillclimb_smart_start(railway)
 
 
     # count = hillclimber_experiment.hist_graph(name)
     # hillclimber_experiment.line_graph(count, "random 1 traject", name)
+    # hillclimber_experiment.railway_map("climber_0")
 
     
     # --------------------------- Visualisation --------------------
