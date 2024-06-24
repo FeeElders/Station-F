@@ -102,18 +102,19 @@ def graph(name):
     fig, ax = plt.subplots()
     df = pd.read_csv(f'output/greedy/{name}.csv', delimiter=',')   
     count = len(df["score"])
-   
-    n_bins = 200
+
+    print(f"dataframe: {df}")
+    n_bins = 1
 
     # Generate a normal distributions
     dist1 = df['score']
-
+    print(dist1)
     # We can set the number of bins with the *bins* keyword argument.
     ax.hist(dist1, bins=n_bins)
-    ax.set_xlim(0, 8000)
+    ax.set_xlim(0, 10000)
     
     ax.set(xlabel='Score (K)', ylabel='Frequentie',
-               title=f'{name} 200 bins {count} keer')
+               title=f'{name} {n_bins} bins {count} keer')
 
     plt.show()
     fig.savefig(f"output/greedy/{name}.png")

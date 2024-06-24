@@ -18,7 +18,7 @@ from datetime import datetime
 if __name__ == "__main__":
     print("WELCOME TO RailNL")
     
-    data = "nh"
+    data = "nl"
     
     if data == "nl":
         time = 180
@@ -40,30 +40,31 @@ if __name__ == "__main__":
  
     # --------------------Random----------------------------------
     
-    # name = random_experiment.baseline(railway)
-    # # random_experiment.graph("random_baseline")
+    # # name = random_experiment.baseline(railway)
+    # random_experiment.graph("nh_random_baseline")
 
-    # name = random_experiment.max_traject(railway, max_trajectories)
-    # random_experiment.graph("random_max_traject")
+    # # name = random_experiment.max_traject(railway, max_trajectories)
+    # random_experiment.graph("nh_random_max_traject")
 
-    # name = random_experiment.no_visited_connections_max(railway, max_trajectories)
-    # # random_experiment.graph("no_visited_connections")
+    # # name = random_experiment.no_visited_connections_max(railway, max_trajectories)
+    # random_experiment.graph("nh_no_visited_connections")
 
-    # name = random_experiment.not_so_random(railway, max_trajectories)
-    # # random_experiment.graph("not_so_random")
+    # # name = random_experiment.not_so_random(railway, max_trajectories)
+    # random_experiment.graph("nh_not_so_random")
 
-
+    # name = random_experiment.trajectory_amount(railway)
+    # random_experiment.graph(name)
 
 
     # ------------------------------------Greedy------------------------------
 
-    # name = greedy_experiment.greedy(railway)
-    # # greedy_experiment.graph("Greedy_20-06-2024")
+    # # name = greedy_experiment.greedy(railway)
+    # greedy_experiment.graph("nh_Greedy_22-06-2024")
 
 
 
     # name = greedy_experiment.smart_greedy(railway)
-    # # greedy_experiment.graph("SmartGreedy_20-06-2024")
+    # greedy_experiment.graph("nh_SmartGreedy_22-06-2024")
 
 
     # greedy_long = gr.GetLongestConnection(railway)
@@ -71,9 +72,9 @@ if __name__ == "__main__":
     # print(f"greedy score: {gr_long.score()}")
 
 
-    # rd_greedy = gr.RandomGreedy(railway)
-    # rand_gr_railway = rd_greedy.run(20)
-    # print(f"randomgreedy score: {rand_gr_railway.score()}")
+    rd_greedy = gr.RandomGreedy(railway)
+    rand_gr_railway = rd_greedy.run(20)
+    print(f"randomgreedy score: {rand_gr_railway.score()}")
 
     # ------------------------------HillClimber-------------------------------
     # delete = 1
@@ -89,13 +90,17 @@ if __name__ == "__main__":
     # print(f"Value of the configuration after Hill Climber: "
     #       f"{climber.railway.score()}")
 
-    # naam = hillclimber_experiment.hillclimb(railway)
+    naam = hillclimber_experiment.hillclimb(railway)
     # naam = hillclimber_experiment.hillclimb_4_2(railway)
-    naam = hillclimber_experiment.hillclimb_noreturn(railway)
+    # naam = hillclimber_experiment.hillclimb_noreturn(railway)
 
 
-    # count = hillclimber_experiment.hist_graph(name)
-    # hillclimber_experiment.line_graph(count, "random 1 traject", name)
+    # count = hillclimber_experiment.hist_graph("nh_HillClimber_23-06-2024")
+    # hillclimber_experiment.line_graph(20, "Noord Holland Basic Climber", "nh_HillClimber_23-06-2024")
+
+    # smart_climber = hc.SmartRemove(railway)
+    # climber_railway = smart_climber.run(1, "test_smart_climber", 1, 1)
+    
 
     
     # --------------------------- Visualisation --------------------

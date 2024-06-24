@@ -59,7 +59,7 @@ class Random():
                     traject.add_connection(connection)    
 
 
-        print(f"the score: {self.railway.score()}")
+        #print(f"the score: {self.railway.score()}")
         
         return self.railway
 

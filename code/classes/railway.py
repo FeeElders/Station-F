@@ -189,6 +189,24 @@ class Railway():
         return list_connections
 
 
+    def get_unused_train_ids(self) -> list[int]:
+        """ Get the train id's that are missing from self._trains.
+
+        Returns:
+        list[int]: list of train id's that are not used
+        """
+        max = self._max_trains
+        train_ids = list(self._trains.keys())
+        unused_ids: list[int] = []
+
+        
+        for id in range(1, max + 1):
+            if id not in train_ids:
+                unused_ids.append(id)
+
+        return unused_ids
+        
+    
     def new_trajectory(self, start_station: 'Station') -> int:
         """ Make a new trajectory from a start station.
 
@@ -198,7 +216,8 @@ class Railway():
         Returns:
         int: the train number
         """
-        train_id = self.trains() + 1
+        train_numbers = self.get_unused_train_ids()
+        train_id = train_numbers[0]
         train = Trajectory(start_station, self._max_time)
         self._trains[train_id] = train
 

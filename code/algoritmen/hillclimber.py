@@ -246,34 +246,77 @@ class SmartStart(NoReturn):
 
         return choice
 
-class SmartRemove(NoReturn):
+class SmartRemove(SmartStart):
     
     def remove_single_trajectory(self):
         
-        # get the key from the trajectory that is going to change that has stations with unvisited connections
+        # get the key from the trajectory that that has stations with unvisited connections
         uvisited_station_connection_dict = self.new_railway.get_unvisited_station_connections()
+
+        # Get all stations in the dictionary
         stations = list(uvisited_station_connection_dict.keys())
+
+        # Make new dicionary for each station and it's trajectories
+        stations_train_count: dict['Station': int] = {}
+        for station in stations:
+            stations_train_count[station] = []
+
+        trajectories_dict = self.new_railway._trains
+
+        # Loop through each trajectory inside railway
+        for trajectory in trajectories_dict:
+            print(f"trajectory: {trajectory}")
+            trajectory_obj = trajectories_dict[trajectory]
+            print(f"object: {trajectory_obj}")
+            # loop through each station inside trajectory
+            for station in trajectory_obj.get_trajectory():
+                print(f"traject: {trajectory_obj.get_trajectory()}")
+                print(f"station: {station}")
+                if station in stations:
+                    # Append the trajectory number to the dictionary with station as key
+                    stations_train_count[station].append(trajectory)
+
+        # Choose random station
+        random_station = random.choice(stations)
+
+        # Choose random trajectory that is part of that station
+        trajectory_list = stations_train_count[random_station]
+
+        while len(trajectory_list) < 1:
+            del stations_train_count[random_station]
+            random_station = random.choice(stations)
+            print(random_station)
+            print(stations_train_count[random_station])
+            trajectory_list = stations_train_count[random_station]
+            
+        if len(trajectory_list) == 1:
+            trajectory_to_delete = trajectory_list[0]
+        else:
+            trajectory_to_delete = random.choice(trajectory_list)
+
+        # Delete that Trajectory
+        self.new_railway.delete_trajectory(trajectories_dict[trajectory_number])
 
         # TODO: for each station:
         # loop door trajecten en kijk welke dit station bevatten
         # self.new_railway.get_trajectory_parent(station())
         #     trajectory = choose one trajectory
-        
+
         # delete trajectory from dictionary
         # self.new_railway.delete_trajectory(trajectory)
-        pass
-        
+
+
 class SmallRemove(NoReturn):
-    
+
     def mutate_railway(self):
         """ Add stations to the front of a trajectory """
-        
+
         # get the key from the trajectory that is going to change
         random_train = random.choice(list(self.new_railway._trains.keys()))
-        
+
         # alter trajectory 
         self.alter(random_train)
-        
+
     def alter(self):
         """ change within traject"""
         

@@ -23,12 +23,12 @@ def hillclimb(railway):
     """
     run_count = 0
     date = datetime.today().strftime('%d-%m-%Y')
-    name = f"HillClimber_{date}"
+    name = f"nh_HillClimber_{date}"
     with open(f'output/hillclimber/{name}.csv', 'w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(['run_count','end_score'])
         
-    while run_count < 10:
+    while run_count < 20:
 
         random = rd.Random(railway)
         random_railway = random.run(20)
@@ -44,18 +44,18 @@ def hillclimb(railway):
         climber = hc.HillClimber(random_railway)
 
         print("Running Hill Climber...")
-        climbing_railway = climber.run(run_count, delete, add, active=True)
+        climbing_railway = climber.run(run_count, name, delete, add, active=False)
 
         print(f"Value of the configuration after Hill Climber: "
-              f"{climber.railway.score()}")
+              f"{climbing_railway.score()}")
         end = time.time()
         running_time = end - start      
-        climber.railway.formatted_output(f"hillclimber/formatted_output_{name}_{run_count}.csv", running_time)
+        climbing_railway.formatted_output(f"hillclimber/formatted_output_{name}_{run_count}.csv", running_time)
                 
         # Add end score to csv        
         with open(f'output/hillclimber/{name}.csv', 'a', newline='') as file:
             writer = csv.writer(file)
-            writer.writerow([run_count, climber.railway.score()])
+            writer.writerow([run_count, climbing_railway.score()])
                 
         run_count += 1
         
@@ -71,12 +71,12 @@ def hillclimb_4_2(railway):
     run_count = 0
     
     date = datetime.today().strftime('%d-%m-%Y')
-    name = f"HillClimber-4-2_{date}"
+    name = f"nh_HillClimber-4-2_{date}"
     with open(f'output/hillclimber/{name}.csv', 'w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(['run_count','end_score'])
         
-    while run_count < 1:
+    while run_count < 20:
 
         random = rd.Random(railway)
         random_railway = random.run(20)
@@ -92,18 +92,18 @@ def hillclimb_4_2(railway):
         climber = hc.HillClimber(random_railway)
 
         print("Running Hill Climber...")
-        climbing_railway = climber.run(run_count, delete, add, active=True)
+        climbing_railway = climber.run(run_count, name, delete, add, active=False)
 
         print(f"Value of the configuration after Hill Climber: "
-              f"{climber.railway.score()}")
+              f"{climbing_railway.score()}")
         end = time.time()
         running_time = end - start      
-        climber.railway.formatted_output(f"hillclimber/formatted_output_{name}_{run_count}.csv", running_time)
+        climbing_railway.formatted_output(f"hillclimber/formatted_output_{name}_{run_count}.csv", running_time)
                 
         # Add end score to csv        
         with open(f'output/hillclimber/{name}.csv', 'a', newline='') as file:
             writer = csv.writer(file)
-            writer.writerow([run_count, climber.railway.score()])
+            writer.writerow([run_count, climbing_railway.score()])
                 
         run_count += 1
         
@@ -118,13 +118,13 @@ def hillclimb_noreturn(railway):
     run_count = 0
     
     date = datetime.today().strftime('%d-%m-%Y')
-    name = f"HillClimber-4-2_{date}"
+    name = f"nh_HillClimber_noreturn_{date}"
     
     with open(f'output/hillclimber/{name}.csv', 'w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(['run_count','end_score'])
         
-    while run_count < 1:
+    while run_count < 20:
 
         random = rd.Random(railway)
         random_railway = random.run(20)
@@ -140,18 +140,18 @@ def hillclimb_noreturn(railway):
         climber = hc.NoReturn(random_railway)
 
         print("Running Hill Climber...")
-        climbing_railway = climber.run(run_count, name, delete, add, active=True)
+        climbing_railway = climber.run(run_count, name, delete, add, active=False)
 
         print(f"Value of the configuration after Hill Climber: "
-              f"{climber.railway.score()}")
+              f"{climbing_railway.score()}")
         end = time.time()
         running_time = end - start      
-        climber.railway.formatted_output(f"hillclimber/formatted_output_{name}_{run_count}.csv", running_time)
+        climbing_railway.formatted_output(f"hillclimber/formatted_output_{name}_{run_count}.csv", running_time)
                 
         # Add end score to csv        
         with open(f'output/hillclimber/{name}.csv', 'a', newline='') as file:
             writer = csv.writer(file)
-            writer.writerow([run_count, climber.railway.score()])
+            writer.writerow([run_count, climbing_railway.score()])
                 
         run_count += 1
         
@@ -168,13 +168,13 @@ def hillclimb_smart_start(railway):
     run_count = 0
     
     date = datetime.today().strftime('%d-%m-%Y')
-    name = f"HillClimber-4-2_{date}"
+    name = f"nh_HillClimber_smart_start_{date}"
     
     with open(f'output/hillclimber/{name}.csv', 'w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(['run_count','end_score'])
         
-    while run_count < 1:
+    while run_count < 20:
 
         random = rd.Random(railway)
         random_railway = random.run(20)
@@ -190,18 +190,18 @@ def hillclimb_smart_start(railway):
         climber = hc.SmartStart(random_railway)
 
         print("Running Hill Climber...")
-        climbing_railway = climber.run(run_count, name, delete, add, active=True)
+        climbing_railway = climber.run(run_count, name, delete, add, active=False)
 
         print(f"Value of the configuration after Hill Climber: "
-              f"{climber.railway.score()}")
+              f"{climbing_railway.score()}")
         end = time.time()
         running_time = end - start      
-        climber.railway.formatted_output(f"hillclimber/formatted_output_{name}_{run_count}.csv", running_time)
+        climbing_railway.formatted_output(f"hillclimber/formatted_output_{name}_{run_count}.csv", running_time)
                 
         # Add end score to csv        
         with open(f'output/hillclimber/{name}.csv', 'a', newline='') as file:
             writer = csv.writer(file)
-            writer.writerow([run_count, climber.railway.score()])
+            writer.writerow([run_count, climbing_railway.score()])
                 
         run_count += 1
         

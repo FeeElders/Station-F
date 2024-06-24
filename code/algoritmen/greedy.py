@@ -185,7 +185,7 @@ class SmartStartStation(Greedy):
 
         return choice
 
-class RandomGreedy(Greedy):
+class RandomGreedy(SmartStartStation):
     def random_or_greedy(self, unsorted_connections: list['Connection'], sorted_connections: list['Connection']) -> 'Connection':
         """ Choose either a random connection or a greedy connection. """
         random_number = random.random()
