@@ -15,6 +15,13 @@ class Greedy():
 
     
     def sort_connections(self, list_connections: list['Connection']) -> dict[int: list['Connection']]:
+        """ Sort connections on distance
+        Args:
+        list_connections (list['Connection']): the available connections
+        
+        Returns:
+        dict[int: list['Connection']
+        """
         sorted_connections: dict[int: list['Connection']] = {}
 
         for connection in list_connections:
@@ -62,7 +69,15 @@ class Greedy():
 
     
     def get_connection(self, station: 'Station', time: int) -> 'Connection':
-        """ Get connection to add to trajectory """
+        """ Get connection to add to trajectory
+
+        Args:
+        station ('Station'): station to start connection from
+        time (int): time that is left in trajectory
+
+        Returns:
+        'Connection'
+        """
         # Get all available connections
         connections = self.railway.get_available_connections(station, time)
         if connections == None:
@@ -78,6 +93,11 @@ class Greedy():
         return self.get_shortest_connection(sorted_connections)
         
     def run(self, trains = None) -> 'Railway':
+        """ Run greedy algorithm
+
+        Args:
+        trains (optional, int): the amount of trajectories
+        """ 
         if trains is None:
             amount = random.randint(1, self.railway._max_trains)
         else:
@@ -109,7 +129,7 @@ class Greedy():
 
 
 class GetLongestConnection(Greedy):
-    """ Get longest connection """
+    """ Get longest connection algorithm """
     def get_connection(self, station: 'Station', time: int) -> 'Connection':
         # Get all available connections
         connections = self.railway.get_available_connections(station, time)
@@ -131,12 +151,6 @@ class GetLongestConnection(Greedy):
 class SmartStartStation(Greedy):
     """ Use heuristics to get smart start station """
     def get_start_station(self) -> 'Station':
-        # # Get all stations
-        # all_stations = self.railway.get_all_stations()
-    
-        # # get visited_stations
-        # visited_stations = self.railway.get_visited_stations()
-
         stations_dict = self.railway.get_unvisited_station_connections()
         minimal_station: dict[int: list['Station']] = {}
         

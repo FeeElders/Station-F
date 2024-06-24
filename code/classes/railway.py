@@ -48,46 +48,38 @@ class Railway():
 
 
     def trains(self) -> int:
+        """ Return the number of trains in railway. """
         return len(list(self._trains.keys()))
-                
-                
-    def print_stations(self) -> None:
-        """ print all stations. """
-        for station in self._stations:
-            station_obj = self._stations[station]
-            print(f"{station_obj.name}, {station_obj.x}, {station_obj.y}\n")
 
             
-    def print_connections(self) -> None:
-        """ print all connections """
-        for connection in self._connections:
-            print(f"{connection._station1._name} - {connection._station2._name}, {connection._distance} min")
+    # def print_trajectories(self) -> None:
+    #     for train in self._trains:
+    #         trajectory = self._trains[train]
+    #         print(f"train {train}")
+    #         trajectory.print_trajectory()
 
             
-    def print_trajectories(self) -> None:
-        for train in self._trains:
-            trajectory = self._trains[train]
-            print(f"train {train}")
-            trajectory.print_trajectory()
-
-            
-    def add_station(self, station: 'Station') -> None:
-        """ Add station to all stations """
-        self._stations[station._name] = station
+    # def add_station(self, station: 'Station') -> None:
+    #     """ Add station to all stations """
+    #     self._stations[station._name] = station
 
         
     def get_all_stations(self) -> list['Station']:
-        """
-        Choose a random station from the list with stations.
-        """
+        """ Get all imported stations inside railway. """
         return self._stations.values()
 
     
     def get_visited_stations(self) -> set['Station']:
-        """ Get the stations that are visited. """
+        """ Get the stations that are visited by any of the trajectories inside railway.
+
+        Returns:
+        set('Station'): set of the stations that are visited.
+        """
+        # Access all visited connections
         visited_connections = self.get_all_visited_connections()
         visited_stations: list['Station'] = []
 
+        # Append stations of each connection to visited_stations
         for connection in visited_connections:
             station1 = connection.get_station1()
             station2 = connection.get_station2()
@@ -95,30 +87,44 @@ class Railway():
             visited_stations.append(station1)
             visited_stations.append(station2)
 
+        # transform to set to get rid of doubles and return
         return set(visited_stations)
          
-    def get_all_connections(self) -> set['Connection']:
-        """ Get all existing connections"""
-        return set(self._connections)
+    def get_all_connections(self) -> list['Connection']:
+        """ Get all imported connections inside railway"""
+        return self._connections
 
     
     def get_all_visited_connections(self) -> set['Connection']:
-        """ Get the connections that are visited within a railway"""
+        """ Get the connections that are visited in any of the trajectories.
+
+        Returns:
+        set('Connection')
+        """
+        # Initiate an empty list for visited connections
         visited_connections: list['Connection'] = []
 
+        # loop over each trajectory inside railway
         for train in self._trains:
             trajectory = self._trains[train]
-            traject_visited_connections = trajectory.get_visited_connections()
-            visited_connections.extend(traject_visited_connections)
+            trajectory_visited_connections = trajectory.get_visited_connections()
 
+            # extend visited_connections list with another list of visited connections
+            visited_connections.extend(trajectory_visited_connections)
+
+        # Return a set to get rid of doubles
         return set(visited_connections)
 
 
     def get_unvisited_station_connections(self) -> dict['Station': list['Connection']]:
-        """ Get unvisited connections per station """
-        
+        """ Get all the unvisited connections, organized per station.
+
+        Returns:
+        dict['Station': list['Connection']]: a dictionary of each station that has unvisited connections.
+        """
         all_stations = self.get_all_stations()
-        
+
+        # Make a dictionary with all the stations as keys
         stations_connections: dict['Station': list['Connection']] = {}
         for station in all_stations:
             stations_connections[station] = []
@@ -126,12 +132,15 @@ class Railway():
         all_connections = set(self.get_all_connections())
         visited_connections = set(self.get_all_visited_connections())
 
+        # Get all unvisited connections by intersecting
         unvisited_connections = all_connections - visited_connections
 
+        # Add unvisited connection to stations_connections for each station
         for connection in unvisited_connections:
             stations_connections[connection.get_station1()].append(connection)
             stations_connections[connection.get_station2()].append(connection)
 
+        # make a set from each list to get rid of doubles
         for key in stations_connections:
             set(stations_connections[key])
 
@@ -139,7 +148,14 @@ class Railway():
         
 
     def choose_connection(self, station1: str, station2: str) -> 'Connection':
-        """ Get connection object from two station strings. """
+        """ Get connection object from two station names.
+
+        Args:
+        station1 (str): name of one station
+        station2 (str): name of other station
+
+        Returns:
+        'Connection': the connection between those two stations"""
 
         connections = self._connections
 
@@ -148,42 +164,64 @@ class Railway():
                 return connection
 
     def get_available_connections(self, station: 'Station', time: int) -> list['Connection']:
+        """ Get available connections from a specific station within the time.
+
+        Args:
+        station ('Station'): station from where the connection is going.
+        time (int): time that is left within trajectory
+
+        Returns:
+        'Connection'
+        """
         time_left = time
         list_connections = []
         station = station
 
+        # Get all connections that have station in it and are within the time
         for connection in self._connections:
-            if (connection._station1 == station or connection._station2 == station) and connection._distance <= time_left:                list_connections.append(connection)
+            if (connection._station1 == station or connection._station2 == station)and connection._distance <= time_left:
+                list_connections.append(connection)
                         
-        # als er geen verbindingen meer mogelijk zijn          
+        # Return none if no available connections
         if not list_connections:
             return None
 
         return list_connections
 
 
-    def new_trajectory(self, current_station: 'Station') -> int:
+    def new_trajectory(self, start_station: 'Station') -> int:
+        """ Make a new trajectory from a start station.
+
+        Args:
+        start_station ('Station')
+
+        Returns:
+        int: the train number
+        """
         train_id = self.trains() + 1
-        train = Trajectory(current_station, self._max_time)
+        train = Trajectory(start_station, self._max_time)
         self._trains[train_id] = train
 
         return train_id
 
 
     def delete_trajectory(self, trajectory_number: int) -> None:
+        """ Delete trajectory from railway.
 
+        Args:
+        trajectory_number (int): the trajectory ID
+        """
         trajectory = self._trains[trajectory_number]
+
+        # Clear the trajectory before deleting
         trajectory.clear_visited_connections()
 
+        # Delete the trajectory from the dictionary
         self._trains.pop(trajectory_number)
 
 
     def formatted_output(self, filename: str, time: int) -> None:
-        """ 
-        Save the connections
-        When the track is complete give back all the connections
-        Containing start and finish of each connection and the time passed 
-        """
+        """ Save the railway to CSV in a formatted string output. """
 
         stations_string = ""
         
@@ -212,14 +250,17 @@ class Railway():
             writer.writerow(['time', time])
 
     def is_valid(self) -> bool:
-        """ Check if the railway is valid."""
+        """ Check if the railway has the correct amount of trajectories."""
 
         # Check that railway has no more than maximum trains
         return 0 < self.trains() < self._max_trains
  
  
     def score(self) -> int:
-        """Define score of all trajectories. """
+        """ Calculate the score of the railway.
+
+        Returns:
+        int"""
 
         # set T to the amount of trains
         T = self.trains()
