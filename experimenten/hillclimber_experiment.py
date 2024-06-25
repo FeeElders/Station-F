@@ -16,7 +16,7 @@ from statistics import mean
 from datetime import datetime
 
 
-def hillclimb(railway, traject_amount = 20, delete = 1, add = 1, iterations = 20, heuristic = hc.HillClimber):
+def hillclimb(railway, traject_amount: int, delete = 1, add = 1, iterations = 3, heuristic = hc.HillClimber):
     """
     Random hillclimber where a random traject is removed and a random new traject is made
     
@@ -28,7 +28,7 @@ def hillclimb(railway, traject_amount = 20, delete = 1, add = 1, iterations = 20
     run_experiment(railway, traject_amount, name, heuristic, iterations, delete, add, title)
 
     
-def hillclimb_4_2(railway, traject_amount = 20, delete = 4, add = 2, iterations = 20, heuristic = hc.HillClimber):
+def hillclimb_4_2(railway, traject_amount: int, delete = 4, add = 2, iterations = 20, heuristic = hc.HillClimber):
     """
     Experiment where 4 trajects are deleted and then 2 new ones are created
     
@@ -39,16 +39,15 @@ def hillclimb_4_2(railway, traject_amount = 20, delete = 4, add = 2, iterations 
     title = "Delete 4 add 2"
     run_experiment(railway, traject_amount, name, heuristic, iterations, delete, add, title)
     
-def hillclimb_noreturn(railway, traject_amount = 20, delete = 1, add = 1, iterations = 20, heuristic = hc.NoReturn):
+def hillclimb_noreturn(railway, traject_amount: int, delete = 1, add = 1, iterations = 20, heuristic = hc.NoReturn):
 
     date = datetime.today().strftime('%d-%m-%Y')
     name = f"HillClimber-no_return_{date}"
     title = "No return"
     run_experiment(railway, traject_amount, name, heuristic, iterations, delete, add, title)
     
-    
 
-def hillclimb_smart_start(railway, traject_amount = 20, delete = 1, add = 1, iterations = 20, heuristic = hc.SmartStart):
+def hillclimb_smart_start(railway, traject_amount: int, delete = 1, add = 1, iterations = 20, heuristic = hc.SmartStart):
 
     """
     Experiment where a start station is chosen where the possible connections is te lowest.
@@ -62,7 +61,8 @@ def hillclimb_smart_start(railway, traject_amount = 20, delete = 1, add = 1, ite
     title = "Smart Start"
     run_experiment(railway, traject_amount, name, heuristic, iterations, delete, add, title)
     
-def hillclimb_traject_amount(railway, traject_amount=20, delete = 1, add = 1, iterations = 5, heuristic = hc.HillClimber):
+
+def hillclimb_traject_amount(railway, traject_amount: int, delete = 1, add = 1, iterations = 3, heuristic = hc.HillClimber):
     """
     Experiment where a start station is chosen where the possible connections is te lowest.
     
@@ -72,9 +72,15 @@ def hillclimb_traject_amount(railway, traject_amount=20, delete = 1, add = 1, it
     """    
     
     date = datetime.today().strftime('%d-%m-%Y')
-    name = f"HillClimber-traject_amount_{date}"
+
+    if railway._max_trains == 7:
+        name = f"nh_HillClimber-traject_amount_{date}"
+        number_range = 3
+    if railway._max_trains == 20:
+        name = f"HillClimber-traject_amount_{date}"
+        number_range = 10
     
-    for _ in range(10):
+    for _ in range(number_range):
         title = f"traject amount {traject_amount}"
         run_experiment(railway, traject_amount, name, heuristic, iterations, delete, add, title)
         traject_amount -= 1

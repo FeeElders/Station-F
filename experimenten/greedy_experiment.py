@@ -11,13 +11,14 @@ import time
 from statistics import mean 
 from datetime import datetime
 
+
 def greedy(railway: 'Railway') -> None:
     """ Run greedy N times with 15 trajectories. """
     date = datetime.today().strftime('%d-%m-%Y')
     name = f"Greedy_{date}"
     scoreplot:dict[int:int] = {}
     count = 0
-    interval = 5000
+    interval = 100
     
     # create a new file
     with open(f'output/greedy/{name}.csv', 'w', newline='') as file:
@@ -25,7 +26,7 @@ def greedy(railway: 'Railway') -> None:
         writer.writerow(['iterations','score'])
 
     start = time.time()
-    while count < 1000000:
+    while count < 1000:
         greedy = gr.Greedy(railway)
         greedy_railway = greedy.run(15)
         end = time.time()
@@ -65,7 +66,7 @@ def smart_greedy(railway: 'Railway', traject_amount= 15, heuristic = gr.SmartSta
 def greedy_run(railway, traject_amount, name, heuristic, iterations, interval, title):
     scoreplot:dict[int:int] = {}
     count = 0
-    
+        
     # create a new file
     with open(f'output/greedy/{name}.csv', 'w', newline='') as file:
         writer = csv.writer(file)
@@ -73,6 +74,7 @@ def greedy_run(railway, traject_amount, name, heuristic, iterations, interval, t
 
     start = time.time()
     while count < iterations:
+
         smart_greedy = gr.SmartStartStation(railway)
         smart_railway = smart_greedy.run(15)
         end = time.time()
@@ -95,6 +97,91 @@ def greedy_run(railway, traject_amount, name, heuristic, iterations, interval, t
         writer_new = csv.writer(file)
         for score in scoreplot:
             writer_new.writerow([score, scoreplot[score]])
+
+
+def random_greedy(railway: 'Railway') -> None:
+    """ run experiment with random greedy through smart start """
+    date = datetime.today().strftime('%d-%m-%Y')
+    name = f"RandomGreedy_{date}"
+    scoreplot:dict[int:int] = {}
+    count = 0
+    interval = 100
+    
+    # create a new file
+    with open(f'output/greedy/{name}.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['iterations','score'])
+
+    start = time.time()
+    while count < 1000:
+        smart_greedy = gr.RandomGreedy(railway)
+        smart_railway = smart_greedy.run(15)
+        end = time.time()
+        running_time = end-start
+
+        smart_railway.formatted_output(f"greedy/formatted_output_{name}_run_{count}.csv", running_time)
+        scoreplot[count] = smart_railway.score()
+        
+        if count%interval == 0:
+            #Print something to show that still running
+            print(f"run {count}, downloading to csv")
+            # sla elke +-10 minuten de scores op in een bestand
+            with open(f'output/greedy/{name}.csv', 'a', newline='') as file:
+                writer_new = csv.writer(file)
+                for score in scoreplot:
+                    writer_new.writerow([score, scoreplot[score]])
+            scoreplot= {}
+        count += 1  
+    with open(f'output/greedy/{name}.csv', 'a', newline='') as file:
+        writer_new = csv.writer(file)
+        for score in scoreplot:
+            writer_new.writerow([score, scoreplot[score]])
+            
+    return name
+
+
+def trajectory_amount(railway: 'Railway') -> None:
+    """ Run SmartStartStation greedy N times with 15 trajectories. """
+
+    train_count = 20
+    for _ in range(10):
+        date = datetime.today().strftime('%d-%m-%Y')
+        name = f"SmartGreedy_{date}_{train_count}_trains"
+        scoreplot:dict[int:int] = {}
+        count = 0
+        interval = 100
+    
+        # create a new file
+        with open(f'output/greedy/{name}.csv', 'w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(['iterations','score'])
+
+        start = time.time()
+        while count < 1000:
+            smart_greedy = gr.SmartStartStation(railway)
+            smart_railway = smart_greedy.run(train_count)
+            end = time.time()
+            running_time = end-start
+
+            scoreplot[count] = smart_railway.score()
+        
+            if count%interval == 0:
+                #Print something to show that still running
+                print(f"run {count}, downloading to csv")
+                # sla elke +-10 minuten de scores op in een bestand
+                with open(f'output/greedy/{name}.csv', 'a', newline='') as file:
+                    writer_new = csv.writer(file)
+                    for score in scoreplot:
+                        writer_new.writerow([score, scoreplot[score]])
+            scoreplot= {}
+            count += 1  
+        with open(f'output/greedy/{name}.csv', 'a', newline='') as file:
+            writer_new = csv.writer(file)
+            for score in scoreplot:
+                writer_new.writerow([score, scoreplot[score]])
+        train_count -= 1
+        graph(name)
+
 
 def railway_map(filename):
     """
@@ -162,7 +249,7 @@ def railway_map(filename):
     plt.title(f'{filename} met een score van: {score}')
     
 
-    plt.show()
+    #plt.show()
     fig.savefig(f"output/greedy/visual_baseline_greedy.png") 
 
 
@@ -176,7 +263,7 @@ def graph(name):
     count = len(df["score"])
 
     print(f"dataframe: {df}")
-    n_bins = 1
+    n_bins = 400
 
     # Generate a normal distributions
     dist1 = df['score']
@@ -188,5 +275,5 @@ def graph(name):
     ax.set(xlabel='Score (K)', ylabel='Frequentie',
                title=f'{name} {n_bins} bins {count} keer')
 
-    plt.show()
+    #plt.show()
     fig.savefig(f"output/greedy/{name}.png")
