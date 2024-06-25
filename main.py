@@ -59,7 +59,7 @@ if __name__ == "__main__":
     # ------------------------------------Greedy------------------------------
 
     # greedy_experiment.greedy(railway)
-    greedy_experiment.smart_greedy(railway)
+    # greedy_experiment.smart_greedy(railway)
 
 
     # greedy_long = gr.GetLongestConnection(railway)
@@ -74,11 +74,18 @@ if __name__ == "__main__":
     # ------------------------------HillClimber-------------------------------
 
 
-    # hillclimber_experiment.hillclimb(railway)
-    # hillclimber_experiment.hillclimb_4_2(railway)
-    # hillclimber_experiment.hillclimb_noreturn(railway)
-    hillclimber_experiment.hillclimb_smart_start(railway)
-    # hillclimber_experiment.hillclimb_traject_amount(railway)
+    # hillclimber_experiment.hillclimb(railway, max_trajectories)
+    # hillclimber_experiment.hillclimb_4_2(railway, max_trajectories)
+    # hillclimber_experiment.hillclimb_noreturn(railway, max_trajectories)
+    # hillclimber_experiment.hillclimb_smart_start(railway, max_trajectories)
+    # hillclimber_experiment.hillclimb_traject_amount(railway, max_trajectories)
+
+    hillclimber_experiment.smart_remove(railway, max_trajectories)
+    
+    # random = rd.Random(railway)
+    # random_railway = random.run()
+    # smart_remove = hc.SmartRemove(random_railway)
+    # smart_climber = smart_remove.run(1, "test_hilly_smart_remove", 1, 1)
 
     
     # --------------------------- Visualisation --------------------

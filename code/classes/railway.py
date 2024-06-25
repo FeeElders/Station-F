@@ -230,6 +230,7 @@ class Railway():
         Args:
         trajectory_number (int): the trajectory ID
         """
+        print(f"trajectory number = {trajectory_number}")
         trajectory = self._trains[trajectory_number]
 
         # Clear the trajectory before deleting
@@ -296,8 +297,8 @@ class Railway():
 
         K = p*10000 - (T*100 + min)
 
-        print(f"trains: {T}")
-        print(f"min: {min}")
-        print(f"percentage {p}")
+        # print(f"trains: {T}")
+        # print(f"min: {min}")
+        # print(f"percentage {p}")
 
         return K

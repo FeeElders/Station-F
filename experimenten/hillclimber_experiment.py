@@ -60,8 +60,16 @@ def hillclimb_smart_start(railway, traject_amount: int, delete = 1, add = 1, ite
     name = f"HillClimber-smart_start_{date}"
     title = "Smart Start"
     run_experiment(railway, traject_amount, name, heuristic, iterations, delete, add, title)
-    
 
+
+def smart_remove(railway, traject_amount: int, delete = 1, add = 1, iterations = 20, heuristic = hc.SmartRemove):
+    """ Experiment with smart remove hillclimber."""
+    date = datetime.today().strftime('%d-%m-%Y')
+    name = f"HillClimber-smart_remove_{date}"
+    title = "Smart Remove"
+    run_experiment(railway, traject_amount, name, heuristic, iterations, delete, add, title)
+    
+    
 def hillclimb_traject_amount(railway, traject_amount: int, delete = 1, add = 1, iterations = 3, heuristic = hc.HillClimber):
     """
     Experiment where a start station is chosen where the possible connections is te lowest.
@@ -85,8 +93,7 @@ def hillclimb_traject_amount(railway, traject_amount: int, delete = 1, add = 1, 
         run_experiment(railway, traject_amount, name, heuristic, iterations, delete, add, title)
         traject_amount -= 1
     
-        
-    
+     
 def run_experiment(railway, traject_amount: int, name: str, heuristic, iterations: int, delete: int, add: int, title: str) -> None:
     """ Arg: Heuristic is a class from algorithms """  
     
@@ -113,7 +120,7 @@ def run_experiment(railway, traject_amount: int, name: str, heuristic, iteration
         climber = heuristic(random_railway)
 
         print("Running Hill Climber...")
-        climbing_railway = climber.run(run_count, name, delete, add, active=False)
+        climbing_railway = climber.run(run_count, name, delete, add, active=True)
 
         print(f"Value of the configuration after Hill Climber: "
               f"{climbing_railway.score()}")
@@ -134,9 +141,9 @@ def run_experiment(railway, traject_amount: int, name: str, heuristic, iteration
     helpers.object_output(climbing_railway, f"hillclimber/{name}")       
     railway_map(f"hillclimber/{name}", title)
     counts = hist_graph(name, title)
-    line_graph(counts, title, name)
+    line_graph_average(counts, title, name)
        
-def line_graph(counts, title, name):  
+def line_graph_average(counts, title, name):  
     """
     Plotten van de score vs de iteraties in een histogram
     y as komt de score en op de x as het aantal pogingen

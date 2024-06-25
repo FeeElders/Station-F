@@ -149,7 +149,7 @@ class HillClimber():
             self.check_solution()
 
             # Keep track of how often there is no change
-            if best_score(self.new_railway, self.old_railway):
+            if helpers.best_score(self.new_railway, self.old_railway):
                 no_change = 0
             else:
                 no_change += 1
@@ -251,30 +251,33 @@ class SmartRemove(SmartStart):
         uvisited_station_connection_dict = self.new_railway.get_unvisited_station_connections()
 
         # Get all stations in the dictionary
-        stations = list(uvisited_station_connection_dict.keys())
+        stations_unvisited = set(list(uvisited_station_connection_dict.keys()))
 
         # Make new dicionary for each station and it's trajectories
         stations_train_count: dict['Station': int] = {}
-        for station in stations:
+        for station in stations_unvisited:
             stations_train_count[station] = []
 
+        # Get all trajectories inside railway
         trajectories_dict = self.new_railway._trains
+        stations_trajectory: list['Station'] = []
 
-        # Loop through each trajectory inside railway
+        # Loop through each trajectory
         for trajectory in trajectories_dict:
-            print(f"trajectory: {trajectory}")
             trajectory_obj = trajectories_dict[trajectory]
-            print(f"object: {trajectory_obj}")
+            stations_trajectory.extend(trajectory_obj.get_trajectory())
             # loop through each station inside trajectory
             for station in trajectory_obj.get_trajectory():
-                print(f"traject: {trajectory_obj.get_trajectory()}")
-                print(f"station: {station}")
-                if station in stations:
+                if station in stations_unvisited:
                     # Append the trajectory number to the dictionary with station as key
                     stations_train_count[station].append(trajectory)
 
+        # Get list of all the unvisited stations that are in a trajectory
+
+        available_stations = list(set(stations_unvisited) & set(stations_trajectory))
+                    
         # Choose random station
-        random_station = random.choice(stations)
+        random_station = random.choice(available_stations)
 
         # Choose random trajectory that is part of that station
         trajectory_list = stations_train_count[random_station]
@@ -282,26 +285,19 @@ class SmartRemove(SmartStart):
         while len(trajectory_list) < 1:
             del stations_train_count[random_station]
             random_station = random.choice(stations)
-            print(random_station)
-            print(stations_train_count[random_station])
-            trajectory_list = stations_train_count[random_station]
-            
+            print(f"random station: {random_station}")
+            try:
+                trajectory_list = stations_train_count[random_station]
+            except:
+                continue
+                
         if len(trajectory_list) == 1:
             trajectory_to_delete = trajectory_list[0]
         else:
             trajectory_to_delete = random.choice(trajectory_list)
 
         # Delete that Trajectory
-        self.new_railway.delete_trajectory(trajectories_dict[trajectory_number])
-
-        # TODO: for each station:
-        # loop door trajecten en kijk welke dit station bevatten
-        # self.new_railway.get_trajectory_parent(station())
-        #     trajectory = choose one trajectory
-
-        # delete trajectory from dictionary
-        # self.new_railway.delete_trajectory(trajectory)
-
+        self.new_railway.delete_trajectory(trajectory_to_delete)
 
 
         
