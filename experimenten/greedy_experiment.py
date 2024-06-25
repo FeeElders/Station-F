@@ -11,6 +11,10 @@ import time
 from statistics import mean 
 from datetime import datetime
 
+
+def run_experiment(railway, traject_amount: int, name: str, title: str, heuristic, delete: int, add: int, iterations:int)
+
+
 def greedy(railway: 'Railway') -> None:
     """ Run greedy N times with 15 trajectories. """
     date = datetime.today().strftime('%d-%m-%Y')

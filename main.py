@@ -40,7 +40,7 @@ if __name__ == "__main__":
  
     # --------------------Random----------------------------------
     
-    # # name = random_experiment.baseline(railway)
+    # # name = random_experiment.baseline(railway, max_trajectories)
     # random_experiment.graph("nh_random_baseline")
 
     # # name = random_experiment.max_traject(railway, max_trajectories)
@@ -63,8 +63,8 @@ if __name__ == "__main__":
 
 
 
-    # name = greedy_experiment.smart_greedy(railway)
-    # greedy_experiment.graph("nh_SmartGreedy_22-06-2024")
+    name = greedy_experiment.smart_greedy(railway)
+    greedy_experiment.graph(name)
 
 
     # greedy_long = gr.GetLongestConnection(railway)
@@ -72,22 +72,22 @@ if __name__ == "__main__":
     # print(f"greedy score: {gr_long.score()}")
 
 
-    # rd_greedy = gr.RandomGreedy(railway)
+    # rd_greedy = gr.RandomGreedy(railway, max_trains)
     # rand_gr_railway = rd_greedy.run(20)
     # print(f"randomgreedy score: {rand_gr_railway.score()}")
 
-    greedy_experiment.trajectory_amount(railway)
+    # greedy_experiment.trajectory_amount(railway)
 
     # ------------------------------HillClimber-------------------------------
 
 
-    # naam = hillclimber_experiment.hillclimb(railway)
-    # # naam = hillclimber_experiment.hillclimb_4_2(railway)
-    # # hillclimber_experiment.hillclimb_noreturn(railway)
+    # hillclimber_experiment.hillclimb(railway)
+    # # # naam = hillclimber_experiment.hillclimb_4_2(railway)
+    # # # hillclimber_experiment.hillclimb_noreturn(railway)
     # hillclimber_experiment.hillclimb_smart_start(railway)
 
 
-    # count = hillclimber_experiment.hist_graph(name)
+    # hillclimber_experiment.hist_graph(name)
     # hillclimber_experiment.line_graph(count, "random 1 traject", name)
     # hillclimber_experiment.railway_map("climber_0")
     

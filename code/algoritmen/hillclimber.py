@@ -18,8 +18,6 @@ class HillClimber():
     def __init__(self, railway: 'Railway') -> None:
         # if not railway.is_valid():
 #             raise Exception("HillClimber requires a complete solution.")
-        
-        
         self.old_railway = copy.deepcopy(railway)
         self.new_railway = None
         self.score = self.old_railway.score()
@@ -136,7 +134,7 @@ class HillClimber():
         Returns:
         'Railway'
         """
-        error_margin = 1000
+        error_margin = 10000
         no_change = 0
         iteration = 0
         while no_change <= error_margin:
@@ -153,13 +151,13 @@ class HillClimber():
             self.check_solution()
 
             # Keep track of how often there is no change
-            if not self.check_solution():
-                no_change += 1
-            else:
+            if best_score(self.new_railway, self.old_railway):
                 no_change = 0
-            
+            else:
+                no_change += 1
+
             self.all_scores[iteration]= self.score
-            
+
             # add score and iterations to csv every 20 iterations
 
             if iteration%1000 == 0 or no_change == error_margin:
@@ -169,15 +167,15 @@ class HillClimber():
                     for iteration in self.all_scores:
                         writer_new.writerow([iteration, self.all_scores[iteration]])
                 self.all_scores={}
-            
+
             iteration += 1
-            
-    
-            
+
+
+
         return self.old_railway
-            
+
 class NoReturn(HillClimber):
-    
+
     def get_connection(self, station: 'Station', time: int) -> 'Connection':
         """ Get connection that is not visited yet.
 
@@ -203,10 +201,10 @@ class NoReturn(HillClimber):
             else:
                 return None
         return choice
-        
-        
+
+
 class SmartStart(NoReturn):
-    
+
     def get_start_station(self) -> 'station':
         """ Get start station based on smart start heuristic.
 
@@ -233,8 +231,8 @@ class SmartStart(NoReturn):
                 key = list_keys[1]
             except IndexError:
                 return None
-        
-        
+
+
         possible_stations = minimal_station[key]
         if len(possible_stations) == 0:
             choice = None
