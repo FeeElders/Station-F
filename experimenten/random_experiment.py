@@ -67,7 +67,26 @@ def trajectory_amount(railway: 'Railway', traject_amount: int, heuristic = rd.Ra
         random_run(railway, traject_amount, name, heuristic, iterations, interval, title)
         traject_amount -= 1
 
-          
+
+def notsorandom_trajectory_amount(railway: 'Railway', traject_amount: int, heuristic = rd.NotSoRandom, iterations = 10000, interval = 20):
+    """ Run Random algorithm for different trajectory amounts. """
+    date = datetime.today().strftime('%d-%m-%Y')
+    traject_amount = traject_amount
+    
+    if railway._max_trains == 7:
+        prefix= "NH_"
+        number_range = 3
+    if railway._max_trains == 20:
+        prefix= "NL_"
+        number_range = 10
+        
+    for _ in range(number_range):
+        name = f"{prefix}NotSoRandom-{traject_amount}_traject_amount_{date}"
+        title = f"NotSoRandom {traject_amount} trains"
+        print(title)
+        random_run(railway, traject_amount, name, heuristic, iterations, interval, title)
+        traject_amount -= 1
+        
 
 def random_run(railway, traject_amount, name, heuristic, iterations, interval, title):
     """ Run the experiment"""

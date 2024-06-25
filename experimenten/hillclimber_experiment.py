@@ -94,7 +94,33 @@ def hillclimb_traject_amount(railway, traject_amount: int, delete = 1, add = 1, 
         name = f"{prefix}HillClimber_{traject_amount}-traject_amount_{date}"
         run_experiment(railway, traject_amount, name, heuristic, iterations, delete, add, title)
         traject_amount -= 1
+
+
+def hillclimb_traject_amount(railway, traject_amount: int, delete = 1, add = 1, iterations = 3, heuristic = hc.SmartStart):
+    """
+    Experiment where a start station is chosen where the possible connections is te lowest.
     
+    New trajects can't do the connection twice, we start with 20 trajectories. 
+    1 trajectory is replaced by one where connections can't be traveled twice
+    and have a smart start staion
+    """    
+    
+    date = datetime.today().strftime('%d-%m-%Y')
+    traject_amount = traject_amount
+
+    if railway._max_trains == 7:
+        prefix= "NH_"
+        number_range = 3
+    if railway._max_trains == 20:
+        prefix = "NL_"
+        number_range = 10
+    
+    for _ in range(number_range):
+        title = f"Smart Hillclimber traject amount {traject_amount}"
+        name = f"{prefix}SmartStartHillClimber_{traject_amount}-traject_amount_{date}"
+        run_experiment(railway, traject_amount, name, heuristic, iterations, delete, add, title)
+        traject_amount -= 1
+        
      
 def run_experiment(railway, traject_amount: int, name: str, heuristic, iterations: int, delete: int, add: int, title: str) -> None:
     """ Arg: Heuristic is a class from algorithms """  
