@@ -66,6 +66,7 @@ def trajectory_amount(railway: 'Railway', traject_amount: int, heuristic = rd.Ra
         print(title)
         random_run(railway, traject_amount, name, heuristic, iterations, interval, title)
         traject_amount -= 1
+
           
 
 def random_run(railway, traject_amount, name, heuristic, iterations, interval, title):

@@ -40,11 +40,11 @@ if __name__ == "__main__":
  
     # --------------------Random----------------------------------
     
-    random_experiment.trajectory_amount(railway, max_trajectories)
-    # random_experiment.baseline(railway, max_trajectories)
+    # random_experiment.trajectory_amount(railway, max_trajectories)
+    random_experiment.baseline(railway, max_trajectories)
 #     random_experiment.max_traject(railway, max_trajectories)
 #     random_experiment.no_visited_connections_max(railway, max_trajectories)
-#     random_experiment.not_so_random(railway, max_trajectories)
+    # random_experiment.not_so_random(railway, max_trajectories)
     
     
 
@@ -52,13 +52,14 @@ if __name__ == "__main__":
     # ------------------------------------Greedy------------------------------
 
     # greedy_experiment.trajectory_amount(railway, max_trajectories)
+    # greedy_experiment.smart_trajectory_amount(railway, max_trajectories)
     # greedy_experiment.greedy(railway, max_trajectories)
     # greedy_experiment.smart_greedy(railway, max_trajectories)
     # greedy_experiment.random_greedy(railway, max_trajectories)
     
-    # greedy_long = gr.GetLongestConnection(railway)
-    # gr_long = greedy_long.run(20)
-    # print(f"greedy score: {gr_long.score()}")
+    # greedy_long = gr.Greedy(railway)
+#     gr_long = greedy_long.run(20)
+#     print(f"greedy score: {gr_long.score()}")
 
 
 
