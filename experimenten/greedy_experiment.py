@@ -21,7 +21,25 @@ def greedy(railway: 'Railway', traject_amount: int, heuristic = gr.Greedy, itera
     greedy_run(railway, traject_amount, name, heuristic, iterations, interval, title)
     
 
-def trajectory_amount(railway: 'Railway', traject_amount: int, heuristic = gr.SmartStartStation, iterations = 100, interval = 20) -> None:
+def smart_trajectory_amount(railway: 'Railway', traject_amount: int, heuristic = gr.SmartStartStation, iterations = 100, interval = 20) -> None:
+    """ Run SmartStartStation greedy N times with 15 trajectories. """
+    date = datetime.today().strftime('%d-%m-%Y')
+    traject_amount = traject_amount
+    
+    if railway._max_trains == 7:
+        prefix = "NH_"
+        number_range = 3
+    if railway._max_trains == 20:
+        prefix = "NL_"
+        number_range = 10
+        
+    for _ in range(number_range):
+        title = f"Smart Greedy {traject_amount} trains"
+        name = f"{prefix}SmartGreedy-{traject_amount}_trains_{date}"
+        greedy_run(railway, traject_amount, name, heuristic, iterations, interval, title)
+        traject_amount -= 1
+
+def trajectory_amount(railway: 'Railway', traject_amount: int, heuristic = gr.Greedy, iterations = 100, interval = 20) -> None:
     """ Run SmartStartStation greedy N times with 15 trajectories. """
     date = datetime.today().strftime('%d-%m-%Y')
     traject_amount = traject_amount
@@ -38,7 +56,6 @@ def trajectory_amount(railway: 'Railway', traject_amount: int, heuristic = gr.Sm
         name = f"{prefix}Greedy-{traject_amount}_trains_{date}"
         greedy_run(railway, traject_amount, name, heuristic, iterations, interval, title)
         traject_amount -= 1
-
 
 def smart_greedy(railway: 'Railway', traject_amount: int, heuristic = gr.SmartStartStation, iterations = 1000, interval = 500) -> None:
     """ Run SmartStartStation greedy N times with 15 trajectories. """
