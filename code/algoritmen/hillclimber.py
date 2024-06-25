@@ -137,9 +137,6 @@ class HillClimber():
         iteration = 0
         while no_change <= error_margin:
         #for iteration in range(iterations):
-            # Nice trick to only print if variable is set to True
-            print(f'Iteration {iteration} and {no_change}, current value: {self.score}') if active else None
-
             # Create a copy of the railway to simulate the change
             self.new_railway = copy.deepcopy(self.old_railway)
 
@@ -158,13 +155,14 @@ class HillClimber():
 
             # add score and iterations to csv every 20 iterations
             if iteration%1000 == 0 or no_change == error_margin:
-                print(f"iteration {iteration} and no change {no_change}, current score: {self.score}")
+                print(f"iteration {iteration} and no change {no_change}, current score: {self.score}") if active else None
                 with open(f'output/hillclimber/{name}_run_{run_count}.csv', 'a', newline='') as file:
                     writer_new = csv.writer(file)
                     for iteration in self.all_scores:
                         writer_new.writerow([iteration, self.all_scores[iteration]])
                 self.all_scores={}
 
+            visuals.railway_map(self.old_railway, self.score, "SmartRemove")
             iteration += 1
 
 
@@ -285,7 +283,6 @@ class SmartRemove(SmartStart):
         while len(trajectory_list) < 1:
             del stations_train_count[random_station]
             random_station = random.choice(stations)
-            print(f"random station: {random_station}")
             try:
                 trajectory_list = stations_train_count[random_station]
             except:

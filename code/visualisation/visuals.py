@@ -50,7 +50,7 @@ def hillclimber_graph(all_scores, fast_plot=False):
     plt.show()
 
     
-def railway_map(best_railway, score, algoritme):
+def railway_map(best_railway: 'Railway', score: int, algoritme: str):
     """
     De visualisatie van de opties
 

@@ -50,11 +50,18 @@ if __name__ == "__main__":
 
 
     # ------------------------------------Greedy------------------------------
+
     # greedy_experiment.trajectory_amount(railway, max_trajectories)
     # greedy_experiment.greedy(railway, max_trajectories)
     # greedy_experiment.smart_greedy(railway, max_trajectories)
     # greedy_experiment.random_greedy(railway, max_trajectories)
     
+    # greedy_long = gr.GetLongestConnection(railway)
+    # gr_long = greedy_long.run(20)
+    # print(f"greedy score: {gr_long.score()}")
+
+
+
     # ------------------------------HillClimber-------------------------------
 
     # hillclimber_experiment.hillclimb_traject_amount(railway, max_trajectories)
@@ -63,11 +70,3 @@ if __name__ == "__main__":
     # hillclimber_experiment.hillclimb_noreturn(railway, max_trajectories)
     # hillclimber_experiment.hillclimb_smart_start(railway, max_trajectories)
     # hillclimber_experiment.smart_remove(railway, max_trajectories)
-    
-    
-    # --------------------------- Visualisation --------------------
-#
-#     visuals.line_graph(scoreplot, count)
-#     visuals.hillclimber_graph(climber.all_scores)
-#     visuals.railway_map(smart_railway, smart_railway.score(), "Smart Start Station")
-#     visuals.climbing_map(climbing_railway)

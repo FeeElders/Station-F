@@ -13,14 +13,15 @@ from statistics import mean
 from datetime import datetime
 
 
-def greedy(railway: 'Railway', traject_amount:int, heuristic = gr.Greedy, iterations = 1000, interval = 500) -> None:
+def greedy(railway: 'Railway', traject_amount: int, heuristic = gr.Greedy, iterations = 1000, interval = 500) -> None:
     """ Run greedy N times with 15 trajectories. """
     date = datetime.today().strftime('%d-%m-%Y')
     name = f"Greedy_{date}"
     title = "Greedy baseline"
     greedy_run(railway, traject_amount, name, heuristic, iterations, interval, title)
     
-def trajectory_amount(railway: 'Railway', traject_amount:int, heuristic = gr.SmartStartStation, iterations = 100, interval = 20) -> None:
+
+def trajectory_amount(railway: 'Railway', traject_amount: int, heuristic = gr.SmartStartStation, iterations = 100, interval = 20) -> None:
     """ Run SmartStartStation greedy N times with 15 trajectories. """
     date = datetime.today().strftime('%d-%m-%Y')
     traject_amount = traject_amount
@@ -38,7 +39,8 @@ def trajectory_amount(railway: 'Railway', traject_amount:int, heuristic = gr.Sma
         greedy_run(railway, traject_amount, name, heuristic, iterations, interval, title)
         traject_amount -= 1
 
-def smart_greedy(railway: 'Railway', traject_amount:int, heuristic = gr.SmartStartStation, iterations = 1000, interval = 500) -> None:
+
+def smart_greedy(railway: 'Railway', traject_amount: int, heuristic = gr.SmartStartStation, iterations = 1000, interval = 500) -> None:
     """ Run SmartStartStation greedy N times with 15 trajectories. """
     date = datetime.today().strftime('%d-%m-%Y')
     name = f"SmartGreedy_{date}"
@@ -46,31 +48,35 @@ def smart_greedy(railway: 'Railway', traject_amount:int, heuristic = gr.SmartSta
     greedy_run(railway, traject_amount, name, heuristic, iterations, interval, title)
           
 
-def random_greedy(railway: 'Railway', traject_amount:int, heuristic = gr.RandomGreedy, iterations = 1000, interval = 500) -> None:
+def random_greedy(railway: 'Railway', traject_amount: int, heuristic = gr.RandomGreedy, iterations = 1000, interval = 500) -> None:
     """ run experiment with random greedy through smart start """
     date = datetime.today().strftime('%d-%m-%Y')
     name = f"RandomGreedy_{date}"
     title = "Smart greedy"
     greedy_run(railway, traject_amount, name, heuristic, iterations, interval, title)
-    
-def greedy_run(railway, traject_amount, name, heuristic, iterations, interval, title):
+
+
+def greedy_run(railway: 'Railway', traject_amount: int, name: str, heuristic, iterations: int, interval: int, title: str):
     scoreplot:dict[int:int] = {}
     count = 0
+    best_greedy_railway: 'Railway' = None
         
     # create a new file
     with open(f'output/greedy/{name}.csv', 'w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(['iterations','score'])
 
-    start = time.time()
     while count < iterations:
-
+        start = time.time()
         greedy = heuristic(railway)
         railway = greedy.run(traject_amount)
         end = time.time()
         running_time = end-start
 
-        # railway.formatted_output(f"greedy/formatted_output_{name}_run_{count}.csv", running_time)
+        if helpers.best_score(railway, best_greedy_railway):
+            best_greedy_railway = copy.copy(railway)
+            best_greedy_railway.formatted_output(f"best_{name}_railway.csv", running_time)
+            helpers.object_output(best_greedy_railway, f"greedy/{name}")
         scoreplot[count] = railway.score()
         
         if count%interval == 0:

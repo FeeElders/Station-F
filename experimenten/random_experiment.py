@@ -14,50 +14,42 @@ from statistics import mean
 from datetime import datetime
 
 
-def baseline(railway: 'Railway', traject_amount=None, heuristic = rd.Random, iterations = 1000, interval = 20):
+def baseline(railway: 'Railway', traject_amount=None, heuristic = rd.Random, iterations = 1000, interval = 20) -> None:
+    """ Run baseline experiment. """
     name = "random_baseline"
     title = "Random baseline"
-    random_run(railway, traject_amount, name, heuristic, iterations, interval, title)
-    
-    
+    random_run(railway, traject_amount, name, heuristic, iterations, interval, title)   
         
-      
-def max_traject(railway: 'Railway', traject_amount: int, heuristic = rd.Random, iterations = 1000, interval = 20):
+
+def max_traject(railway: 'Railway', traject_amount: int, heuristic = rd.Random, iterations = 1000, interval = 20) -> None:
+    """ Run Random algorithm with maximum trajectories. """
     name = "random_max_traject"
     title = "random max traject"
     random_run(railway, traject_amount, name, heuristic, iterations, interval, title)
-    
-   
 
-def no_visited_connections_max(railway: 'Railway', traject_amount: int, heuristic = rd.NoVisitedConnections, iterations = 1000, interval = 20):
-    """
-    Also with max traject
-    """
+
+def no_visited_connections_max(railway: 'Railway', traject_amount: int, heuristic = rd.NoVisitedConnections, iterations = 1000, interval = 20) -> None:
+    """ Run NoVisitedConnections algorithm with maximum amount of trajectories."""
     name = "no_visited_connections"
     title = "no_visited_connections"
     random_run(railway, traject_amount, name, heuristic, iterations, interval, title)
                 
-def no_visited_connections_random(railway: 'Railway', traject_amount= None, heuristic = rd.NoVisitedConnections, iterations = 1000, interval = 20):
-    """
-    with random trajects
-    """
+def no_visited_connections_random(railway: 'Railway', traject_amount= None, heuristic = rd.NoVisitedConnections, iterations = 1000, interval = 20) -> None:
+    """ Run NoVisitedConnections algorithm with random amount of trajectories."""
     name = "no_visited_connections_random"
     title = "no visited connections random"
     random_run(railway, traject_amount, name, heuristic, iterations, interval, title)
     
             
-def not_so_random(railway: 'Railway', traject_amount: int, heuristic = rd.NotSoRandom, iterations = 1000, interval = 20):
-    """
-    Gestuurde start staion en gestuurde connection
-    
-    begin station dat nog niet is geweest en een verbinding die nog niet is geweest. beide tenzij het niet anders kan
-    """
+def not_so_random(railway: 'Railway', traject_amount: int, heuristic = rd.NotSoRandom, iterations = 1000, interval = 20) -> None:
+    """ Run NotSoRandom algorithm. """
     name = "not_so_random"
     title = "Not so random"
     random_run(railway, traject_amount, name, heuristic, iterations, interval, title)
 
 
 def trajectory_amount(railway: 'Railway', traject_amount: int, heuristic = rd.Random, iterations = 10000, interval = 20):
+    """ Run Random algorithm for different trajectory amounts. """
     date = datetime.today().strftime('%d-%m-%Y')
     traject_amount = traject_amount
     
@@ -77,7 +69,7 @@ def trajectory_amount(railway: 'Railway', traject_amount: int, heuristic = rd.Ra
           
 
 def random_run(railway, traject_amount, name, heuristic, iterations, interval, title):
-    
+    """ Run the experiment"""
     count = 0
     scoreplot:dict[int:int] = {}
     best_random_railway: 'Railway' = None

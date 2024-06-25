@@ -51,18 +51,6 @@ class Railway():
         """ Return the number of trains in railway. """
         return len(list(self._trains.keys()))
 
-            
-    # def print_trajectories(self) -> None:
-    #     for train in self._trains:
-    #         trajectory = self._trains[train]
-    #         print(f"train {train}")
-    #         trajectory.print_trajectory()
-
-            
-    # def add_station(self, station: 'Station') -> None:
-    #     """ Add station to all stations """
-    #     self._stations[station._name] = station
-
         
     def get_all_stations(self) -> list['Station']:
         """ Get all imported stations inside railway. """
@@ -230,7 +218,6 @@ class Railway():
         Args:
         trajectory_number (int): the trajectory ID
         """
-        print(f"trajectory number = {trajectory_number}")
         trajectory = self._trains[trajectory_number]
 
         # Clear the trajectory before deleting
