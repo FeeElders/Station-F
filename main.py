@@ -40,53 +40,30 @@ if __name__ == "__main__":
  
     # --------------------Random----------------------------------
     
-    # # name = random_experiment.baseline(railway, max_trajectories)
-    # random_experiment.graph("nh_random_baseline")
-
-    # # name = random_experiment.max_traject(railway, max_trajectories)
-    # random_experiment.graph("nh_random_max_traject")
-
-    # # name = random_experiment.no_visited_connections_max(railway, max_trajectories)
-    # random_experiment.graph("nh_no_visited_connections")
-
-    # # name = random_experiment.not_so_random(railway, max_trajectories)
-    # random_experiment.graph("nh_not_so_random")
-
-    # name = random_experiment.trajectory_amount(railway)
-    # random_experiment.graph(name)
+    random_experiment.trajectory_amount(railway, max_trajectories)
+    # random_experiment.baseline(railway, max_trajectories)
+#     random_experiment.max_traject(railway, max_trajectories)
+#     random_experiment.no_visited_connections_max(railway, max_trajectories)
+#     random_experiment.not_so_random(railway, max_trajectories)
+    
+    
 
 
     # ------------------------------------Greedy------------------------------
-
-    # greedy_experiment.greedy(railway)
-    # greedy_experiment.smart_greedy(railway)
-
-
-    # greedy_long = gr.GetLongestConnection(railway)
-    # gr_long = greedy_long.run(20)
-    # print(f"greedy score: {gr_long.score()}")
-
-
-
-    # greedy_experiment.trajectory_amount(railway)
-
-
+    # greedy_experiment.trajectory_amount(railway, max_trajectories)
+    # greedy_experiment.greedy(railway, max_trajectories)
+    # greedy_experiment.smart_greedy(railway, max_trajectories)
+    # greedy_experiment.random_greedy(railway, max_trajectories)
+    
     # ------------------------------HillClimber-------------------------------
 
-
+    # hillclimber_experiment.hillclimb_traject_amount(railway, max_trajectories)
     # hillclimber_experiment.hillclimb(railway, max_trajectories)
     # hillclimber_experiment.hillclimb_4_2(railway, max_trajectories)
     # hillclimber_experiment.hillclimb_noreturn(railway, max_trajectories)
     # hillclimber_experiment.hillclimb_smart_start(railway, max_trajectories)
-    # hillclimber_experiment.hillclimb_traject_amount(railway, max_trajectories)
-
-    hillclimber_experiment.smart_remove(railway, max_trajectories)
+    # hillclimber_experiment.smart_remove(railway, max_trajectories)
     
-    # random = rd.Random(railway)
-    # random_railway = random.run()
-    # smart_remove = hc.SmartRemove(random_railway)
-    # smart_climber = smart_remove.run(1, "test_hilly_smart_remove", 1, 1)
-
     
     # --------------------------- Visualisation --------------------
 #

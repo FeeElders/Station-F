@@ -80,16 +80,18 @@ def hillclimb_traject_amount(railway, traject_amount: int, delete = 1, add = 1, 
     """    
     
     date = datetime.today().strftime('%d-%m-%Y')
+    traject_amount = traject_amount
 
     if railway._max_trains == 7:
-        name = f"nh_HillClimber-traject_amount_{date}"
+        prefix= "NH_"
         number_range = 3
     if railway._max_trains == 20:
-        name = f"HillClimber-traject_amount_{date}"
+        prefix = "NL_"
         number_range = 10
     
     for _ in range(number_range):
-        title = f"traject amount {traject_amount}"
+        title = f"Hillclimber traject amount {traject_amount}"
+        name = f"{prefix}HillClimber_{traject_amount}-traject_amount_{date}"
         run_experiment(railway, traject_amount, name, heuristic, iterations, delete, add, title)
         traject_amount -= 1
     
@@ -194,8 +196,9 @@ def line_graph_average(counts, title, name):
     plt.fill_between(x = iteration, y1 = minimum, y2 = maximum, color="lightgrey")    
         
 
-    plt.show()
+    # plt.show()
     plt.savefig(f"output/hillclimber/average_line_{name}_{title}.png")      
+    plt.close()
         
 def hist_graph(name, title):
     """
@@ -220,9 +223,10 @@ def hist_graph(name, title):
     plt.ylabel('Frequentie')
     plt.title(f'Hill Climber {title}, {n_bins} bins {count} keer')
 
-    plt.show()
+    # plt.show()
 
     plt.savefig(f"output/hillclimber/histogram_{name}.png")
+    plt.close()
     
     return count
     
@@ -288,8 +292,9 @@ def railway_map(filename, title):
     plt.title(f'Hill climber {title} met een score van: {score}')
     
 
-    plt.show()
+    # plt.show()
     plt.savefig(f"output/hillclimber/visual_{title}_Hillclimber.png") 
+    plt.close()
      
 
     

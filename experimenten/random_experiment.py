@@ -8,11 +8,13 @@ import pandas as pd
 import csv
 import copy
 import time
+import pickle
 
 from statistics import mean 
+from datetime import datetime
 
 
-def baseline(railway: 'Railway', traject_amount= 20, heuristic = rd.Random, iterations = 1000, interval = 20):
+def baseline(railway: 'Railway', traject_amount=None, heuristic = rd.Random, iterations = 1000, interval = 20):
     name = "random_baseline"
     title = "Random baseline"
     random_run(railway, traject_amount, name, heuristic, iterations, interval, title)
@@ -20,14 +22,14 @@ def baseline(railway: 'Railway', traject_amount= 20, heuristic = rd.Random, iter
     
         
       
-def max_traject(railway: 'Railway', traject_amount= 20, heuristic = rd.Random, iterations = 1000, interval = 20):
+def max_traject(railway: 'Railway', traject_amount: int, heuristic = rd.Random, iterations = 1000, interval = 20):
     name = "random_max_traject"
     title = "random max traject"
     random_run(railway, traject_amount, name, heuristic, iterations, interval, title)
     
    
 
-def no_visited_connections_max(railway: 'Railway', traject_amount= 20, heuristic = rd.NoVisitedConnections, iterations = 1000, interval = 20):
+def no_visited_connections_max(railway: 'Railway', traject_amount: int, heuristic = rd.NoVisitedConnections, iterations = 1000, interval = 20):
     """
     Also with max traject
     """
@@ -44,7 +46,7 @@ def no_visited_connections_random(railway: 'Railway', traject_amount= None, heur
     random_run(railway, traject_amount, name, heuristic, iterations, interval, title)
     
             
-def not_so_random(railway: 'Railway', traject_amount= 20, heuristic = rd.NotSoRandom, iterations = 1000, interval = 20):
+def not_so_random(railway: 'Railway', traject_amount: int, heuristic = rd.NotSoRandom, iterations = 1000, interval = 20):
     """
     Gestuurde start staion en gestuurde connection
     
@@ -55,12 +57,21 @@ def not_so_random(railway: 'Railway', traject_amount= 20, heuristic = rd.NotSoRa
     random_run(railway, traject_amount, name, heuristic, iterations, interval, title)
 
 
-def trajectory_amount(railway: 'Railway', traject_amount= 20, heuristic = rd.Random, iterations = 1000, interval = 20):
+def trajectory_amount(railway: 'Railway', traject_amount: int, heuristic = rd.Random, iterations = 10000, interval = 20):
+    date = datetime.today().strftime('%d-%m-%Y')
+    traject_amount = traject_amount
     
-    traject_amount = 20
-    for _ in range(10):
-        name = f"random_{traject_amount}_trains"
+    if railway._max_trains == 7:
+        prefix= "NH_"
+        number_range = 3
+    if railway._max_trains == 20:
+        prefix= "NL_"
+        number_range = 10
+        
+    for _ in range(number_range):
+        name = f"{prefix}Random-{traject_amount}_traject_amount_{date}"
         title = f"random {traject_amount} trains"
+        print(title)
         random_run(railway, traject_amount, name, heuristic, iterations, interval, title)
         traject_amount -= 1
           
@@ -108,7 +119,7 @@ def random_run(railway, traject_amount, name, heuristic, iterations, interval, t
     railway_map(f"random/{name}", title)
     graph(name, title)
     
-def graph(name):
+def graph(name, title):
     """
     Plotten van de scores per experiment in een hisogram
     y as komt het aantal pogingen en op de x as de score
@@ -116,7 +127,7 @@ def graph(name):
     df = pd.read_csv(f'output/random/{name}.csv', delimiter=',')   
     count = len(df["score"])
 
-    n_bins = 400
+    n_bins = 200
 
     # Generate a normal distributions
     dist1 = df['score']
@@ -126,12 +137,13 @@ def graph(name):
 
     plt.xlabel('Score (K)')
     plt.ylabel('Frequentie')
-    plt.title=f'{name} {n_bins} bins {count} keer')
+    plt.title(f'{title}, {n_bins} bins {count} keer')
 
-    plt.show()
-    plt.savefig(f"output/random/{name}.png")
+    #plt.show()
+    plt.savefig(f"output/random/{title}.png")
+    plt.close()
    
-def railway_map(filename):
+def railway_map(filename, title):
     """
     De visualisatie van de opties
 
@@ -158,8 +170,8 @@ def railway_map(filename):
         labels.append(station._name)
         x_values.append(float(station._y)) 
         y_values.append(float(station._x))   
-        
-    plt.figure(figsize = (6,9))
+    
+    plt.figure(figsize = (6,9))    
     plt.scatter(x_values, y_values)
     
     
@@ -177,9 +189,6 @@ def railway_map(filename):
         y_connection.append(float(station2._x))
         plt.plot(x_connection, y_connection, color="lightgrey", linestyle="--")
 
-    
-    
-
     # Collect trajectories from railway
     trajectory_dict = railway._trains
 
@@ -193,10 +202,12 @@ def railway_map(filename):
         plt.plot(xline, yline, color=colors[i], linestyle="-")
     
     score = railway.score()
-    plt.title(f'{filename} met een score van: {score}')
+    plt.title(f'{title} met een score van: {score}')
     
-
-    plt.show()
-    plt.savefig(f"output/random/visual_baseline_random.png") 
+    
+    # plt.show()
+    plt.savefig(f"output/random/map_{title}.png") 
+    plt.close()
+    
 
  

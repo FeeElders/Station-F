@@ -132,7 +132,7 @@ class HillClimber():
         Returns:
         'Railway'
         """
-        error_margin = 10000
+        error_margin = 100
         no_change = 0
         iteration = 0
         while no_change <= error_margin:

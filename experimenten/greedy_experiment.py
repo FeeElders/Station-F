@@ -7,30 +7,38 @@ import pandas as pd
 import csv
 import copy
 import time
+import pickle
 
 from statistics import mean 
 from datetime import datetime
 
 
-def greedy(railway: 'Railway', traject_amount= 20, heuristic = gr.Greedy, iterations = 1000, interval = 500) -> None:
+def greedy(railway: 'Railway', traject_amount:int, heuristic = gr.Greedy, iterations = 1000, interval = 500) -> None:
     """ Run greedy N times with 15 trajectories. """
     date = datetime.today().strftime('%d-%m-%Y')
     name = f"Greedy_{date}"
     title = "Greedy baseline"
     greedy_run(railway, traject_amount, name, heuristic, iterations, interval, title)
     
-def trajectory_amount(railway: 'Railway', traject_amount= 20, heuristic = gr.Greedy, iterations = 1000, interval = 500) -> None:
+def trajectory_amount(railway: 'Railway', traject_amount:int, heuristic = gr.SmartStartStation, iterations = 100, interval = 20) -> None:
     """ Run SmartStartStation greedy N times with 15 trajectories. """
     date = datetime.today().strftime('%d-%m-%Y')
-    name = f"Greedy_traject_amount_{date}"
-    title = "Greedy traject amount"
+    traject_amount = traject_amount
     
-    traject_amount = 20
-    for _ in range(10):
+    if railway._max_trains == 7:
+        prefix = "NH_"
+        number_range = 3
+    if railway._max_trains == 20:
+        prefix = "NL_"
+        number_range = 10
+        
+    for _ in range(number_range):
+        title = f"Greedy {traject_amount} trains"
+        name = f"{prefix}Greedy-{traject_amount}_trains_{date}"
         greedy_run(railway, traject_amount, name, heuristic, iterations, interval, title)
         traject_amount -= 1
 
-def smart_greedy(railway: 'Railway', traject_amount= 15, heuristic = gr.SmartStartStation, iterations = 1000, interval = 500) -> None:
+def smart_greedy(railway: 'Railway', traject_amount:int, heuristic = gr.SmartStartStation, iterations = 1000, interval = 500) -> None:
     """ Run SmartStartStation greedy N times with 15 trajectories. """
     date = datetime.today().strftime('%d-%m-%Y')
     name = f"SmartGreedy_{date}"
@@ -38,7 +46,7 @@ def smart_greedy(railway: 'Railway', traject_amount= 15, heuristic = gr.SmartSta
     greedy_run(railway, traject_amount, name, heuristic, iterations, interval, title)
           
 
-def random_greedy(railway: 'Railway', traject_amount= 15, heuristic = gr.RandomGreedy, iterations = 1000, interval = 500) -> None:
+def random_greedy(railway: 'Railway', traject_amount:int, heuristic = gr.RandomGreedy, iterations = 1000, interval = 500) -> None:
     """ run experiment with random greedy through smart start """
     date = datetime.today().strftime('%d-%m-%Y')
     name = f"RandomGreedy_{date}"
@@ -62,7 +70,7 @@ def greedy_run(railway, traject_amount, name, heuristic, iterations, interval, t
         end = time.time()
         running_time = end-start
 
-        railway.formatted_output(f"greedy/formatted_output_{name}_run_{count}.csv", running_time)
+        # railway.formatted_output(f"greedy/formatted_output_{name}_run_{count}.csv", running_time)
         scoreplot[count] = railway.score()
         
         if count%interval == 0:
@@ -142,14 +150,15 @@ def railway_map(filename, title):
         plt.plot(xline, yline, color=colors[i], linestyle="-")
     
     score = railway.score()
-    plt.title(f'{filename} met een score van: {score}')
+    plt.title(f'{title} met een score van: {score}')
     
 
-    plt.show()
-    plt.savefig(f"output/greedy/visual_baseline_greedy.png") 
+    # plt.show()
+    plt.savefig(f"output/greedy/{title}.png") 
+    plt.close()
 
 
-def graph(name):
+def graph(name, title):
     """
     Plotten van de scores per experiment in een hisogram
     y as komt het aantal pogingen en op de x as de score
@@ -157,17 +166,21 @@ def graph(name):
     df = pd.read_csv(f'output/greedy/{name}.csv', delimiter=',')   
     count = len(df["score"])
 
-    n_bins = 400
+    n_bins = 200
 
     # Generate a normal distributions
     dist1 = df['score']
+    print(dist1)
     # We can set the number of bins with the *bins* keyword argument.
     plt.hist(dist1, bins=n_bins)
     plt.xlim(0, 8000)
     
     plt.xlabel('Score (K)')
     plt.ylabel('Frequentie')
-    plt.title=f'{name} {n_bins} bins {count} keer')
+    plt.title(f'{title}, {n_bins} bins {count} keer')
 
-    plt.show()
-    plt.savefig(f"output/greedy/{name}.png")
+    # plt.show()
+    plt.savefig(f"output/greedy/{title}.png")
+    plt.close()
+    
+    
