@@ -101,13 +101,14 @@ def run_experiment(railway, traject_amount: int, name: str, heuristic, iteration
 
         random = rd.Random(railway)
         random_railway = random.run(traject_amount)
-        start = time.time()
+        
         
         # create a new file
         with open(f'output/hillclimber/{name}_run_{run_count}.csv', 'w', newline='') as file:
             writer = csv.writer(file)
             writer.writerow(['iteration','score'])
-                
+            
+        start = time.time()        
         print("Setting up Hill Climber...")
         climber = heuristic(random_railway)
 
