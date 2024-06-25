@@ -52,13 +52,19 @@ def greedy(railway: 'Railway') -> None:
     return name
 
 
-def smart_greedy(railway: 'Railway') -> None:
+def smart_greedy(railway: 'Railway', traject_amount= 15, heuristic = gr.SmartStartStation, iterations = 1000, interval = 5000) -> None:
     """ Run SmartStartStation greedy N times with 15 trajectories. """
     date = datetime.today().strftime('%d-%m-%Y')
     name = f"SmartGreedy_{date}"
+    title = " Smart greedy"
+    greedy_run(railway, traject_amount, name, heuristic, iterations, interval, title)
+    
+            
+    
+    
+def greedy_run(railway, traject_amount, name, heuristic, iterations, interval, title):
     scoreplot:dict[int:int] = {}
     count = 0
-    interval = 5000
     
     # create a new file
     with open(f'output/greedy/{name}.csv', 'w', newline='') as file:
@@ -66,7 +72,7 @@ def smart_greedy(railway: 'Railway') -> None:
         writer.writerow(['iterations','score'])
 
     start = time.time()
-    while count < 1000000:
+    while count < iterations:
         smart_greedy = gr.SmartStartStation(railway)
         smart_railway = smart_greedy.run(15)
         end = time.time()
@@ -89,8 +95,6 @@ def smart_greedy(railway: 'Railway') -> None:
         writer_new = csv.writer(file)
         for score in scoreplot:
             writer_new.writerow([score, scoreplot[score]])
-            
-    return name
 
 def railway_map(filename):
     """

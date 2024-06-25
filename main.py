@@ -72,29 +72,18 @@ if __name__ == "__main__":
     # print(f"greedy score: {gr_long.score()}")
 
 
-    rd_greedy = gr.RandomGreedy(railway)
-    rand_gr_railway = rd_greedy.run(20)
-    print(f"randomgreedy score: {rand_gr_railway.score()}")
+    # rd_greedy = gr.RandomGreedy(railway)
+#     rand_gr_railway = rd_greedy.run(20)
+#     print(f"randomgreedy score: {rand_gr_railway.score()}")
 
     # ------------------------------HillClimber-------------------------------
 
 
-    naam = hillclimber_experiment.hillclimb(railway)
-    # naam = hillclimber_experiment.hillclimb_4_2(railway)
+    # hillclimber_experiment.hillclimb(railway)
+    # hillclimber_experiment.hillclimb_4_2(railway)
     # hillclimber_experiment.hillclimb_noreturn(railway)
     hillclimber_experiment.hillclimb_smart_start(railway)
-
-
-    # count = hillclimber_experiment.hist_graph(name)
-    # hillclimber_experiment.line_graph(count, "random 1 traject", name)
-    # hillclimber_experiment.railway_map("climber_0")
-    
-    # count = hillclimber_experiment.hist_graph("nh_HillClimber_23-06-2024")
-    # hillclimber_experiment.line_graph(20, "Noord Holland Basic Climber", "nh_HillClimber_23-06-2024")
-
-    # smart_climber = hc.SmartRemove(railway)
-    # climber_railway = smart_climber.run(1, "test_smart_climber", 1, 1)
-    
+    # hillclimber_experiment.hillclimb_traject_amount(railway)
     
     # --------------------------- Visualisation --------------------
 #

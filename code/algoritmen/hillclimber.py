@@ -105,7 +105,7 @@ class HillClimber():
         for _ in range(add):
             self.add_single_trajectory()
 
-    def check_solution(self) -> bool:
+    def check_solution(self) -> None:
         """ Check if new railway is better than the old railway and if so, replace the old with the new railway.
 
         Returns:
@@ -114,14 +114,12 @@ class HillClimber():
         new_score = self.new_railway.score()
         old_score = self.score
 
-        # We are looking for maps that score better!
+        # We are looking for maps that score better or the same!
 
         if new_score >= old_score:
             self.old_railway = self.new_railway
             self.score = new_score
-            return True
-            
-        return False
+          
 
     def run(self, run_count, name, delete, add, active=False) -> 'Railway':
         """ Run hillclimber algorithm until there's N times no change.
@@ -139,7 +137,7 @@ class HillClimber():
         error_margin = 1000
         no_change = 0
         iteration = 0
-        while no_change <= error_margin:
+        while iteration <= 100:
         #for iteration in range(iterations):
             # Nice trick to only print if variable is set to True
             print(f'Iteration {iteration} and {no_change}, current value: {self.score}') if active else None
@@ -161,6 +159,7 @@ class HillClimber():
             self.all_scores[iteration]= self.score
             
             # add score and iterations to csv every 20 iterations
+            print(f"iteration {iteration} and no change {no_change}, current score: {self.score}")
 
             if iteration%1000 == 0 or no_change == error_margin:
                 print(f"iteration {iteration} and no change {no_change}, current score: {self.score}")
@@ -226,7 +225,7 @@ class SmartStart(NoReturn):
 
 
         list_keys = list(minimal_station.keys())
-        list_keys.sort(reverse=True)
+        list_keys.sort(reverse=False)
         key = list_keys[0]
         if key == 0:
             try:

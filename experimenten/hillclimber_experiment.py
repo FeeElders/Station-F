@@ -62,7 +62,7 @@ def hillclimb_smart_start(railway, traject_amount = 20, delete = 1, add = 1, ite
     title = "Smart Start"
     run_experiment(railway, traject_amount, name, heuristic, iterations, delete, add, title)
     
-def hillclimb_traject_amount(railway, traject_amount=20, delete = 1, add = 1, iterations = 20, heuristic = hc.HillClimber):
+def hillclimb_traject_amount(railway, traject_amount=20, delete = 1, add = 1, iterations = 5, heuristic = hc.HillClimber):
     """
     Experiment where a start station is chosen where the possible connections is te lowest.
     
@@ -116,17 +116,17 @@ def run_experiment(railway, traject_amount: int, name: str, heuristic, iteration
         # Add end score to csv        
         with open(f'output/hillclimber/{name}.csv', 'a', newline='') as file:
             writer = csv.writer(file)
-            writer.writerow([run_count, climber.railway.score()])
+            writer.writerow([run_count, climbing_railway.score()])
 
         climbing_railway.formatted_output(f"hillclimber/formatted_output_{name}_{run_count}.csv", running_time)    
         
         run_count += 1    
         
     # Functions to create plots
-    climber.railway.formatted_output(f"hillclimber/formatted_output_{name}.csv", running_time)
-    helpers.object_output(climber.railway, f"hillclimber/{name}")       
+    climbing_railway.formatted_output(f"hillclimber/formatted_output_{name}.csv", running_time)
+    helpers.object_output(climbing_railway, f"hillclimber/{name}")       
     railway_map(f"hillclimber/{name}", title)
-    counts = hist_graph(name)
+    counts = hist_graph(name, title)
     line_graph(counts, title, name)
        
 def line_graph(counts, title, name):  
@@ -184,7 +184,7 @@ def line_graph(counts, title, name):
     plt.show()
     fig.savefig(f"output/hillclimber/average_line_{name}_{title}.png")      
         
-def hist_graph(name):
+def hist_graph(name, title):
     """
     Plotten van de scores per algoritme in een hisogram
     y as komt het aantal pogingen en op de x as de score
@@ -196,18 +196,16 @@ def hist_graph(name):
     run_count = df["run_count"]
     end_score = df["end_score"]
     
-    print(end_score)
-
     count = len(df["end_score"])
-    print(count)
-    n_bins = 5
+    n_bins = 20
+    print(end_score)
 
     axs.hist(end_score, bins=n_bins)
 
     axs.set_xlim(0, 8000)
    
     axs.set(xlabel='Score (K)', ylabel='Frequentie',
-              title=f'Hill Climber {n_bins} bins {count} keer')
+              title=f'Hill Climber {title} {n_bins} bins {count} keer')
     plt.show()
     fig.savefig(f"output/hillclimber/histogram_{name}.png")
     
