@@ -149,10 +149,9 @@ def line_graph_average(counts, title, name):
     y as komt de score en op de x as het aantal pogingen
     """
     colors = ["black", "deeppink", "plum", "olive", "orange", "grey", "firebrick", "darksalmon", "lightgrey", "gold", "deepskyblue", "chartreuse", "green", "teal",  "blue", "indigo", "greenyellow", "crimson", "lemonchiffon", "darkmagenta", "azure", "bisque"]
-    fig, ax = plt.subplots()
-    ax.set_title(f'Hill Climber algoritme {title}')
-    ax.set_xlabel('Iteraties')
-    ax.set_ylabel('Score')
+    plt.title(f'Hill Climber algoritme {title}')
+    plt.xlabel('Iteraties')
+    plt.ylabel('Score')
     
     minimum = []
     maximum = []
@@ -192,11 +191,11 @@ def line_graph_average(counts, title, name):
            
       
     plt.plot(iteration, average, color="red", linestyle="-")
-    ax.fill_between(x = iteration, y1 = minimum, y2 = maximum, color="lightgrey")    
+    plt.fill_between(x = iteration, y1 = minimum, y2 = maximum, color="lightgrey")    
         
 
     plt.show()
-    fig.savefig(f"output/hillclimber/average_line_{name}_{title}.png")      
+    plt.savefig(f"output/hillclimber/average_line_{name}_{title}.png")      
         
 def hist_graph(name, title):
     """
@@ -204,7 +203,6 @@ def hist_graph(name, title):
     y as komt het aantal pogingen en op de x as de score
     """
     
-    fig, axs = plt.subplots()
     df = pd.read_csv(f'output/hillclimber/{name}.csv', delimiter=',')   
 
     run_count = df["run_count"]
@@ -214,14 +212,17 @@ def hist_graph(name, title):
     n_bins = 20
     print(end_score)
 
-    axs.hist(end_score, bins=n_bins)
+    plt.hist(end_score, bins=n_bins)
 
-    axs.set_xlim(0, 8000)
-   
-    axs.set(xlabel='Score (K)', ylabel='Frequentie',
-              title=f'Hill Climber {title} {n_bins} bins {count} keer')
+    plt.xlim(0, 8000)
+
+    plt.xlabel('Score (K)')
+    plt.ylabel('Frequentie')
+    plt.title(f'Hill Climber {title}, {n_bins} bins {count} keer')
+
     plt.show()
-    fig.savefig(f"output/hillclimber/histogram_{name}.png")
+
+    plt.savefig(f"output/hillclimber/histogram_{name}.png")
     
     return count
     

@@ -142,7 +142,6 @@ def railway_map(filename):
     Rood, Oranje, Geel, Groen, Blauw, Roze, Paars. 
     Wanneer een station wordt gebruit wordt het vakje zwart. 
     """
-    fig, ax = plt.subplots()
     with open(f'output/{filename}.pkl', 'rb') as file:
         railway = pickle.load(file)
     
@@ -198,6 +197,6 @@ def railway_map(filename):
     
 
     plt.show()
-    fig.savefig(f"output/random/visual_baseline_random.png") 
+    plt.savefig(f"output/random/visual_baseline_random.png") 
 
  
