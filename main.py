@@ -42,7 +42,7 @@ if __name__ == "__main__":
     
     # random_experiment.trajectory_amount(railway, max_trajectories)
     # random_experiment.notsorandom_trajectory_amount(railway, max_trajectories)
-    # random_experiment.baseline(railway, max_trajectories)
+    random_experiment.baseline(railway, max_trajectories)
 #     random_experiment.max_traject(railway, max_trajectories)
 #     random_experiment.no_visited_connections_max(railway, max_trajectories)
     # random_experiment.not_so_random(railway, max_trajectories)
