@@ -1,24 +1,42 @@
 # Station-F
-## Case
-In nederland hebben we een spoorwegen netwerk die stations met elkaar verbind. Hierdoor kun je van utrecht naar amsterdam. Echter hebben niet alle stations een verbinding met elkaar. Zo kom je alleen via Alkmaar bij Den Helder. Het is daarom een uitdaging om alle verbindingen te bereiden met zo min mogelijk trajecten in zo min mogelijk tijd. Om oplossingen voor Nederland te vinden die maximaal 20 trajecten en per traject maximaal 180 minuten per traject maken we lijnvoeringen aan de hand van algoritmen. Om te bepalen wat een goede lijnvoering is, hebben we een score functie die we willen maximaliseren. De fractie verbindingen die wordt gereden heeft de meeste invloed en daarna het aantal trajecten.  
+## Casus
+In nederland hebben we een spoorwegennetwerk dat stations met elkaar verbindt. Hierdoor kom je bijvoorbeeld van Utrecht naar Amsterdam. Echter, niet alle stations hebben een verbinding met elkaar. Zo kom je alleen via Alkmaar bij Den Helder. De NS wil een zo goed mogelijk spoorwegennetwerk en het is een uitdaging om daarvoor een goede dienstregeling te maken. Om te voldoen aan een correcte dienstregeling voor heel Nederland mogen er maximaal 20 trajecten gebruikt worden, die elk maximaal 180 minuten duurt. De dienstregeling wordt beter wanneer meer verbindingen worden bereden, minder trajecten en minder minuten worden gebruikt. Om dit probleem op te lossen, worden algoritmen gebruikt. Om te bepalen hoe goed een lijnvoering is, is er een kostenfunctie (K) die we willen maximaliseren.
+De volgende aspecten hebben invloed op de score: 
 
-lijnvoering = trajecten waarover een trein gedurende de dag heen en weer kan rijden
-Traject = een route van sporen en stations waarover een trein heen en weer rijdt
-mag niet langer zijn dan het opgegeven tijdsframe (120 min per traject Holland en 180 min Nederland).
-K = kwaliteit lijnvoering
-p = fractie gereden verbindingen ten opzichte van het totaal aan mogelijke verbindingen
-T = Het aantal trajecten in de lijnvoering
-Min = het totaal aantal gereden minuten 
-
+K = kwaliteit van de dienstregeling  
+p = fractie gereden verbindingen ten opzichte van het totaal aan mogelijke verbindingen  
+T = Het aantal trajecten in de dienstregeling  
+Min = het totaal aantal gereden minuten   
+```
   K = p*10000 - (T*100 + Min)
+```
 
-## StateSpace
-State Space NEDERLAND
-180 min max per traject en voor nu gaan we er van uit dat ieder traject deze vol maakt
-kortste verbinding is 5 minuten
-aantal verbindingen per traject is dus 36 (r=36)
-Utrecht centraal heeft 9 mogelijke verbindingen en is daarmee het hoogst. (N=9)
-In totaal kunnnen er max 20 trajecten worden gevormd. Omdat het ook mogelijk is om een verschillend aantal trajecten te hebben voor een oplossing, wordt het resultaat van die eerste N en het aantal trajecten r (want kan ook 4 trajecten doen of 7)
+Om het probleem op een kleinere schaal te kunnen weergeven, is er ook een kaart van alleen Noord- en Zuid-Holland beschikbaar.
+
+## State Space
+##### NEDERLAND  
+  
+De state space van heel Nederland is berekend aan de hand van de volgende aannames:
+* Er worden 36 verbindingen per traject gereden, want:
+  * Een traject heeft maximaal 180 minuten
+  * De kortste verbinding duurt 5 minuten
+* Bij elk station heb je 9 opties, want
+  * Utrecht Centraal heeft als meeste 9 opties (N=9)
+* In totaal worden er maximaal 20 trajecten gevormd, maar omdat het ook mogelijk is om een verschillend aantal trajecten te hebben voor een oplossing, moeten al deze opties meegenomen worden in het berekenen van de state space.
+
+**Eén traject**  
+Volgorde is belangrijk  
+Herhaling kan  
+-> $ n^r $, waarbij n=9 en r=36
+```
+9^36 = 2.25 * 10^34
+```
+Dit resultaat wordt vervolgens gebruikt om de state space van de hele dienstregeling te bepalen.
+
+**Hele dienstregeling**  
+Volgorde is niet belangrijk  
+Herhaling kan  
+-> $(r+n-1)! \over (r!(n-1)!) $, waarbij n=2.25*10^34 en r=20
 
 Formule voor de trajecten waarbij repetitie kan en volgorde is belangrijk: 
 N^r 
@@ -28,37 +46,54 @@ Formule voor de hele dienstregeling waarbij repetitie kan en volgorde niet belan
 (r+N-1)!/r!(N-1)!
 N = 9^36
 r = 20
-Resultaat te groot voor rekenmachine om faculteit van te berekenen
+```
+(20+9^36-1)!/20!(9^36-1)! = undefined
+```
+Dit resultaat is te groot voor een rekenmachine om uit te rekenen. 
 
-## Keuzes
+## Algoritmes
 ### Random 
-Om met de algoritmen te beginnen hebben we een random algoritme gebruikt. Hierbij zijn we er van uit gegaan dat we de volle minuten gebruiken per traject, het is mogelijk om verbingen dubbel te rijden en het aantal trajecten is random. Op basis hiervan zijn we gaan experimenteren met het aantal trajecten vast zetten. Hierbij hebben we gekeken naar het theoretisch aantal nodige stations om alle verbindingen te kunnen rijden. Voor Nederland kwamen we op 9 trajecten uit en voor holland was het theoretisch minimum  4. We kijken bij welk vast aantal trajecten de beste scores worden gehaald. Dit doen we aan de hand van de volledig random en later ook nog op basis van de not so random algortime die later nog verder uitgelegd zal worden. Dit laat zien dat 13 trajecten voor random de beste resultaten geeft. In experimenten waarin we het aantal trajecten vast zetten zullen we dit aantal gebruiken. 
+Voor de baseline is een random algoritme gebruikt. Hierbij worden de volle minuten gebruikt per traject, is het mogelijk om verbingen dubbel te rijden en is het aantal trajecten random en worden verbindingen random gekozen. Deze baseline is verder uitgewerkt met een aantal experimenten, om een gevoel te krijgen voor de invloed van bepaalde parameters op de scores.
 
-We hebben ook geexperimenteerd met de mogelijkheid om verbindingen niet nog een keer dubbel te bereiden of alleen wanneer het niet anders kan. Deze hebben we op basis van random aantal trajecten gedaan en op basis van het vaste aantal trajecten. Hierbij gaan we er ook nog steeds vauit dat we de volledige tijdsduur benutten tenzij er geen opties meer zijn om te bereiden. 
+**Experimenten**  
+In een van de experimenten wordt in plaats van een random aantal trajecten, het maximale aantal trajecten gebruikt.   
+In een ander experiment worden verbindingen niet dubbel bereden, tenzij het niet anders kan. Hierbij wordt weer een onderscheid gemaakt tussen enerzijds een random aantal trajecten, anderzijds het maximale aantal trajecten.  
+Als laatste hebben we ook nog gekeken naar de invloed van het gekozen startstation, waarbij er bij het aanmaken van een traject een station wordt gekozen dat nog niet eerder is bereikt.
 
-Als laatste hebben we ook nog gekeken naar het effect van een start station die nog niet eerder is bereikt en verbindingen die in princiepe niet vaker bereden mogen worden tenzij het niet anders kan. Hierbij maken we ook gebruik van het ideale aantal trajecten en wordt in ieder traject de volledige tijd benut.
- 
+Om het optimale aantal trajecten te hanteren, hebben we een experiment gedaan. Het theoretisch minimale aantal trajecten is voor heel Nederland 9. Dus, de random en de slimmere random algoritmes zijn uitgevoerd voor elk aantal trajecten van 9 t/m 20. Hieruit bleek dat met 13 trajecten de random algoritmes de beste resultaten konden verkrijgen.  
+
 ### Greedy
-Voor greedy hebben we een basis algoritme gemaakt waarbij een max aantal trajecten, random start station wordt gekozen en telkens de kortste connectie wordt gekozen die nog niet eerder is gereden. De trajecten worden gevuld tot de max tijd (180 min voor nederland) wordt bereikt of wanneer er geen verbindingen meer mogelijk zijn. Op basis van dit algoritme hebben we heuristieken bedacht om hem beter te maken. 
-Voor de Smart greedy zorgen we ervoor dat het beginstation wordt gekozen op basis van een station met de minste verbindingen die over zijn. 
-Ook hebben we een random greedy gemaakt waarbij er soms voor de langste connectie wordt gekozen en soms voor de kortste. 
+Om een beeld te krijgen van hoe zo'n dienstregeling wordt opgebouwd, is een constructief algoritme gebruikt; de greedy. 
+De algemene (domme) greedy is gebaseerd op de volgende aannames:
+* een vast aantal trajecten
+* een random start station
+* de kortste connectie wordt elke keer gekozen, mits deze nog niet gereden is
+* trajecten worden maximaal gevuld, of tot er geen verbindingen meer mogelijk zijn
 
-Om hem nog verder te optimaliseren hebben we ook bij de basis greedy en de smart greedy gekeken bij welk aantal trajecten er een optimum is. Dit optimum verandert het max aantal trajecten die worden mee gegeven aan de experimenten hierboven genoemd
+**Experimenten**  
+Om de greedy slimmer te maken is de Smart Greedy ontstaan, die afwijkt wat betreft start station: voor het start station wordt het station met de minste verbindingen gekozen uit een lijst van stations dat nog onbereden verbindingen heeft  
+Ook is er een random greedy gemaakt, waarbij er op basis van kansen de langste, kortste of random verbinding wordt gekozen.
+
+
+Ook bij de greedy is er onderzoek gedaan naar het optimale aantal trajecten. Bij de domme greedy was dit 19, en bij de smart greedy was het 17.
 
 ### Hill Climber
-Omdat we bij random al zagen dat het aantal trajecten een behoorlijke invloed kon hebben op de range aan resultaten hebben we ook hier geexperimenteerd met het aantal trajecten. De hillclimbers die we hiervoor gebruiken is onze eerste versie van een random basis van max aantal trajecten waarbij 1 random traject wordt verwijderd en 1 random nieuw traject wordt gemaakt. Het is hierbij mogelijk om verbindingen dubbel te rijden en de max tijd word volgemaakt.  
+Als laatste een iteratief algoritme: de HillClimber.  
+Als basis hebben we een simpele hillclimber gemaakt die start met een random dienstregeling en vervolgens random 1 traject verwijdert en random een nieuw traject aanmaakt.  
+Elke hillclimber begint met een random dienstregeling.  
 
-Als tweede hebben we gekeken naar het effect van het verwijderen van 4 trajecten en het leggen van 2 nieuwe trajecten (maar ook hebben we handmatig gekeken), ook deze is weer op basis van een random met het max aantal trajecten en de mogelijkheid om verbindingen dubbel te rijden. 
-Dit liet geen verbetering zien dus hebben we voor de rest van de experimenten gebruik gemaakt van 1 traject verwijderen en 1 nieuwe maken.
+Op basis hiervan zijn we gaan experimenteren om de hillclimber te verbeteren
 
-Om het onderzoek naar het aantal trajecten voort te zetten en zijn we gaan testen voor welke basis aan trajecten de beste scores zijn. Ook hier hebben we voor nederland naar de range van 11 t/m 20 gekeken en voor Holland 4 t/m 7. We hebben dit aan de hand van de basis hillclimber (1 weg 1 erbij) en de smart start hillclimber (die later verder wordt uitgelegd) gerund. Hier kwam uit dat 11 trajecten de beste scores gaf. 
-Voor de rest van de experimenten gebruiken we daarom 11 als max aantal trajecten. 
+**Experimenten**  
+Als eerste hebben we experimenten gedaan met het verwijderen en toevoegen van trajecten. Zoals bijvoorbeeld 4 verwijderen en 2 toevoegen. Dit liet geen verbeteringen zien, dus blijft de rest van de hillclimbers 1 traject verwijderen en 1 traject toevoegen.  
+In een ander experiment mogen nieuwe trajecten geen dubbel bereden verbindingen hebben.  
+Nog een experiment onderzoekt de smart start station heuristiek, die bij de greedy en de random ook is toegepast. Hierbij zagen we tijdens het plotten dat stations aan de zijkanten langs het traject werden overgeslagen. Hieruit volgde het laatste experiment:  
+Een hillclimber waarbij trajecten slim worden verwijderd: alleen trajecten die langs een onbereden verbinding liggen worden verwijderd en weer opnieuw gelegd.  
 
-Net als bij random zijn we ook benieuwd wat een verbod op dubbel rijden van verbindingen doet. Hiervoor gebruiken we wel een random basis van max 11 trajecten waarbij trajecten wel dubbel kunnen zijn. Deze worden 1 voor 1 aangepast voor trajecten die geen dubbele verbindingen rijden. Ook hier wordt de max tijd volgemaakt tenzij er geen verbindingen meer kunnen worden gereden. 
+Ook bij de hillclimber hebben we onderzocht wat het optimale aantal trajecten is. We hebben dit aan de hand van de basis hillclimber (1 weg 1 erbij) en de smart start hillclimber gedaan. Hier kwam uit dat 11 trajecten het optimale aantal trajecten is.
 
-Om de resulaten nog verder te verbeteren hebben we hieraan ook een smart start station toegevoegd die ervoor zorgt dat er een beginstation wordt gekozen die het minst aantal mogelijke verbindingen heeft.
+Voor het uitvoeren van bovenstaande experimenten gebruiken we daarom 11 als vast aantal trajecten. 
 
-Tijdens het plotten van de trajecten zagen we echter dat er stations langs het traject werden overgeslagen. Om dit te verbeteren hebben we een Smart remove heuristiek toe gevoegd die kijkt welke trajectten nog stations hebben met ongereden verbindingen en dat traject wordt dan opnieuw gelegd. Deze heuristiek is op basis van de smart start. 
 
 ## Instructies
 
