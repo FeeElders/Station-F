@@ -277,9 +277,9 @@ def greedy_over_hill(name, title, score):
     plt.ylabel('Frequentie')
     plt.title(f'{title}, {n_bins} bins {count} keer')
 
-    plt.show()
+    # plt.show()
 
-    plt.savefig(f"output/hillclimber/overlay_{name}.png")
+    plt.savefig(f"output/hillclimber/overlay_{title}.png")
     plt.close()
     
 

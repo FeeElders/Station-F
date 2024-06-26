@@ -69,7 +69,7 @@ def random_greedy(railway: 'Railway', traject_amount: int, heuristic = gr.Random
     """ run experiment with random greedy through smart start """
     date = datetime.today().strftime('%d-%m-%Y')
     name = f"RandomGreedy_{date}"
-    title = "Smart greedy"
+    title = "Random greedy"
     greedy_run(railway, traject_amount, name, heuristic, iterations, interval, title)
 
 

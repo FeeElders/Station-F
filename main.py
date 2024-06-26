@@ -62,7 +62,7 @@ if __name__ == "__main__":
 #     hillclimber_experiment.hillclimb_smart_start(railway, max_trajectories)
 #     hillclimber_experiment.smart_remove(railway, max_trajectories)
 
-    hillclimber_experiment.greedy_over_hill("HillClimber-smart_start_26-06-2024", "Smart Hill met greedy", 6529)
+    hillclimber_experiment.greedy_over_hill("HillClimber-smart_start_26-06-2024", "Smart Hill met greedy", 6592)
     # ------------------------------------Greedy------------------------------
     # greedy_experiment.trajectory_amount(railway, max_trajectories)
     # greedy_experiment.smart_trajectory_amount(railway, max_trajectories)

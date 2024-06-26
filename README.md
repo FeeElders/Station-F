@@ -1,5 +1,7 @@
 # Station-F
 ## Case
+In nederland hebben we een spoorwegen netwerk die stations met elkaar verbind. Hierdoor kun je van utrecht naar amsterdam. Echter hebben niet alle stations een verbinding met elkaar. Zo kom je alleen via Alkmaar bij Den Helder. Het is daarom een uitdaging om alle verbindingen te bereiden met zo min mogelijk trajecten in zo min mogelijk tijd. Om oplossingen voor Nederland te vinden die maximaal 20 trajecten en per traject maximaal 180 minuten per traject maken we lijnvoeringen aan de hand van algoritmen. Om te bepalen wat een goede lijnvoering is, hebben we een score functie die we willen maximaliseren. De fractie verbindingen die wordt gereden heeft de meeste invloed en daarna het aantal trajecten.  
+
 lijnvoering = trajecten waarover een trein gedurende de dag heen en weer kan rijden
 Traject = een route van sporen en stations waarover een trein heen en weer rijdt
 mag niet langer zijn dan het opgegeven tijdsframe (120 min per traject Holland en 180 min Nederland).
@@ -22,9 +24,6 @@ Formule voor de trajecten waarbij repetitie kan en volgorde is belangrijk:
 N^r 
 9^36 = 2.25 * 10^34
 
-Om te kijken voor verschillende hoeveelheden trajecten doen we de uitkomst keer 20!
-9^36 *20! = 5.48093885 * 10^52
-
 Formule voor de hele dienstregeling waarbij repetitie kan en volgorde niet belangrijk is
 (r+N-1)!/r!(N-1)!
 N = 9^36
@@ -40,10 +39,11 @@ We hebben ook geexperimenteerd met de mogelijkheid om verbindingen niet nog een 
 Als laatste hebben we ook nog gekeken naar het effect van een start station die nog niet eerder is bereikt en verbindingen die in princiepe niet vaker bereden mogen worden tenzij het niet anders kan. Hierbij maken we ook gebruik van het ideale aantal trajecten en wordt in ieder traject de volledige tijd benut.
  
 ### Greedy
-......
+Voor greedy hebben we een basis algoritme gemaakt waarbij een max aantal trajecten, random start station wordt gekozen en telkens de kortste connectie wordt gekozen die nog niet eerder is gereden. De trajecten worden gevuld tot de max tijd (180 min voor nederland) wordt bereikt of wanneer er geen verbindingen meer mogelijk zijn. Op basis van dit algoritme hebben we heuristieken bedacht om hem beter te maken. 
+Voor de Smart greedy zorgen we ervoor dat het beginstation wordt gekozen op basis van een station met de minste verbindingen die over zijn. 
+Ook hebben we een random greedy gemaakt waarbij er soms voor de langste connectie wordt gekozen en soms voor de kortste. 
 
-### Random Greedy
-......
+Om hem nog verder te optimaliseren hebben we ook bij de basis greedy en de smart greedy gekeken bij welk aantal trajecten er een optimum is. Dit optimum verandert het max aantal trajecten die worden mee gegeven aan de experimenten hierboven genoemd
 
 ### Hill Climber
 Omdat we bij random al zagen dat het aantal trajecten een behoorlijke invloed kon hebben op de range aan resultaten hebben we ook hier geexperimenteerd met het aantal trajecten. De hillclimbers die we hiervoor gebruiken is onze eerste versie van een random basis van max aantal trajecten waarbij 1 random traject wordt verwijderd en 1 random nieuw traject wordt gemaakt. Het is hierbij mogelijk om verbindingen dubbel te rijden en de max tijd word volgemaakt.  
