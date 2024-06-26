@@ -206,5 +206,3 @@ def graph(name, title):
     # plt.show()
     plt.savefig(f"output/greedy/{title}.png")
     plt.close()
-    
-    

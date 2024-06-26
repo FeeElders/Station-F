@@ -132,7 +132,7 @@ class HillClimber():
         Returns:
         'Railway'
         """
-        error_margin = 100
+        error_margin = 10000
         no_change = 0
         iteration = 0
         while no_change <= error_margin:
@@ -162,7 +162,6 @@ class HillClimber():
                         writer_new.writerow([iteration, self.all_scores[iteration]])
                 self.all_scores={}
 
-            visuals.railway_map(self.old_railway, self.score, "SmartRemove")
             iteration += 1
 
 

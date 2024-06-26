@@ -16,7 +16,7 @@ from statistics import mean
 from datetime import datetime
 
 
-def hillclimb(railway, traject_amount: int, delete = 1, add = 1, iterations = 3, heuristic = hc.HillClimber):
+def hillclimb(railway, traject_amount: int, delete = 1, add = 1, iterations = 100, heuristic = hc.HillClimber):
     """
     Random hillclimber where a random traject is removed and a random new traject is made
     
@@ -28,7 +28,7 @@ def hillclimb(railway, traject_amount: int, delete = 1, add = 1, iterations = 3,
     run_experiment(railway, traject_amount, name, heuristic, iterations, delete, add, title)
 
     
-def hillclimb_4_2(railway, traject_amount: int, delete = 4, add = 2, iterations = 20, heuristic = hc.HillClimber):
+def hillclimb_4_2(railway, traject_amount: int, delete = 4, add = 2, iterations = 100, heuristic = hc.HillClimber):
     """
     Experiment where 4 trajects are deleted and then 2 new ones are created
     
@@ -39,7 +39,7 @@ def hillclimb_4_2(railway, traject_amount: int, delete = 4, add = 2, iterations 
     title = "Delete 4 add 2"
     run_experiment(railway, traject_amount, name, heuristic, iterations, delete, add, title)
     
-def hillclimb_noreturn(railway, traject_amount: int, delete = 1, add = 1, iterations = 20, heuristic = hc.NoReturn):
+def hillclimb_noreturn(railway, traject_amount: int, delete = 1, add = 1, iterations = 100, heuristic = hc.NoReturn):
 
     date = datetime.today().strftime('%d-%m-%Y')
     name = f"HillClimber-no_return_{date}"
@@ -47,7 +47,7 @@ def hillclimb_noreturn(railway, traject_amount: int, delete = 1, add = 1, iterat
     run_experiment(railway, traject_amount, name, heuristic, iterations, delete, add, title)
     
 
-def hillclimb_smart_start(railway, traject_amount: int, delete = 1, add = 1, iterations = 20, heuristic = hc.SmartStart):
+def hillclimb_smart_start(railway, traject_amount: int, delete = 1, add = 1, iterations = 100, heuristic = hc.SmartStart):
 
     """
     Experiment where a start station is chosen where the possible connections is te lowest.
@@ -62,7 +62,7 @@ def hillclimb_smart_start(railway, traject_amount: int, delete = 1, add = 1, ite
     run_experiment(railway, traject_amount, name, heuristic, iterations, delete, add, title)
 
 
-def smart_remove(railway, traject_amount: int, delete = 1, add = 1, iterations = 20, heuristic = hc.SmartRemove):
+def smart_remove(railway, traject_amount: int, delete = 1, add = 1, iterations = 100, heuristic = hc.SmartRemove):
     """ Experiment with smart remove hillclimber."""
     date = datetime.today().strftime('%d-%m-%Y')
     name = f"HillClimber-smart_remove_{date}"
@@ -70,7 +70,7 @@ def smart_remove(railway, traject_amount: int, delete = 1, add = 1, iterations =
     run_experiment(railway, traject_amount, name, heuristic, iterations, delete, add, title)
     
     
-def hillclimb_traject_amount(railway, traject_amount: int, delete = 1, add = 1, iterations = 3, heuristic = hc.HillClimber):
+def hillclimb_traject_amount(railway, traject_amount: int, delete = 1, add = 1, iterations = 50, heuristic = hc.HillClimber):
     """
     Experiment where a start station is chosen where the possible connections is te lowest.
     
@@ -96,7 +96,7 @@ def hillclimb_traject_amount(railway, traject_amount: int, delete = 1, add = 1, 
         traject_amount -= 1
 
 
-def hillclimb_traject_amount(railway, traject_amount: int, delete = 1, add = 1, iterations = 3, heuristic = hc.SmartStart):
+def hillclimb_traject_amount_smart(railway, traject_amount: int, delete = 1, add = 1, iterations = 50, heuristic = hc.SmartStart):
     """
     Experiment where a start station is chosen where the possible connections is te lowest.
     
@@ -110,10 +110,10 @@ def hillclimb_traject_amount(railway, traject_amount: int, delete = 1, add = 1, 
 
     if railway._max_trains == 7:
         prefix= "NH_"
-        number_range = 3
+        number_range = 4
     if railway._max_trains == 20:
         prefix = "NL_"
-        number_range = 10
+        number_range = 12
     
     for _ in range(number_range):
         title = f"Smart Hillclimber traject amount {traject_amount}"
@@ -126,6 +126,7 @@ def run_experiment(railway, traject_amount: int, name: str, heuristic, iteration
     """ Arg: Heuristic is a class from algorithms """  
     
     run_count = 0
+    best_climbing_railway: 'Railway' = None
 
     
     with open(f'output/hillclimber/{name}.csv', 'w', newline='') as file:
@@ -159,17 +160,18 @@ def run_experiment(railway, traject_amount: int, name: str, heuristic, iteration
         with open(f'output/hillclimber/{name}.csv', 'a', newline='') as file:
             writer = csv.writer(file)
             writer.writerow([run_count, climbing_railway.score()])
-
-        climbing_railway.formatted_output(f"hillclimber/formatted_output_{name}_{run_count}.csv", running_time)    
-        
-        run_count += 1    
-        
+            
+        if helpers.best_score(climbing_railway, best_climbing_railway):
+            best_climbing_railway = copy.copy(climbing_railway)
+            best_climbing_railway.formatted_output(f"hillclimber/best_formatted_output_{name}.csv", running_time) 
+            helpers.object_output(climbing_railway, f"hillclimber/{name}")       
+                
+        run_count += 1         
     # Functions to create plots
-    climbing_railway.formatted_output(f"hillclimber/formatted_output_{name}.csv", running_time)
-    helpers.object_output(climbing_railway, f"hillclimber/{name}")       
     railway_map(f"hillclimber/{name}", title)
     counts = hist_graph(name, title)
     line_graph_average(counts, title, name)
+    greedy_over_hill(name, title, 6592)
        
 def line_graph_average(counts, title, name):  
     """
@@ -239,8 +241,6 @@ def hist_graph(name, title):
     
     count = len(df["end_score"])
     n_bins = 20
-    print(end_score)
-
     plt.hist(end_score, bins=n_bins)
 
     plt.xlim(0, 8000)
@@ -255,6 +255,32 @@ def hist_graph(name, title):
     plt.close()
     
     return count
+    
+def greedy_over_hill(name, title, score):
+    """
+    Plotten van de scores per algoritme in een hisogram
+    y as komt het aantal pogingen en op de x as de score
+    """
+    
+    df = pd.read_csv(f'output/hillclimber/{name}.csv', delimiter=',')   
+
+    run_count = df["run_count"]
+    end_score = df["end_score"]
+    
+    count = len(df["end_score"])
+    n_bins = 20
+    plt.hist(end_score, bins=n_bins)
+    plt.axvline(score, color='k', linestyle='dashed', linewidth=1)
+
+    plt.xlim(0, 8000)
+    plt.xlabel('Score (K)')
+    plt.ylabel('Frequentie')
+    plt.title(f'{title}, {n_bins} bins {count} keer')
+
+    plt.show()
+
+    plt.savefig(f"output/hillclimber/overlay_{name}.png")
+    plt.close()
     
 
 def railway_map(filename, title):
@@ -315,7 +341,7 @@ def railway_map(filename, title):
         plt.plot(xline, yline, color=colors[i], linestyle="-")
     
     score = railway.score()
-    plt.title(f'Hill climber {title} met een score van: {score}')
+    plt.title(f'{title} met een score van: {score}')
     
 
     # plt.show()

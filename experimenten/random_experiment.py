@@ -110,7 +110,7 @@ def random_run(railway, traject_amount, name, heuristic, iterations, interval, t
 
         if helpers.best_score(random_railway, best_random_railway):
             best_random_railway = copy.copy(random_railway)
-            best_random_railway.formatted_output(f"best_{name}_railway.csv", running_time)
+            best_random_railway.formatted_output(f"random/best_{name}_railway.csv", running_time)
             helpers.object_output(best_random_railway, f"random/{name}")  
         scoreplot[count]= random_railway.score()
     

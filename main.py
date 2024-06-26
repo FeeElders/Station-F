@@ -42,14 +42,27 @@ if __name__ == "__main__":
     
     # random_experiment.trajectory_amount(railway, max_trajectories)
     # random_experiment.notsorandom_trajectory_amount(railway, max_trajectories)
-    random_experiment.baseline(railway, max_trajectories)
+    # random_experiment.baseline(railway, max_trajectories)
 #     random_experiment.max_traject(railway, max_trajectories)
 #     random_experiment.no_visited_connections_max(railway, max_trajectories)
-    # random_experiment.not_so_random(railway, max_trajectories)
+#     random_experiment.no_visited_connections_random(railway, max_trajectories)
+#     random_experiment.not_so_random(railway, max_trajectories)
     
     
 
+    # ------------------------------HillClimber-------------------------------
 
+    #hillclimber_experiment.hillclimb_traject_amount(railway, max_trajectories)
+    
+    # hillclimber_experiment.hillclimb_traject_amount_smart(railway, max_trajectories)
+    # hillclimber_experiment.hillclimb_4_2(railway, max_trajectories)
+#     max_trajectories = 11
+#     hillclimber_experiment.hillclimb(railway, max_trajectories)
+#     hillclimber_experiment.hillclimb_noreturn(railway, max_trajectories)
+#     hillclimber_experiment.hillclimb_smart_start(railway, max_trajectories)
+#     hillclimber_experiment.smart_remove(railway, max_trajectories)
+
+    hillclimber_experiment.greedy_over_hill("HillClimber-smart_start_26-06-2024", "Smart Hill met greedy", 6529)
     # ------------------------------------Greedy------------------------------
     # greedy_experiment.trajectory_amount(railway, max_trajectories)
     # greedy_experiment.smart_trajectory_amount(railway, max_trajectories)
@@ -62,12 +75,3 @@ if __name__ == "__main__":
 #     print(f"greedy score: {gr_long.score()}")
 
 
-
-    # ------------------------------HillClimber-------------------------------
-
-    # hillclimber_experiment.hillclimb_traject_amount(railway, max_trajectories)
-    # hillclimber_experiment.hillclimb(railway, max_trajectories)
-    # hillclimber_experiment.hillclimb_4_2(railway, max_trajectories)
-    # hillclimber_experiment.hillclimb_noreturn(railway, max_trajectories)
-    # hillclimber_experiment.hillclimb_smart_start(railway, max_trajectories)
-    # hillclimber_experiment.smart_remove(railway, max_trajectories)
