@@ -60,8 +60,57 @@ Om de resulaten nog verder te verbeteren hebben we hieraan ook een smart start s
 
 Tijdens het plotten van de trajecten zagen we echter dat er stations langs het traject werden overgeslagen. Om dit te verbeteren hebben we een Smart remove heuristiek toe gevoegd die kijkt welke trajectten nog stations hebben met ongereden verbindingen en dat traject wordt dan opnieuw gelegd. Deze heuristiek is op basis van de smart start. 
 
-## Reproduceren resultaten 
-In de command line kan je mee geven of je de experimenten voor Nederland (NL) of Holland (NH) wil runnen. Daarnaast kan je ook mee geven welke algoritmen je aan wil zetten en of je voor het trajecten experiment gaat of voor de andere experimenten. 
-Voor ieder algoritme bestaat er een experimenten file hier staan alle waarden die nodig zijn om onze resultaten te verkrijgen al in. Je kan dus python3 main.py NL typen om alles te runnen voor Nederland. Als je niks mee geeft draai je de alle experimenten ook voor Nederland. 
+## Instructies
 
-Mocht je aanpassingen willen doen om andere resultaten te krijgen dan kan dat in de experimenten zelf. 
+### Vereisten
+Deze code is geschreven in python3. Installeer alle benodigde pakketten dmv:
+```
+$ pip install -r requirements.txt 
+```
+### Gebruik
+Om de experimenten te runnen worden command line arguments gebruikt. Deze experimenten zijn al voorgemaakt, op basis van bepaalde iteraties en heuristieken. Het is dus alleen mogelijk om via de command line de vaste experimenten te runnen.  
+  
+De standaardvorm ziet er als volgt uit:
+```
+$ python3 main.py -k [kaart] -a [algoritme] -ex [experiment]
+```
+waarbij:  
+-k / --kaart: de kaart die je wilt gebruiken. opties: nl, nh  
+-a / --algoritme: het algoritme dat je wilt runnen. opties: random, greedy, hillclimber  
+-ex / --experiment: het experiment dat je van dat algoritme wilt runnen. de opties hiervoor worden in de tabel hieronder beschreven. 
+
+Gebruik de afkortingen uit deze tabel om in te vullen in bovenstaande format.
+
+|random|-|greedy|-|hillclimber|-|
+|------|-|------|-|----------|-|
+|afkorting|uitleg|afkorting|uitleg|afkorting|uitleg|
+|bs|baseline|bs|baseline|bs|baseline|
+|mt|maximum amount of trajectories|smart|smart start station greedy|4_2|delete 4 trajectories, add 2|
+|nvc_max|no visited connections, maximum amount of trajectories|rd_greedy|random greedy|nr|no visited connections: no return|
+|nvc_random|no visited connections, random amount of trajectories|tr| best trajectory amount|smart_s|smart start station|
+|nsr|smart random: not so random|||smart_r|smart removal of trajectories|
+|tr|best trajectory amount|||tr|best trajectory amount|
+*noot: in bovenstaande tabel worden engelse termen gebruikt om consistent te blijven met de code in main.py*
+
+Om bijvoorbeeld de smart greedy te draaien voor holland, doe dan:
+```
+$ python3 main.py -k nh -a greedy -ex smart
+```
+Bij het weglaten van alle argumenten, worden standaard nl, random en baseline gekozen.
+
+voor hulp, run:
+```
+$ python3 main.py -h
+```
+of  
+```
+$ python3 main.py --help
+```
+  
+### Structuur
+De belangrijkste bestanden voor het uitvoeren staan in de volgende lijst
+* /code: bevat alle code van dit project 
+  * /code/algoritmen: bevat de code voor de algoritmes  
+  * /code/classes: bevat de klasses voor deze case
+* /data: bevat de databestanden om noord holland of nederland mee in te laden
+* /experimenten: bevat alle experimenten die zijn uitgevoerd
