@@ -21,9 +21,6 @@ class Random():
 
         # Pick one random
         choice = random.choice(connections)
-
-        # # Add connection to visited_connections
-        # self.railway.add_visited_connection(choice)
         
         return choice
 
@@ -58,9 +55,6 @@ class Random():
                 else: 
                     traject.add_connection(connection)    
 
-
-        #print(f"the score: {self.railway.score()}")
-        
         return self.railway
 
 
@@ -99,7 +93,6 @@ class NotSoRandom(Random):
             if possible_stations:
                 choice = random.choice(possible_stations)
                 
-            # TODO: dichtstbijzijnde onbereden verbinding
             else:
                 choice = random.choice(list(self.railway.get_all_stations()))
 

@@ -31,11 +31,6 @@ class Trajectory():
         int
         """
         return self._time_usage
-
-
-    def print_trajectory(self) -> None:
-        """ Print trajectory of station objects. """
-        print(self._trajectory)
     
 
     def get_trajectory(self) -> list['Station']:
@@ -93,19 +88,6 @@ class Trajectory():
         self._time_usage = 0
         self._trajectory = {}
 
-        
-    # def end(self) -> list["station"]:
-    #     """ 
-    #     if no more connections are possible or the time is up
-        
-    #     return the list of stations the train will pass and the time that is passed
-    #     """
-    #     print("the trajectory:")
-    #     for each in self._trajectory:
-    #         print(f"{each._name}", end=", ")
-    #     print("\n")
-
-    #     # TODO: return list of stations. and the distance of the whole trajectory
 
     def is_running(self) -> bool:
         """ Check if trajectory is still within max_time.

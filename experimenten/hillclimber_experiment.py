@@ -1,7 +1,6 @@
 from code.algoritmen import hillclimber as hc
 from code.algoritmen import randomise as rd
 from code import helpers
-from code.visualisation import visuals 
 from code.algoritmen.randomise import Random, NotSoRandom, NoVisitedConnections  
 
 import pandas as pd
@@ -16,66 +15,49 @@ from statistics import mean
 from datetime import datetime
 
 
-def hillclimb(railway, traject_amount: int, delete = 1, add = 1, iterations = 100, heuristic = hc.HillClimber):
-    """
-    Random hillclimber where a random traject is removed and a random new traject is made
-    
-    20 trajectories to start with and connections can be traveled multiple times
-    """
+def hillclimb(railway: 'Railway', traject_amount: int, delete = 1, add = 1, iterations = 100, heuristic = hc.HillClimber) -> None:
+    """ Basic Hillclimber where a random trajectory is removed and a random new traject is created."""
     date = datetime.today().strftime('%d-%m-%Y')
     name = f"HillClimber_{date}"
     title = "Baseline"
     run_experiment(railway, traject_amount, name, heuristic, iterations, delete, add, title)
 
     
-def hillclimb_4_2(railway, traject_amount: int, delete = 4, add = 2, iterations = 100, heuristic = hc.HillClimber):
-    """
-    Experiment where 4 trajects are deleted and then 2 new ones are created
-    
-    20 trajectories to start with and connections can be traveled multiple times
-    """
+def hillclimb_4_2(railway: 'Railway', traject_amount: int, delete = 4, add = 2, iterations = 100, heuristic = hc.HillClimber) -> None:
+    """ Basic hillclimber where 4 trajectories are deleted and 2 new random ones are created."""
     date = datetime.today().strftime('%d-%m-%Y')
     name = f"HillClimber-4-2_{date}"
     title = "Delete 4 add 2"
     run_experiment(railway, traject_amount, name, heuristic, iterations, delete, add, title)
     
-def hillclimb_noreturn(railway, traject_amount: int, delete = 1, add = 1, iterations = 100, heuristic = hc.NoReturn):
+def hillclimb_noreturn(railway, traject_amount: int, delete = 1, add = 1, iterations = 100, heuristic = hc.NoReturn) -> None:
+    """ Hillclimber where connections can't be used more than once. """
     date = datetime.today().strftime('%d-%m-%Y')
     name = f"HillClimber-no_return_{date}"
     title = "No return"
     run_experiment(railway, traject_amount, name, heuristic, iterations, delete, add, title)
     
 
-def hillclimb_smart_start(railway, traject_amount: int, delete = 1, add = 1, iterations = 100, heuristic = hc.SmartStart):
+def hillclimb_smart_start(railway: 'Railway', traject_amount: int, delete = 1, add = 1, iterations = 100, heuristic = hc.SmartStart) -> None:
+    """ Hillclimber with a start station that has the lowest amount of connections,
+    and connections can't be used more than once.
     """
-    Experiment where a start station is chosen where the possible connections is te lowest.
-    
-    New trajects can't do the connection twice, we start with 20 trajectories. 
-    1 trajectory is replaced by one where connections can't be traveled twice
-    and have a smart start staion
-    """    
     date = datetime.today().strftime('%d-%m-%Y')
     name = f"HillClimber-smart_start_{date}"
     title = "Smart Start"
     run_experiment(railway, traject_amount, name, heuristic, iterations, delete, add, title)
 
 
-def smart_remove(railway, traject_amount: int, delete = 1, add = 1, iterations = 100, heuristic = hc.SmartRemove):
-    """ Experiment with smart remove hillclimber."""
+def smart_remove(railway: 'Railway', traject_amount: int, delete = 1, add = 1, iterations = 100, heuristic = hc.SmartRemove) -> None:
+    """ Hillclimber with a smart start station, with heuristic for smart removal of trajectories."""
     date = datetime.today().strftime('%d-%m-%Y')
     name = f"HillClimber-smart_remove_{date}"
     title = "Smart Remove"
     run_experiment(railway, traject_amount, name, heuristic, iterations, delete, add, title)
     
     
-def hillclimb_traject_amount(railway, traject_amount: int, delete = 1, add = 1, iterations = 50, heuristic = hc.HillClimber):
-    """
-    Experiment where a start station is chosen where the possible connections is te lowest.
-    
-    New trajects can't do the connection twice, we start with 20 trajectories. 
-    1 trajectory is replaced by one where connections can't be traveled twice
-    and have a smart start staion
-    """    
+def hillclimb_traject_amount(railway: 'Railway', traject_amount: int, delete = 1, add = 1, iterations = 50, heuristic = hc.HillClimber) -> None:
+    """ Run basic hillclimber N times for range of (9, 20) trajectories """    
     date = datetime.today().strftime('%d-%m-%Y')
     traject_amount = traject_amount
 
@@ -93,14 +75,8 @@ def hillclimb_traject_amount(railway, traject_amount: int, delete = 1, add = 1, 
         traject_amount -= 1
 
 
-def hillclimb_traject_amount_smart(railway, traject_amount: int, delete = 1, add = 1, iterations = 50, heuristic = hc.SmartStart):
-    """
-    Experiment where a start station is chosen where the possible connections is te lowest.
-    
-    New trajects can't do the connection twice, we start with 20 trajectories. 
-    1 trajectory is replaced by one where connections can't be traveled twice
-    and have a smart start staion
-    """    
+def hillclimb_traject_amount_smart(railway: 'Railway', traject_amount: int, delete = 1, add = 1, iterations = 50, heuristic = hc.SmartStart) -> None:
+    """ Run Smart Start Hillclimber N times for range of (9, 20) trajectories """
     date = datetime.today().strftime('%d-%m-%Y')
     traject_amount = traject_amount
 
@@ -118,8 +94,27 @@ def hillclimb_traject_amount_smart(railway, traject_amount: int, delete = 1, add
         traject_amount -= 1
         
      
-def run_experiment(railway, traject_amount: int, name: str, heuristic, iterations: int, delete: int, add: int, title: str) -> None:
-    """ Arg: Heuristic is a class from algorithms """  
+def run_experiment(railway: 'Railway', traject_amount: int, name: str, heuristic: 'HillClimber', iterations: int, delete: int, add: int, title: str) -> None:
+    """ Run Hillclimber algorithm N times
+
+    args:
+    railway: the railway to start with
+    traject_amount (int): the amount of trajectories to use
+    name (str): the name of the file
+    heuristic ('HillClimber'): the hillclimber heuristic/inherited class
+    iterations (int): the number of iterations to execute hillclimber
+    delete (int): the number of trajectories to delete each iteration
+    add (int): the number of trajectories to add each iteration
+    title (str): the title for the graph
+
+    side effects:
+    One CSV file is created for every run
+    One CSV file is created for all the end scores and its run ID
+    One CSV file is created for formatted output of the best railway found
+    One barchart is saved for the end scores
+    One line chart is made for the runs mean climb
+    One railway map is saved for the visualisation of the best railway found
+    """  
     
     run_count = 0
     best_climbing_railway: 'Railway' = None
@@ -170,10 +165,7 @@ def run_experiment(railway, traject_amount: int, name: str, heuristic, iteration
     greedy_over_hill(name, title, 6592)
        
 def line_graph_average(counts, title, name):  
-    """
-    Plotten van de score vs de iteraties in een histogram
-    y as komt de score en op de x as het aantal pogingen
-    """
+    """ Plot the average, minimum and maximum scores in a line graph """
     colors = ["black", "deeppink", "plum", "olive", "orange", "grey", "firebrick", "darksalmon", "lightgrey", "gold", "deepskyblue", "chartreuse", "green", "teal",  "blue", "indigo", "greenyellow", "crimson", "lemonchiffon", "darkmagenta", "azure", "bisque"]
     plt.title(f'Hill Climber algoritme {title}')
     plt.xlabel('Iteraties')
@@ -225,11 +217,7 @@ def line_graph_average(counts, title, name):
     plt.close()
         
 def hist_graph(name, title):
-    """
-    Plotten van de scores per algoritme in een hisogram
-    y as komt het aantal pogingen en op de x as de score
-    """
-    
+    """ Plot the end scores of every run in a bar chart """
     df = pd.read_csv(f'output/hillclimber/{name}.csv', delimiter=',')   
 
     run_count = df["run_count"]
@@ -253,11 +241,7 @@ def hist_graph(name, title):
     return count
     
 def greedy_over_hill(name, title, score):
-    """
-    Plotten van de scores per algoritme in een hisogram
-    y as komt het aantal pogingen en op de x as de score
-    """
-    
+    """ Plot the scores of the hillclimber with the greedy as subplot in a bar chart """   
     df = pd.read_csv(f'output/hillclimber/{name}.csv', delimiter=',')   
 
     run_count = df["run_count"]
@@ -280,16 +264,7 @@ def greedy_over_hill(name, title, score):
     
 
 def railway_map(filename, title):
-    """
-    De visualisatie van de opties
-
-    Alle stations weergeven op de nederlandse kaart aan de hand van coördinaten.
-    Aan de hand van de algoritmen worden er trajecten gevormd. 
-    Deze worden weergegeven door een lijn van station naar station. 
-    De lijn bevat 1 van de 7 kleuren per traject:
-    Rood, Oranje, Geel, Groen, Blauw, Roze, Paars. 
-    Wanneer een station wordt gebruit wordt het vakje zwart. 
-    """
+    """ Visualize the whole railway with dots as stations and lines as connections. """
     with open(f'output/{filename}.pkl', 'rb') as file:
         railway = pickle.load(file)
             

@@ -1,6 +1,5 @@
 from code.algoritmen import randomise as rd
 from code import helpers
-from code.visualisation import visuals 
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -62,7 +61,7 @@ def trajectory_amount(railway: 'Railway', traject_amount: int, heuristic = rd.Ra
     for _ in range(number_range):
         name = f"{prefix}Random-{traject_amount}_traject_amount_{date}"
         title = f"random {traject_amount} trains"
-        print(title)
+
         random_run(railway, traject_amount, name, heuristic, iterations, interval, title)
         traject_amount -= 1
 
@@ -82,13 +81,29 @@ def notsorandom_trajectory_amount(railway: 'Railway', traject_amount: int, heuri
     for _ in range(number_range):
         name = f"{prefix}NotSoRandom-{traject_amount}_traject_amount_{date}"
         title = f"NotSoRandom {traject_amount} trains"
-        print(title)
+
         random_run(railway, traject_amount, name, heuristic, iterations, interval, title)
         traject_amount -= 1
         
 
-def random_run(railway, traject_amount, name, heuristic, iterations, interval, title):
-    """ Run the experiment"""
+def random_run(railway: 'Railway', traject_amount: int, name: str, heuristic: 'Random', iterations: int, interval: int, title: str):
+    """ Run the Random algorithm N times.
+
+    Args:
+    railway: the railway to start with
+    traject_amount (int): the amount of trajectories to use
+    name (str): the name of the file
+    heuristic ('Random'): the random heuristic/inherited class
+    iterations (int): the number of iterations to execute the algorithm
+    interval (int): the interval at which output is saved to CSV file
+    title (str): the title for the graph
+
+    side effects:
+    One CSV file is created for all the end scores and their iterations
+    One CSV file is created for formatted output of the best railway found
+    One barchart is saved for the end scores
+    One railway map is saved for the visualisation of the best railway found
+    """
     count = 0
     scoreplot:dict[int:int] = {}
     best_random_railway: 'Railway' = None
@@ -131,10 +146,7 @@ def random_run(railway, traject_amount, name, heuristic, iterations, interval, t
     graph(name, title)
     
 def graph(name, title):
-    """
-    Plotten van de scores per experiment in een hisogram
-    y as komt het aantal pogingen en op de x as de score
-    """
+    """ Plot the end scores of every run in a bar chart """
     df = pd.read_csv(f'output/random/{name}.csv', delimiter=',')   
     count = len(df["score"])
 
@@ -155,16 +167,7 @@ def graph(name, title):
     plt.close()
    
 def railway_map(filename, title):
-    """
-    De visualisatie van de opties
-
-    Alle stations weergeven op de nederlandse kaart aan de hand van coördinaten.
-    Aan de hand van de algoritmen worden er trajecten gevormd. 
-    Deze worden weergegeven door een lijn van station naar station. 
-    De lijn bevat 1 van de 7 kleuren per traject:
-    Rood, Oranje, Geel, Groen, Blauw, Roze, Paars. 
-    Wanneer een station wordt gebruit wordt het vakje zwart. 
-    """
+    """ Visualize the whole railway with dots as stations and lines as connections. """
     with open(f'output/{filename}.pkl', 'rb') as file:
         railway = pickle.load(file)
     

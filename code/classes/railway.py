@@ -19,7 +19,7 @@ class Railway():
         
     def load_stations(self, station_csv) -> None:
         """ Load stations from csv file to Railway Object."""
-        # read csv files with station coÃ¶rdinates
+        # read csv files with station information
         with open(station_csv) as file:
             reader = csv.reader(file)
         

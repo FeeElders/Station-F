@@ -1,6 +1,5 @@
 from code.algoritmen import greedy as gr
 from code import helpers
-from code.visualisation import visuals
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -22,7 +21,7 @@ def greedy(railway: 'Railway', traject_amount: int, heuristic = gr.Greedy, itera
     
 
 def smart_trajectory_amount(railway: 'Railway', traject_amount: int, heuristic = gr.SmartStartStation, iterations = 100, interval = 20) -> None:
-    """ Run SmartStartStation greedy N times with 15 trajectories. """
+    """ Run SmartStartStation greedy N times for a range of (9, 20) trajectories. """
     date = datetime.today().strftime('%d-%m-%Y')
     traject_amount = traject_amount
     
@@ -40,7 +39,7 @@ def smart_trajectory_amount(railway: 'Railway', traject_amount: int, heuristic =
         traject_amount -= 1
 
 def trajectory_amount(railway: 'Railway', traject_amount: int, heuristic = gr.Greedy, iterations = 100, interval = 20) -> None:
-    """ Run SmartStartStation greedy N times with 15 trajectories. """
+    """ Run SmartStartStation greedy N times for a range of (9, 20) trajectories. """
     date = datetime.today().strftime('%d-%m-%Y')
     traject_amount = traject_amount
     
@@ -66,14 +65,31 @@ def smart_greedy(railway: 'Railway', traject_amount: int, heuristic = gr.SmartSt
           
 
 def random_greedy(railway: 'Railway', traject_amount: int, heuristic = gr.RandomGreedy, iterations = 1000, interval = 500) -> None:
-    """ run experiment with random greedy through smart start """
+    """ Run RandomGreedy """
     date = datetime.today().strftime('%d-%m-%Y')
     name = f"RandomGreedy_{date}"
     title = "Random greedy"
     greedy_run(railway, traject_amount, name, heuristic, iterations, interval, title)
 
 
-def greedy_run(railway: 'Railway', traject_amount: int, name: str, heuristic, iterations: int, interval: int, title: str):
+def greedy_run(railway: 'Railway', traject_amount: int, name: str, heuristic: 'Greedy', iterations: int, interval: int, title: str) -> None:
+    """ Run greedy algorithm N times
+
+    args:
+    railway: the railway to start with
+    traject_amount (int): the amount of trajectories to use
+    name (str): the name of the file
+    heuristic ('Greedy'): the Greedy heuristic/inherited class
+    iterations (int): the number of iterations to execute the algorithm
+    interval (int): the interval at which output is saved to CSV file
+    title (str): the title for the graph
+
+    side effects:
+    One CSV file is created for all the end scores and their iterations
+    One CSV file is created for formatted output of the best railway found
+    One barchart is saved for the end scores
+    One railway map is saved for the visualisation of the best railway found
+    """  
     scoreplot:dict[int:int] = {}
     count = 0
     best_greedy_railway: 'Railway' = None
@@ -93,7 +109,7 @@ def greedy_run(railway: 'Railway', traject_amount: int, name: str, heuristic, it
 
         if helpers.best_score(railway, best_greedy_railway) and railway.trains() > 0:
             best_greedy_railway = copy.copy(railway)
-            print(best_greedy_railway)
+
             best_greedy_railway.formatted_output(f"best_{name}_railway.csv", running_time)
             helpers.object_output(best_greedy_railway, f"greedy/{name}")
         scoreplot[count] = railway.score()
@@ -118,16 +134,7 @@ def greedy_run(railway: 'Railway', traject_amount: int, name: str, heuristic, it
     graph(name, title)
 
 def railway_map(filename, title):
-    """
-    De visualisatie van de opties
-
-    Alle stations weergeven op de nederlandse kaart aan de hand van coördinaten.
-    Aan de hand van de algoritmen worden er trajecten gevormd. 
-    Deze worden weergegeven door een lijn van station naar station. 
-    De lijn bevat 1 van de 7 kleuren per traject:
-    Rood, Oranje, Geel, Groen, Blauw, Roze, Paars. 
-    Wanneer een station wordt gebruit wordt het vakje zwart. 
-    """
+    """ Visualize the whole railway with dots as stations and lines as connections. """
     with open(f'output/{filename}.pkl', 'rb') as file:
         railway = pickle.load(file)
     
@@ -184,10 +191,7 @@ def railway_map(filename, title):
 
 
 def graph(name, title):
-    """
-    Plotten van de scores per experiment in een hisogram
-    y as komt het aantal pogingen en op de x as de score
-    """
+    """Plot the end scores of every run in a bar chart """
     df = pd.read_csv(f'output/greedy/{name}.csv', delimiter=',')   
     count = len(df["score"])
 

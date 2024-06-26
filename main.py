@@ -6,7 +6,6 @@ import sys, argparse, getopt
 
 from code import helpers
 from code.classes import station, railway, connection, trajectory
-from code.visualisation import visuals 
 from code.algoritmen  import randomise as rd
 from code.algoritmen  import hillclimber as hc
 from code.algoritmen import greedy as gr
@@ -20,7 +19,7 @@ if __name__ == "__main__":
     # Initialize parser
     parser = argparse.ArgumentParser()
 
-    # Add optional arguments
+    # Add arguments
     parser.add_argument("-k", "--kaart", default = "nl", choices = ["nl", "nh"], help = "choose which data you want to use")
     parser.add_argument("-a", "--algoritme", default = "random", choices = ["random", "greedy", "hillclimber"], help = "Choose algorithm")
     parser.add_argument("-ex", "--experiment", default = "bs", help = "Choose experiment")
@@ -28,13 +27,14 @@ if __name__ == "__main__":
     # Read arguments from command line
     args = parser.parse_args()
 
-
+    # set the scene for whole Netherlands
     if args.kaart == "nl":
         time = 180
         max_trajectories = 20
         stations_csv = "StationsNationaal"
         connections_csv = "ConnectiesNationaal"
 
+    # set the scene for Holland
     if args.kaart == "nh":
         time = 120
         max_trajectories = 7
@@ -46,7 +46,7 @@ if __name__ == "__main__":
     railway.load_connections(f"data/{connections_csv}.csv")
 
 
-    # initialize dicionaries with command line flags and experiment functions
+    # initialize dicionaries with command line arguments and corresponding experiment functions
     random_dict = {"bs": random_experiment.baseline,
                    "mt": random_experiment.max_traject,
                    "nvc_max": random_experiment.no_visited_connections_max,
@@ -71,7 +71,7 @@ if __name__ == "__main__":
     print("WELCOME TO RailNL")
     
     if args.algoritme:
-        print(f"Running {args.algoritme} algorithm.")
+        print(f"You chose the {args.algoritme} algorithm!")
 
         # ----------------------------------Random------------------------------
         if args.algoritme == "random":

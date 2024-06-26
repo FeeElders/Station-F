@@ -8,16 +8,12 @@ from code.algoritmen  import randomise as rd
 from code.classes.trajectory import Trajectory
 from code.classes.station import Station
 from code.classes.connection import Connection
-from code.visualisation import visuals 
-
 
 from code.classes import station, railway, connection, trajectory
 
 
 class HillClimber():
     def __init__(self, railway: 'Railway') -> None:
-        # if not railway.is_valid():
-#             raise Exception("HillClimber requires a complete solution.")
         self.old_railway = copy.deepcopy(railway)
         self.new_railway = None
         self.score = self.old_railway.score()
@@ -28,7 +24,7 @@ class HillClimber():
         """ Get random start station.
 
         Returns:
-         'Station'
+        'Station'
         """
         return random.choice(list(self.new_railway.get_all_stations()))
         
@@ -200,7 +196,7 @@ class NoReturn(HillClimber):
 class SmartStart(NoReturn):
 
     def get_start_station(self) -> 'station':
-        """ Get start station based on smart start heuristic.
+        """ Get start station that has the least unvisited connections.
 
         Returns:
         'Station'
@@ -243,7 +239,7 @@ class SmartStart(NoReturn):
 class SmartRemove(SmartStart):
     
     def remove_single_trajectory(self):
-        
+        """ Remove trajectory that runs beside a connection that has not been visited yet. """
         # get the key from the trajectory that that has stations with unvisited connections
         uvisited_station_connection_dict = self.new_railway.get_unvisited_station_connections()
 
@@ -270,7 +266,6 @@ class SmartRemove(SmartStart):
                     stations_train_count[station].append(trajectory)
 
         # Get list of all the unvisited stations that are in a trajectory
-
         available_stations = list(set(stations_unvisited) & set(stations_trajectory))
                     
         # Choose random station
@@ -294,6 +289,3 @@ class SmartRemove(SmartStart):
 
         # Delete that Trajectory
         self.new_railway.delete_trajectory(trajectory_to_delete)
-
-
-        

@@ -1,7 +1,6 @@
 import random
 import copy
 
-# TODO: import heuristics for start station
 from .randomise import Random, NotSoRandom
 
 class Greedy():
@@ -126,26 +125,6 @@ class Greedy():
                 else:
                     trajectory.add_connection(connection)
         return self.railway
-
-
-class GetLongestConnection(Greedy):
-    """ Get longest connection algorithm """
-    def get_connection(self, station: 'Station', time: int) -> 'Connection':
-        # Get all available connections
-        connections = self.railway.get_available_connections(station, time)
-        if connections == None:
-            return None
-
-
-        visited_connections = self.railway.get_all_visited_connections()
-        not_visited_connections = list(set(connections) - set(visited_connections))
-        
-        sorted_connections = self.sort_connections(not_visited_connections)
-
-        if len(sorted_connections) == 0:
-            return None
-
-        return self.get_longest_connection(sorted_connections)
                     
             
 class SmartStartStation(Greedy):
@@ -195,15 +174,14 @@ class SmartStartStation(Greedy):
 
         return choice
 
+
 class RandomGreedy(SmartStartStation):
     def random_or_greedy(self, unsorted_connections: list['Connection'], sorted_connections: list['Connection']) -> 'Connection':
         """ Choose either a random connection or a greedy connection. """
         seed_numbers = [x for x in range(1000)]
         random_seed = random.choice(seed_numbers)
-        print(random_seed)
-        random.seed(random_seed)
         random_number = random.random()
-        print(random_number)
+        
         if random_number < 0.5:
             connection = self.get_random_connection(unsorted_connections)
         elif random_number < 1.0:
