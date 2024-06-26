@@ -14,6 +14,9 @@ class Railway():
         self._connections: list[Connection] = []
 
 
+    def __repr__(self) -> str:
+        return f"{self._trains}"
+        
     def load_stations(self, station_csv) -> None:
         """ Load stations from csv file to Railway Object."""
         # read csv files with station coÃ¶rdinates

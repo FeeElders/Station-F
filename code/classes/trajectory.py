@@ -11,6 +11,10 @@ class Trajectory():
         self._trajectory: list['Station'] = [station]
         self._connections: list['Connection'] = []
 
+
+    def __repr__(self) -> str:
+        return f"{self._trajectory}"
+
     def time_left(self) -> int:
         """ Get time that is left in trajectory.
 
