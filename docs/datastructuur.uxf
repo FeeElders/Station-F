@@ -47,7 +47,7 @@ __hash__(): int</panel_attributes>
       <x>552</x>
       <y>32</y>
       <w>192</w>
-      <h>184</h>
+      <h>208</h>
     </coordinates>
     <panel_attributes>Trajectory
 --
@@ -55,28 +55,30 @@ max_time: int
 time_usage: int
 current_station: Station
 trajectory: list[Station]
+connections: list[Connection]
 --
+__repr__: str
 time_left(): int
 time_usage(): int
-print_trajectory(): None
 get_trajectory(): list[Station]
 current_station(): Station
 add_connection(Connection): None
-end(): list[list[Station], int]
+get_visited_connections(): list[Connection]
+clear_visited_connections(): None
 is_running(): bool</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>408</x>
+      <x>400</x>
       <y>152</y>
-      <w>160</w>
+      <w>168</w>
       <h>32</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m1=0..n</panel_attributes>
-    <additional_attributes>10.0;10.0;180.0;10.0</additional_attributes>
+    <additional_attributes>10.0;10.0;190.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -93,12 +95,12 @@ m1=0..n</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>640</x>
-      <y>208</y>
+      <y>232</y>
       <w>24</w>
-      <h>80</h>
+      <h>56</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -114,10 +116,10 @@ m1=0..n</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>56</x>
-      <y>112</y>
+      <x>48</x>
+      <y>144</y>
       <w>360</w>
-      <h>288</h>
+      <h>312</h>
     </coordinates>
     <panel_attributes>Railway
 --
@@ -127,6 +129,7 @@ trains: dict[int: Trajectory]
 stations: dict[str: Station]
 connections: list[Connection]
 --
+__repr__: str
 load_stations(str): None
 load_connections(str): None
 trains(): int
@@ -137,6 +140,7 @@ get_all_visited_connections(): set[Connection]
 get_unvisited_station_connections(): dict['Station: list['Connection']]
 choose_connection(str, str): Connection
 get_available_connections(Station, int): list[Connection]
+get_unused_train_ids(): list[int]
 new_trajectory(Station): None
 delete_trajectory(int): None
 formatted_output(str): None
