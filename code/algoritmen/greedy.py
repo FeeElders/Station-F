@@ -130,6 +130,7 @@ class Greedy():
 class SmartStartStation(Greedy):
     """ Use heuristics to get smart start station """
     def get_start_station(self) -> 'Station':
+        """ Get start station that has the lowest amount of unvisited connections """
         # Get unvisited connections per station
         stations_dict = self.railway.get_unvisited_station_connections()
         # Initialize dictionary for sorted stations
