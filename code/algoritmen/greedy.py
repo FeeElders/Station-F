@@ -151,31 +151,41 @@ class GetLongestConnection(Greedy):
 class SmartStartStation(Greedy):
     """ Use heuristics to get smart start station """
     def get_start_station(self) -> 'Station':
+        # Get unvisited connections per station
         stations_dict = self.railway.get_unvisited_station_connections()
-        minimal_station: dict[int: list['Station']] = {}
-        
+        # Initialize dictionary for sorted stations
+        sorted_station: dict[int: list['Station']] = {}
+
+        # sort stations on the amount of connections they have
         for station in stations_dict:
             connections = stations_dict[station]
             amount_connections = len(connections)
-            if amount_connections in minimal_station.keys():
-                minimal_station[amount_connections].append(station)
+            if amount_connections in sorted_station.keys():
+                sorted_station[amount_connections].append(station)
             else:
-                minimal_station[amount_connections] = [station]
+                sorted_station[amount_connections] = [station]
 
 
-        list_keys = list(minimal_station.keys())
+        # Get a list of the keys of the sorted stations
+        list_keys = list(sorted_station.keys())
+
+        # sort the keys
         list_keys.sort()
+
+        # get the lowest amount of connections
         key = list_keys[0]
+        
         if key == 0:
             try:
                 key = list_keys[1]
             except IndexError:
-                return None
+                choice = random.choice(list(self.railway.get_all_stations()))
         
         
-        possible_stations = minimal_station[key]
+        possible_stations = sorted_station[key]
+
         if len(possible_stations) == 0:
-            choice = None
+            choice = random.choice(list(self.railway.get_all_stations()))
 
         elif len(possible_stations) == 1:
             choice = possible_stations[0]
@@ -188,11 +198,15 @@ class SmartStartStation(Greedy):
 class RandomGreedy(SmartStartStation):
     def random_or_greedy(self, unsorted_connections: list['Connection'], sorted_connections: list['Connection']) -> 'Connection':
         """ Choose either a random connection or a greedy connection. """
+        seed_numbers = [x for x in range(1000)]
+        random_seed = random.choice(seed_numbers)
+        print(random_seed)
+        random.seed(random_seed)
         random_number = random.random()
-
-        if random_number < 0.2:
+        print(random_number)
+        if random_number < 0.5:
             connection = self.get_random_connection(unsorted_connections)
-        elif random_number < 0.8:
+        elif random_number < 1.0:
             connection = self.get_shortest_connection(sorted_connections)
         else:
             connection = self.get_longest_connection(sorted_connections)
