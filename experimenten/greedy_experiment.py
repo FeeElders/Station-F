@@ -28,10 +28,10 @@ def smart_trajectory_amount(railway: 'Railway', traject_amount: int, heuristic =
     
     if railway._max_trains == 7:
         prefix = "NH_"
-        number_range = 3
+        number_range = 4
     if railway._max_trains == 20:
         prefix = "NL_"
-        number_range = 10
+        number_range = 12
         
     for _ in range(number_range):
         title = f"Smart Greedy {traject_amount} trains"
@@ -46,10 +46,10 @@ def trajectory_amount(railway: 'Railway', traject_amount: int, heuristic = gr.Gr
     
     if railway._max_trains == 7:
         prefix = "NH_"
-        number_range = 3
+        number_range = 4
     if railway._max_trains == 20:
         prefix = "NL_"
-        number_range = 10
+        number_range = 12
         
     for _ in range(number_range):
         title = f"Greedy {traject_amount} trains"

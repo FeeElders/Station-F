@@ -76,7 +76,6 @@ def hillclimb_traject_amount(railway, traject_amount: int, delete = 1, add = 1, 
     1 trajectory is replaced by one where connections can't be traveled twice
     and have a smart start staion
     """    
-    
     date = datetime.today().strftime('%d-%m-%Y')
     traject_amount = traject_amount
 
@@ -102,7 +101,6 @@ def hillclimb_traject_amount_smart(railway, traject_amount: int, delete = 1, add
     1 trajectory is replaced by one where connections can't be traveled twice
     and have a smart start staion
     """    
-    
     date = datetime.today().strftime('%d-%m-%Y')
     traject_amount = traject_amount
 

@@ -54,10 +54,10 @@ def trajectory_amount(railway: 'Railway', traject_amount: int, heuristic = rd.Ra
     
     if railway._max_trains == 7:
         prefix= "NH_"
-        number_range = 3
+        number_range = 4
     if railway._max_trains == 20:
         prefix= "NL_"
-        number_range = 10
+        number_range = 12
         
     for _ in range(number_range):
         name = f"{prefix}Random-{traject_amount}_traject_amount_{date}"
@@ -74,10 +74,10 @@ def notsorandom_trajectory_amount(railway: 'Railway', traject_amount: int, heuri
     
     if railway._max_trains == 7:
         prefix= "NH_"
-        number_range = 3
+        number_range = 4
     if railway._max_trains == 20:
         prefix= "NL_"
-        number_range = 10
+        number_range = 12
         
     for _ in range(number_range):
         name = f"{prefix}NotSoRandom-{traject_amount}_traject_amount_{date}"
