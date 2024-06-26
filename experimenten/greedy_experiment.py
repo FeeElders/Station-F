@@ -89,8 +89,9 @@ def greedy_run(railway: 'Railway', traject_amount: int, name: str, heuristic, it
         railway = greedy.run(traject_amount)
         end = time.time()
         running_time = end-start
-        
-        if helpers.best_score(railway, best_greedy_railway):
+
+
+        if helpers.best_score(railway, best_greedy_railway) and railway.trains() > 0:
             best_greedy_railway = copy.copy(railway)
             print(best_greedy_railway)
             best_greedy_railway.formatted_output(f"best_{name}_railway.csv", running_time)
@@ -190,11 +191,11 @@ def graph(name, title):
     df = pd.read_csv(f'output/greedy/{name}.csv', delimiter=',')   
     count = len(df["score"])
 
-    n_bins = 200
+    n_bins = 1
 
     # Generate a normal distributions
     dist1 = df['score']
-    print(dist1)
+
     # We can set the number of bins with the *bins* keyword argument.
     plt.hist(dist1, bins=n_bins)
     plt.xlim(0, 8000)

@@ -40,7 +40,6 @@ def hillclimb_4_2(railway, traject_amount: int, delete = 4, add = 2, iterations 
     run_experiment(railway, traject_amount, name, heuristic, iterations, delete, add, title)
     
 def hillclimb_noreturn(railway, traject_amount: int, delete = 1, add = 1, iterations = 100, heuristic = hc.NoReturn):
-
     date = datetime.today().strftime('%d-%m-%Y')
     name = f"HillClimber-no_return_{date}"
     title = "No return"
@@ -48,7 +47,6 @@ def hillclimb_noreturn(railway, traject_amount: int, delete = 1, add = 1, iterat
     
 
 def hillclimb_smart_start(railway, traject_amount: int, delete = 1, add = 1, iterations = 100, heuristic = hc.SmartStart):
-
     """
     Experiment where a start station is chosen where the possible connections is te lowest.
     
@@ -84,10 +82,10 @@ def hillclimb_traject_amount(railway, traject_amount: int, delete = 1, add = 1, 
 
     if railway._max_trains == 7:
         prefix= "NH_"
-        number_range = 3
+        number_range = 4
     if railway._max_trains == 20:
         prefix = "NL_"
-        number_range = 10
+        number_range = 12
     
     for _ in range(number_range):
         title = f"Hillclimber traject amount {traject_amount}"
@@ -127,7 +125,6 @@ def run_experiment(railway, traject_amount: int, name: str, heuristic, iteration
     
     run_count = 0
     best_climbing_railway: 'Railway' = None
-
     
     with open(f'output/hillclimber/{name}.csv', 'w', newline='') as file:
         writer = csv.writer(file)
@@ -168,6 +165,7 @@ def run_experiment(railway, traject_amount: int, name: str, heuristic, iteration
                 
         run_count += 1         
     # Functions to create plots
+
     railway_map(f"hillclimber/{name}", title)
     counts = hist_graph(name, title)
     line_graph_average(counts, title, name)
